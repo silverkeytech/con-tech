@@ -5,6 +5,10 @@ VisualStudioVersion = 17.14.36109.1 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "con-tech", "con-tech\con-tech.csproj", "{A2F85918-D613-471E-B453-7B3CC689F3E1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "con-tech.Migration", "..\con-tech.Migration\con-tech.Migration.csproj", "{1ECCEC80-0E9B-430D-B0F2-5F30E77A657E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,9 +19,16 @@ Global
 		{A2F85918-D613-471E-B453-7B3CC689F3E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A2F85918-D613-471E-B453-7B3CC689F3E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A2F85918-D613-471E-B453-7B3CC689F3E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1ECCEC80-0E9B-430D-B0F2-5F30E77A657E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1ECCEC80-0E9B-430D-B0F2-5F30E77A657E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1ECCEC80-0E9B-430D-B0F2-5F30E77A657E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1ECCEC80-0E9B-430D-B0F2-5F30E77A657E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1ECCEC80-0E9B-430D-B0F2-5F30E77A657E} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AD016478-7660-4439-8B3C-E85B0AEC4668}
