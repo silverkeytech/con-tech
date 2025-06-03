@@ -3,6 +3,7 @@ using FluentMigrator.Builders.Create.Table;
 
 namespace con_tech.Migration;
 
+public record NameEnglishAndArabic(string nameEnglish, string nameArabic);
 public static class Constants
 {
     public const int CreatedByUserId = 1;
