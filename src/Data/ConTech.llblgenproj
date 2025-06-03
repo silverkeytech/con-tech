@@ -1,0 +1,889 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--LLBLGen Pro v5.10 project file. Do not manually edit this file. Incorrect references could lead to an unloadable project file.-->
+<Project Version="5.10" TargetFrameworkName="LLBLGen Pro Runtime Framework" UseLegacyDefaults="false">
+  <Properties>
+    <Abbreviations />
+    <Property Name="AdditionalTaskPerformerFolder" Value="" />
+    <Property Name="AdditionalTasksFolder" Value="" />
+    <Property Name="AdditionalTemplatesFolder" Value="" />
+    <Property Name="AdditionalTypeConverterFolder" Value="" />
+    <Property Name="AddNewElementsAfterRefresh_v5" Value="false" />
+    <Property Name="AddNewElementsAfterRelationalModelDataSync_v5" Value="false" />
+    <Property Name="AddNewFieldsAfterRefresh_v5" Value="true" />
+    <Property Name="AddNewFieldsAfterRelationalModelDataSync_v5" Value="true" />
+    <Property Name="AddNewViewsAsEntitiesAfterRefresh_v5" Value="false" />
+    <Property Name="AddNewViewsAsEntitiesAfterRelationalModelDataSync_v5" Value="false" />
+    <Property Name="AutoAddManyToManyRelationships" Value="false" />
+    <Property Name="AutoAssignSequencesToIntegerPks" Value="true" />
+    <Property Name="AutoAssignTypeConverterToFieldMapping" Value="true" />
+    <Property Name="AutomaticallyGenerateSourceCodeOnProjectSave" Value="false" />
+    <Property Name="ConnectionStringKeyNamePattern" Value="ConnectionString.{$ProviderName}" />
+    <Property Name="DefaultDDLSQLScriptDestinationFolder" Value=".\DDLSQLScripts" />
+    <Property Name="DefaultDeleteRuleAction" Value="1" />
+    <Property Name="DefaultSourceCodeDestinationFolder" Value=".\Code" />
+    <Property Name="DefaultUpdateRuleAction" Value="0" />
+    <Property Name="DeleteObsoleteFiles" Value="true" />
+    <Property Name="ElementNamePrefixPattern" Value="{$SchemaName}" />
+    <Property Name="ElementNamePrefixPatternIsAppliedWhen" Value="1" />
+    <Property Name="EncodingToUse" Value="0" />
+    <Property Name="EntityActionCombinationDefaultForTable" Value="0" />
+    <Property Name="EntityActionCombinationDefaultForView" Value="4" />
+    <Property Name="EntityFieldNameStripPattern" Value="{}{}" />
+    <Property Name="EntityNameStripPattern" Value="{tbl_}{}" />
+    <Property Name="ExcludableOrphanedElementDetectedAction" Value="3" />
+    <Property Name="FailCodeGenerationOnWriteError" Value="false" />
+    <Property Name="FieldMappedOntoRelatedFieldPattern" Value="{$RelatedFieldName}" />
+    <Property Name="FkFieldsAreNamedAfterTargetField" Value="true" />
+    <Property Name="ForeignKeyConstraintPattern" Value="FK_{$Guid}" />
+    <Property Name="ForeignKeyFieldPattern" Value="{$NavigatorName}{$RelatedFieldName}" />
+    <Property Name="GroupUsage" Value="0" />
+    <Property Name="IdentifyingFieldsFollowDBPrimaryKeyConstraints_v5" Value="true" />
+    <Property Name="InsertUnderscoreAtWordBreakCaseInsensitiveDBs" Value="false" />
+    <Property Name="InsertUnderscoreAtWordBreakCaseSensitiveDBs" Value="false" />
+    <Property Name="LengthPrecisionScaleFollowDBLengthPrecisionScale_v5" Value="true" />
+    <Property Name="MakeElementNamePascalCasing" Value="true" />
+    <Property Name="NavigatorMappedOntoManyToManyPattern" Value="{$EndEntityName}CollectionVia{$IntermediateEntityName$S}" />
+    <Property Name="NavigatorMappedOntoOneManyToOnePattern" Value="{$EndEntityName$S}" />
+    <Property Name="NavigatorMappedOntoOneToManyPattern" Value="{$EndEntityName$P}" />
+    <Property Name="NonExcludableOrphanedElementDetectedAction" Value="3" />
+    <Property Name="PreferDecimalOverCurrencyTypes" Value="true" />
+    <Property Name="PreferNaturalCharacterTypes" Value="true" />
+    <Property Name="PreferSystemSequencesOverSchemaSequencesIfApplicable" Value="true" />
+    <Property Name="PreferVariableLengthTypes" Value="true" />
+    <Property Name="PrimaryKeyConstraintPattern" Value="PK_{$Guid}" />
+    <Property Name="ProjectCreator" Value="MGenidyO" />
+    <Property Name="ProjectName" Value="ConTech" />
+    <Property Name="ReflectNullabilityOfElementFieldInTargetField_v5" Value="false" />
+    <Property Name="ReflectTypeOfElementFieldInTargetField_v5" Value="true" />
+    <Property Name="RelationalModelDataElementNameCasingCaseInsensitiveDBs" Value="3" />
+    <Property Name="RelationalModelDataElementNameCasingCaseSensitiveDBs" Value="3" />
+    <Property Name="RelationshipsFollowDBForeignKeyConstraints_v5" Value="true" />
+    <Property Name="RemoveUnderscoresFromElementName" Value="true" />
+    <Property Name="RemoveUnmappedElementsAfterRefresh_v5" Value="false" />
+    <Property Name="RemoveUnmappedElementsAfterRelationalModelDataSync_v5" Value="false" />
+    <Property Name="ResetFieldOrderBasedOnTargetOrderAtRefresh" Value="false" />
+    <Property Name="ResetFieldOrderBasedOnTargetOrderAtRelationalModelDataSync" Value="false" />
+    <Property Name="RetrieveDBCustomProperties" Value="false" />
+    <Property Name="RootNamespace" Value="" />
+    <Property Name="SequenceNameMatchingPattern" Value="SEQ_{$TableName}" />
+    <Property Name="SequencePattern" Value="SEQ_{$EntityName}" />
+    <Property Name="SetGroupNameAfterSchemaName" Value="true" />
+    <Property Name="SetSchemaNameAfterGroupName" Value="true" />
+    <Property Name="SingularizeElementNames" Value="true" />
+    <Property Name="StoredProcNameStripPattern" Value="{pr_, sp_}{}" />
+    <Property Name="StoreTimeLastGeneratedIntoProject" Value="false" />
+    <Property Name="StoreTimeLastSyncIntoProject" Value="true" />
+    <Property Name="SyncCustomFieldOrderingWithTableFieldIndex" Value="false" />
+    <Property Name="SyncMappedElementNamesAfterRefresh_v5" Value="false" />
+    <Property Name="SyncMappedElementNamesAfterRelationalModelDataSync_v5" Value="false" />
+    <Property Name="SyncRelationalModelDataElementNameWithModelElementName_v5" Value="false" />
+    <Property Name="SyncRenamedMappedElementNamesAfterRefresh_v5" Value="false" />
+    <Property Name="SyncRenamedMappedElementNamesAfterRelationalModelDataSync_v5" Value="false" />
+    <Property Name="TableValuedFunctionNameStripPattern" Value="{fn_, pr_, sp_}{}" />
+    <Property Name="TargetPerEntityEdgesRequireBackingFkConstraint" Value="true" />
+    <Property Name="TypedViewFieldNameStripPattern" Value="{}{}" />
+    <Property Name="TypedViewMappedOnResultsetPattern" Value="{$ProcFunctionName}{$ResultsetName}Result" />
+    <Property Name="TypedViewNameStripPattern" Value="{vw_}{}" />
+    <Property Name="UniqueConstraintPattern" Value="UC_{$Guid}" />
+    <Property Name="UniqueConstraintsFollowDBUniqueConstraints_v5" Value="true" />
+    <Property Name="UpdateCustomPropertiesAfterRefresh_v5" Value="false" />
+    <Property Name="UpdateCustomPropertiesAfterRelationalModelDataSync_v5" Value="false" />
+    <Property Name="UseCustomFieldOrderingOnNewElements" Value="false" />
+  </Properties>
+  <TypeShortcuts />
+  <IgnoredWarnings />
+  <SavedSearchQueries />
+  <CodeGenerationCyclePreferences>
+    <OutputType Value="3">
+      <LastUsedPreferences>
+        <DestinationRootFolder Value=".\LLBL" />
+        <FrameworkName Value="LLBLGen Pro Runtime Framework" />
+        <LanguageName Value="C#" />
+        <PlatformName Value=".NET 4.8.0" />
+        <PresetName Value="SD.Presets.Adapter.General" />
+        <RootNamespace Value="ConTech.Data" />
+        <TemplateGroup Value="Adapter" />
+        <TemplateBindings>
+          <Binding Name="SD.TemplateBindings.SharedTemplates.Deprecated" />
+          <Binding Name="SD.TemplateBindings.SharedTemplates.NET45x" />
+          <Binding Name="SD.TemplateBindings.SharedTemplates" />
+          <Binding Name="SD.TemplateBindings.SqlServerSpecific" />
+          <Binding Name="SD.TemplateBindings.General" />
+        </TemplateBindings>
+        <AdhocTemplateSets />
+      </LastUsedPreferences>
+    </OutputType>
+  </CodeGenerationCyclePreferences>
+  <OutputSettingValues>
+    <SettingValues>
+      <SettingValue Name="1:AdapterDbGenericSubFolderName" Value="DatabaseGeneric" Type="18" />
+      <SettingValue Name="1:AdapterDbSpecificNamespaceSuffix" Value="DatabaseSpecific" Type="18" />
+      <SettingValue Name="1:AdapterDbSpecificProjectFileSuffix" Value="DBSpecific" Type="18" />
+      <SettingValue Name="1:AdapterDbSpecificSubFolderName" Value="DatabaseSpecific" Type="18" />
+      <SettingValue Name="1:ConvertNulledReferenceTypesToDefaultValue" Value="true" Type="3" />
+      <SettingValue Name="1:EntityBaseClassNameDefault" Value="CommonEntityBase" Type="18" />
+      <SettingValue Name="1:FieldPropertyIsPublicDefault" Value="true" Type="3" />
+      <SettingValue Name="1:GenerateAsNullableTypeDefault" Value="true" Type="3" />
+      <SettingValue Name="1:GenerateEntityFieldFactory" Value="false" Type="3" />
+      <SettingValue Name="1:GenerateEntityFieldsFactory" Value="false" Type="3" />
+      <SettingValue Name="1:InlineValueTypedFields" Value="true" Type="3" />
+      <SettingValue Name="1:LazyLoadingWithoutResultReturnsNew" Value="false" Type="3" />
+      <SettingValue Name="1:NavigatorPropertyIsPublicDefault" Value="true" Type="3" />
+      <SettingValue Name="1:SupportedActionCombinations" Value="0,1,2,3,4,5,6,7" Type="18" />
+      <SettingValue Name="1:TdlEmitTimeDateInOutputFiles" Value="false" Type="3" />
+      <SettingValue Name="1:TypedListOutputTypeDefault" Value="PocoWithQuerySpecQuery" Type="18" />
+      <SettingValue Name="1:TypedViewOutputTypeDefault" Value="PocoWithQuerySpecQuery" Type="18" />
+    </SettingValues>
+  </OutputSettingValues>
+  <CodeGenerationMetaDataDefaults>
+    <TargetElement Type="256">
+      <Defaults>
+        <Attributes>
+          <Attribute Value="Browsable($false)" />
+        </Attributes>
+      </Defaults>
+    </TargetElement>
+  </CodeGenerationMetaDataDefaults>
+  <EntityModel>
+    <ValueTypeDefinitions />
+    <EntityDefinitions>
+      <EntityDefinition Name="EntityType" ObjectID="7c1ced68-28b5-4519-b74e-87bef91de3a8">
+        <Fields>
+          <Field Name="CreatedByUserId" Type="int" IsOptional="true" Precision="10" />
+          <Field Name="DateCreatedUtc" Type="datetime" />
+          <Field Name="Id" Type="int" Precision="10" IsPrimaryKey="true" />
+          <Field Name="LastModifiedByUserId" Type="int" IsOptional="true" Precision="10" />
+          <Field Name="LastModifiedUtc" Type="datetime" IsOptional="true" />
+          <Field Name="NameArabic" Type="string" MaxLength="200" />
+          <Field Name="NameEnglish" Type="string" IsOptional="true" MaxLength="200" />
+          <Field Name="ObjectStatus" Type="int" Precision="10" />
+        </Fields>
+      </EntityDefinition>
+      <EntityDefinition Name="LevelChild" ObjectID="d640b9d7-d16d-415a-abb8-dd42c459d13d">
+        <Fields>
+          <Field Name="CreatedByUserId" Type="int" IsOptional="true" Precision="10" />
+          <Field Name="DateCreatedUtc" Type="datetime" />
+          <Field Name="Description" Type="string" IsOptional="true" MaxLength="750" />
+          <Field Name="EntityList" Type="string" IsOptional="true" MaxLength="2147483647" />
+          <Field Name="Id" Type="guid" IsPrimaryKey="true" />
+          <Field Name="LastModifiedByUserId" Type="int" IsOptional="true" Precision="10" />
+          <Field Name="LastModifiedUtc" Type="datetime" IsOptional="true" />
+          <Field Name="LevelId" Type="guid" />
+          <Field Name="Name" Type="string" MaxLength="200" />
+          <Field Name="ObjectStatus" Type="int" Precision="10" />
+          <Field Name="ParentId" Type="guid" />
+        </Fields>
+      </EntityDefinition>
+      <EntityDefinition Name="LevelEntity" ObjectID="fd35451c-c11f-4edd-849e-1b72fe3c7f4f">
+        <Fields>
+          <Field Name="ColorCode" Type="string" IsOptional="true" MaxLength="20" />
+          <Field Name="ColorIndex" Type="int" Precision="10" />
+          <Field Name="CreatedByUserId" Type="int" IsOptional="true" Precision="10" />
+          <Field Name="DateCreatedUtc" Type="datetime" />
+          <Field Name="EntityName" Type="string" MaxLength="200" />
+          <Field Name="EntityTypeId" Type="int" Precision="10" />
+          <Field Name="Frozen" Type="bool" />
+          <Field Name="Id" Type="int" IsReadOnly="true" Precision="10" IsPrimaryKey="true" />
+          <Field Name="LastModifiedByUserId" Type="int" IsOptional="true" Precision="10" />
+          <Field Name="LastModifiedUtc" Type="datetime" IsOptional="true" />
+          <Field Name="LevelId" Type="guid" />
+          <Field Name="ObjectStatus" Type="int" Precision="10" />
+          <Field Name="UniqueId" Type="string" IsOptional="true" MaxLength="750" />
+          <Field Name="Vertices" Type="string" IsOptional="true" MaxLength="1000" />
+          <Field Name="Visible" Type="bool" />
+        </Fields>
+      </EntityDefinition>
+      <EntityDefinition Name="Person" ObjectID="ae8a3a5d-7cfb-4311-bf65-7047f1c8a1a1">
+        <Fields>
+          <Field Name="CreatedByUserId" Type="int" IsOptional="true" Precision="10" />
+          <Field Name="DateCreatedUtc" Type="datetime" />
+          <Field Name="Email" Type="string" IsOptional="true" MaxLength="500" />
+          <Field Name="FirstName" Type="string" MaxLength="200" />
+          <Field Name="Id" Type="int" IsReadOnly="true" Precision="10" IsPrimaryKey="true" />
+          <Field Name="LastModifiedByUserId" Type="int" IsOptional="true" Precision="10" />
+          <Field Name="LastModifiedUtc" Type="datetime" IsOptional="true" />
+          <Field Name="LastName" Type="string" MaxLength="200" />
+          <Field Name="ObjectStatus" Type="int" Precision="10" />
+          <Field Name="Phone" Type="string" IsOptional="true" MaxLength="40" />
+          <Field Name="Title" Type="string" IsOptional="true" MaxLength="40" />
+          <Field Name="VerificationCode" Type="string" IsOptional="true" MaxLength="4" />
+          <Field Name="Verified" Type="bool" />
+        </Fields>
+      </EntityDefinition>
+      <EntityDefinition Name="Project" ObjectID="3b552303-f825-457f-a516-c1eaf55c6426">
+        <Fields>
+          <Field Name="CreatedByUserId" Type="int" IsOptional="true" Precision="10" />
+          <Field Name="DateCreatedUtc" Type="datetime" />
+          <Field Name="Description" Type="string" IsOptional="true" MaxLength="750" />
+          <Field Name="Id" Type="int" IsReadOnly="true" Precision="10" IsPrimaryKey="true" />
+          <Field Name="LastModifiedByUserId" Type="int" IsOptional="true" Precision="10" />
+          <Field Name="LastModifiedUtc" Type="datetime" IsOptional="true" />
+          <Field Name="Name" Type="string" MaxLength="200" />
+          <Field Name="ObjectStatus" Type="int" Precision="10" />
+        </Fields>
+      </EntityDefinition>
+      <EntityDefinition Name="ProjectView" ObjectID="826809d2-a2aa-4848-9f50-1101fe7216ce">
+        <Fields>
+          <Field Name="BackgroundPdf" Type="byte[]" IsOptional="true" MaxLength="2147483647" />
+          <Field Name="CreatedByUserId" Type="int" IsOptional="true" Precision="10" />
+          <Field Name="DateCreatedUtc" Type="datetime" />
+          <Field Name="Description" Type="string" IsOptional="true" MaxLength="750" />
+          <Field Name="Id" Type="int" IsReadOnly="true" Precision="10" IsPrimaryKey="true" />
+          <Field Name="LastModifiedByUserId" Type="int" IsOptional="true" Precision="10" />
+          <Field Name="LastModifiedUtc" Type="datetime" IsOptional="true" />
+          <Field Name="Name" Type="string" MaxLength="200" />
+          <Field Name="ObjectStatus" Type="int" Precision="10" />
+          <Field Name="ProjectId" Type="int" Precision="10" />
+        </Fields>
+      </EntityDefinition>
+      <EntityDefinition Name="User" ObjectID="68968aaf-ec09-4ac7-8b15-4bbda8182944">
+        <Fields>
+          <Field Name="CreatedByUserId" Type="int" IsOptional="true" Precision="10" />
+          <Field Name="DateCreatedUtc" Type="datetime" />
+          <Field Name="Id" Type="int" IsReadOnly="true" Precision="10" IsPrimaryKey="true" />
+          <Field Name="LastModifiedByUserId" Type="int" IsOptional="true" Precision="10" />
+          <Field Name="LastModifiedUtc" Type="datetime" IsOptional="true" />
+          <Field Name="ObjectStatus" Type="int" Precision="10" />
+          <Field Name="Password" Type="string" MaxLength="200" />
+          <Field Name="PersonId" Type="int" Precision="10" />
+          <Field Name="ResetExpirationDate" Type="datetime" IsOptional="true" />
+          <Field Name="ResetToken" Type="guid" IsOptional="true" />
+        </Fields>
+      </EntityDefinition>
+      <EntityDefinition Name="ViewLevel" ObjectID="f4d719f7-f9ff-40ea-a7af-d4ebab5b5bab">
+        <Fields>
+          <Field Name="CreatedByUserId" Type="int" IsOptional="true" Precision="10" />
+          <Field Name="DateCreatedUtc" Type="datetime" />
+          <Field Name="Description" Type="string" IsOptional="true" MaxLength="750" />
+          <Field Name="DxfData" Type="string" IsOptional="true" MaxLength="2147483647" />
+          <Field Name="EntityData" Type="string" IsOptional="true" MaxLength="2147483647" />
+          <Field Name="Id" Type="guid" IsPrimaryKey="true" />
+          <Field Name="LastModifiedByUserId" Type="int" IsOptional="true" Precision="10" />
+          <Field Name="LastModifiedUtc" Type="datetime" IsOptional="true" />
+          <Field Name="Name" Type="string" MaxLength="200" />
+          <Field Name="ObjectStatus" Type="int" Precision="10" />
+          <Field Name="Scale" Type="single" IsOptional="true" Precision="24" />
+          <Field Name="TransitionX" Type="single" IsOptional="true" Precision="24" />
+          <Field Name="TransitionY" Type="single" IsOptional="true" Precision="24" />
+          <Field Name="ViewId" Type="int" Precision="10" />
+        </Fields>
+      </EntityDefinition>
+    </EntityDefinitions>
+    <Relationships>
+      <NormalRelationship Name="EntityType.User-User.EntityTypes" Start=":EntityType" End=":User" StartNavigator="User" EndNavigator="EntityTypes" Type="4" EndIsOptional="true">
+        <FieldRelationships>
+          <FieldFieldRelationship FkField="CreatedByUserId" PkField="Id" />
+        </FieldRelationships>
+      </NormalRelationship>
+      <NormalRelationship Name="EntityType.User1-User.EntityTypes1" Start=":EntityType" End=":User" StartNavigator="User1" EndNavigator="EntityTypes1" Type="4" EndIsOptional="true">
+        <FieldRelationships>
+          <FieldFieldRelationship FkField="LastModifiedByUserId" PkField="Id" />
+        </FieldRelationships>
+      </NormalRelationship>
+      <NormalRelationship Name="LevelChild.LevelChild-LevelChild.LevelChildren" Start=":LevelChild" End=":LevelChild" StartNavigator="LevelChild" EndNavigator="LevelChildren" Type="4">
+        <FieldRelationships>
+          <FieldFieldRelationship FkField="ParentId" PkField="Id" />
+        </FieldRelationships>
+      </NormalRelationship>
+      <NormalRelationship Name="LevelChild.User-User.LevelChildren" Start=":LevelChild" End=":User" StartNavigator="User" EndNavigator="LevelChildren" Type="4" EndIsOptional="true">
+        <FieldRelationships>
+          <FieldFieldRelationship FkField="CreatedByUserId" PkField="Id" />
+        </FieldRelationships>
+      </NormalRelationship>
+      <NormalRelationship Name="LevelChild.User1-User.LevelChildren1" Start=":LevelChild" End=":User" StartNavigator="User1" EndNavigator="LevelChildren1" Type="4" EndIsOptional="true">
+        <FieldRelationships>
+          <FieldFieldRelationship FkField="LastModifiedByUserId" PkField="Id" />
+        </FieldRelationships>
+      </NormalRelationship>
+      <NormalRelationship Name="LevelChild.ViewLevel-ViewLevel.LevelChildren" Start=":LevelChild" End=":ViewLevel" StartNavigator="ViewLevel" EndNavigator="LevelChildren" Type="4">
+        <FieldRelationships>
+          <FieldFieldRelationship FkField="LevelId" PkField="Id" />
+        </FieldRelationships>
+      </NormalRelationship>
+      <NormalRelationship Name="LevelEntity.EntityType-EntityType.LevelEntities" Start=":LevelEntity" End=":EntityType" StartNavigator="EntityType" EndNavigator="LevelEntities" Type="4">
+        <FieldRelationships>
+          <FieldFieldRelationship FkField="EntityTypeId" PkField="Id" />
+        </FieldRelationships>
+      </NormalRelationship>
+      <NormalRelationship Name="LevelEntity.User-User.LevelEntities" Start=":LevelEntity" End=":User" StartNavigator="User" EndNavigator="LevelEntities" Type="4" EndIsOptional="true">
+        <FieldRelationships>
+          <FieldFieldRelationship FkField="CreatedByUserId" PkField="Id" />
+        </FieldRelationships>
+      </NormalRelationship>
+      <NormalRelationship Name="LevelEntity.User1-User.LevelEntities1" Start=":LevelEntity" End=":User" StartNavigator="User1" EndNavigator="LevelEntities1" Type="4" EndIsOptional="true">
+        <FieldRelationships>
+          <FieldFieldRelationship FkField="LastModifiedByUserId" PkField="Id" />
+        </FieldRelationships>
+      </NormalRelationship>
+      <NormalRelationship Name="LevelEntity.ViewLevel-ViewLevel.LevelEntities" Start=":LevelEntity" End=":ViewLevel" StartNavigator="ViewLevel" EndNavigator="LevelEntities" Type="4">
+        <FieldRelationships>
+          <FieldFieldRelationship FkField="LevelId" PkField="Id" />
+        </FieldRelationships>
+      </NormalRelationship>
+      <NormalRelationship Name="Person.User-User.People" Start=":Person" End=":User" StartNavigator="User" EndNavigator="People" Type="4" EndIsOptional="true">
+        <FieldRelationships>
+          <FieldFieldRelationship FkField="CreatedByUserId" PkField="Id" />
+        </FieldRelationships>
+      </NormalRelationship>
+      <NormalRelationship Name="Person.User1-User.People1" Start=":Person" End=":User" StartNavigator="User1" EndNavigator="People1" Type="4" EndIsOptional="true">
+        <FieldRelationships>
+          <FieldFieldRelationship FkField="LastModifiedByUserId" PkField="Id" />
+        </FieldRelationships>
+      </NormalRelationship>
+      <NormalRelationship Name="Project.User-User.Projects" Start=":Project" End=":User" StartNavigator="User" EndNavigator="Projects" Type="4" EndIsOptional="true">
+        <FieldRelationships>
+          <FieldFieldRelationship FkField="CreatedByUserId" PkField="Id" />
+        </FieldRelationships>
+      </NormalRelationship>
+      <NormalRelationship Name="Project.User1-User.Projects1" Start=":Project" End=":User" StartNavigator="User1" EndNavigator="Projects1" Type="4" EndIsOptional="true">
+        <FieldRelationships>
+          <FieldFieldRelationship FkField="LastModifiedByUserId" PkField="Id" />
+        </FieldRelationships>
+      </NormalRelationship>
+      <NormalRelationship Name="ProjectView.Project-Project.ProjectViews" Start=":ProjectView" End=":Project" StartNavigator="Project" EndNavigator="ProjectViews" Type="4">
+        <FieldRelationships>
+          <FieldFieldRelationship FkField="ProjectId" PkField="Id" />
+        </FieldRelationships>
+      </NormalRelationship>
+      <NormalRelationship Name="ProjectView.User-User.ProjectViews" Start=":ProjectView" End=":User" StartNavigator="User" EndNavigator="ProjectViews" Type="4" EndIsOptional="true">
+        <FieldRelationships>
+          <FieldFieldRelationship FkField="CreatedByUserId" PkField="Id" />
+        </FieldRelationships>
+      </NormalRelationship>
+      <NormalRelationship Name="ProjectView.User1-User.ProjectViews1" Start=":ProjectView" End=":User" StartNavigator="User1" EndNavigator="ProjectViews1" Type="4" EndIsOptional="true">
+        <FieldRelationships>
+          <FieldFieldRelationship FkField="LastModifiedByUserId" PkField="Id" />
+        </FieldRelationships>
+      </NormalRelationship>
+      <NormalRelationship Name="User.Person-Person.Users" Start=":User" End=":Person" StartNavigator="Person" EndNavigator="Users" Type="4">
+        <FieldRelationships>
+          <FieldFieldRelationship FkField="PersonId" PkField="Id" />
+        </FieldRelationships>
+      </NormalRelationship>
+      <NormalRelationship Name="User.User-User.Users" Start=":User" End=":User" StartNavigator="User" EndNavigator="Users" Type="4" EndIsOptional="true">
+        <FieldRelationships>
+          <FieldFieldRelationship FkField="CreatedByUserId" PkField="Id" />
+        </FieldRelationships>
+      </NormalRelationship>
+      <NormalRelationship Name="User.User1-User.Users1" Start=":User" End=":User" StartNavigator="User1" EndNavigator="Users1" Type="4" EndIsOptional="true">
+        <FieldRelationships>
+          <FieldFieldRelationship FkField="LastModifiedByUserId" PkField="Id" />
+        </FieldRelationships>
+      </NormalRelationship>
+      <NormalRelationship Name="ViewLevel.ProjectView-ProjectView.ViewLevels" Start=":ViewLevel" End=":ProjectView" StartNavigator="ProjectView" EndNavigator="ViewLevels" Type="4">
+        <FieldRelationships>
+          <FieldFieldRelationship FkField="ViewId" PkField="Id" />
+        </FieldRelationships>
+      </NormalRelationship>
+      <NormalRelationship Name="ViewLevel.User-User.ViewLevels" Start=":ViewLevel" End=":User" StartNavigator="User" EndNavigator="ViewLevels" Type="4" EndIsOptional="true">
+        <FieldRelationships>
+          <FieldFieldRelationship FkField="CreatedByUserId" PkField="Id" />
+        </FieldRelationships>
+      </NormalRelationship>
+      <NormalRelationship Name="ViewLevel.User1-User.ViewLevels1" Start=":ViewLevel" End=":User" StartNavigator="User1" EndNavigator="ViewLevels1" Type="4" EndIsOptional="true">
+        <FieldRelationships>
+          <FieldFieldRelationship FkField="LastModifiedByUserId" PkField="Id" />
+        </FieldRelationships>
+      </NormalRelationship>
+    </Relationships>
+    <InheritanceHierarchies />
+  </EntityModel>
+  <TargetDatabases>
+    <TargetDatabase Type="2D18D138-1DD2-467E-86CC-4838250611AE" SyncSource="2">
+      <ConnectionElements>
+        <ConnectionElement Name="ServerName" Value="." />
+        <ConnectionElement Name="CatalogName" Value="master" />
+        <ConnectionElement Name="UseWindowsAuthentication" Value="true" />
+        <ConnectionElement Name="UserID" Value="" />
+        <ConnectionElement Name="Password" Value="" />
+      </ConnectionElements>
+      <SystemSequences>
+        <Sequence Name="SCOPE_IDENTITY()" />
+        <Sequence Name="@@IDENTITY" />
+      </SystemSequences>
+      <Catalogs>
+        <Catalog Name="ConTech" SyncSource="2">
+          <Schemas>
+            <Schema Name="dbo" SyncSource="2" LastSyncWithDatabase="2025-06-03T15:25:55.4164003Z">
+              <Tables>
+                <Table Name="EntityType">
+                  <PkConstraintName Name="PK_EntityType" />
+                  <Fields>
+                    <Field Name="Id" Ordinal="1" IsPrimaryKey="true" DbType="8" Precision="10" />
+                    <Field Name="NameArabic" Ordinal="2" DbType="12" Length="200" />
+                    <Field Name="NameEnglish" Ordinal="3" IsOptional="true" DbType="12" Length="200" />
+                    <Field Name="ObjectStatus" Ordinal="4" HasDefaultValue="true" DefaultValue="1" DbType="8" Precision="10" />
+                    <Field Name="DateCreatedUtc" Ordinal="5" HasDefaultValue="true" DefaultValue="getutcdate()" DbType="4" />
+                    <Field Name="CreatedByUserId" Ordinal="6" IsOptional="true" DbType="8" Precision="10" />
+                    <Field Name="LastModifiedUtc" Ordinal="7" IsOptional="true" DbType="4" />
+                    <Field Name="LastModifiedByUserId" Ordinal="8" IsOptional="true" DbType="8" Precision="10" />
+                  </Fields>
+                </Table>
+                <Table Name="LevelChild">
+                  <PkConstraintName Name="PK_LevelChild" />
+                  <Fields>
+                    <Field Name="Id" Ordinal="1" IsPrimaryKey="true" DbType="25" />
+                    <Field Name="LevelId" Ordinal="2" DbType="25" />
+                    <Field Name="ParentId" Ordinal="3" DbType="25" />
+                    <Field Name="Name" Ordinal="4" DbType="12" Length="200" />
+                    <Field Name="Description" Ordinal="5" IsOptional="true" DbType="12" Length="750" />
+                    <Field Name="EntityList" Ordinal="6" IsOptional="true" DbType="12" Length="2147483647" />
+                    <Field Name="ObjectStatus" Ordinal="7" HasDefaultValue="true" DefaultValue="1" DbType="8" Precision="10" />
+                    <Field Name="DateCreatedUtc" Ordinal="8" HasDefaultValue="true" DefaultValue="getutcdate()" DbType="4" />
+                    <Field Name="CreatedByUserId" Ordinal="9" IsOptional="true" DbType="8" Precision="10" />
+                    <Field Name="LastModifiedUtc" Ordinal="10" IsOptional="true" DbType="4" />
+                    <Field Name="LastModifiedByUserId" Ordinal="11" IsOptional="true" DbType="8" Precision="10" />
+                  </Fields>
+                </Table>
+                <Table Name="LevelEntity">
+                  <PkConstraintName Name="PK_LevelEntity" />
+                  <Fields>
+                    <Field Name="Id" Ordinal="1" IsIdentity="true" IsPrimaryKey="true" DbType="8" Precision="10" />
+                    <Field Name="LevelId" Ordinal="2" DbType="25" />
+                    <Field Name="EntityTypeId" Ordinal="3" DbType="8" Precision="10" />
+                    <Field Name="EntityName" Ordinal="4" DbType="12" Length="200" />
+                    <Field Name="UniqueId" Ordinal="5" IsOptional="true" DbType="12" Length="750" />
+                    <Field Name="ColorCode" Ordinal="6" IsOptional="true" DbType="12" Length="20" />
+                    <Field Name="Visible" Ordinal="7" HasDefaultValue="true" DefaultValue="1" DbType="2" />
+                    <Field Name="Frozen" Ordinal="8" HasDefaultValue="true" DefaultValue="0" DbType="2" />
+                    <Field Name="ColorIndex" Ordinal="9" DbType="8" Precision="10" />
+                    <Field Name="Vertices" Ordinal="10" IsOptional="true" DbType="12" Length="1000" />
+                    <Field Name="ObjectStatus" Ordinal="11" HasDefaultValue="true" DefaultValue="1" DbType="8" Precision="10" />
+                    <Field Name="DateCreatedUtc" Ordinal="12" HasDefaultValue="true" DefaultValue="getutcdate()" DbType="4" />
+                    <Field Name="CreatedByUserId" Ordinal="13" IsOptional="true" DbType="8" Precision="10" />
+                    <Field Name="LastModifiedUtc" Ordinal="14" IsOptional="true" DbType="4" />
+                    <Field Name="LastModifiedByUserId" Ordinal="15" IsOptional="true" DbType="8" Precision="10" />
+                  </Fields>
+                </Table>
+                <Table Name="Person">
+                  <PkConstraintName Name="PK_Person" />
+                  <Fields>
+                    <Field Name="Id" Ordinal="1" IsIdentity="true" IsPrimaryKey="true" DbType="8" Precision="10" />
+                    <Field Name="FirstName" Ordinal="2" DbType="12" Length="200" />
+                    <Field Name="LastName" Ordinal="3" DbType="12" Length="200" />
+                    <Field Name="Email" Ordinal="4" IsOptional="true" DbType="12" Length="500" />
+                    <Field Name="Title" Ordinal="5" IsOptional="true" DbType="12" Length="40" />
+                    <Field Name="Phone" Ordinal="6" IsOptional="true" DbType="12" Length="40" />
+                    <Field Name="Verified" Ordinal="7" HasDefaultValue="true" DefaultValue="1" DbType="2" />
+                    <Field Name="VerificationCode" Ordinal="8" IsOptional="true" DbType="12" Length="4" />
+                    <Field Name="ObjectStatus" Ordinal="9" HasDefaultValue="true" DefaultValue="1" DbType="8" Precision="10" />
+                    <Field Name="DateCreatedUtc" Ordinal="10" HasDefaultValue="true" DefaultValue="getutcdate()" DbType="4" />
+                    <Field Name="CreatedByUserId" Ordinal="11" IsOptional="true" DbType="8" Precision="10" />
+                    <Field Name="LastModifiedUtc" Ordinal="12" IsOptional="true" DbType="4" />
+                    <Field Name="LastModifiedByUserId" Ordinal="13" IsOptional="true" DbType="8" Precision="10" />
+                  </Fields>
+                </Table>
+                <Table Name="Project">
+                  <PkConstraintName Name="PK_Project" />
+                  <Fields>
+                    <Field Name="Id" Ordinal="1" IsIdentity="true" IsPrimaryKey="true" DbType="8" Precision="10" />
+                    <Field Name="Name" Ordinal="2" DbType="12" Length="200" />
+                    <Field Name="Description" Ordinal="3" IsOptional="true" DbType="12" Length="750" />
+                    <Field Name="ObjectStatus" Ordinal="4" HasDefaultValue="true" DefaultValue="1" DbType="8" Precision="10" />
+                    <Field Name="DateCreatedUtc" Ordinal="5" HasDefaultValue="true" DefaultValue="getutcdate()" DbType="4" />
+                    <Field Name="CreatedByUserId" Ordinal="6" IsOptional="true" DbType="8" Precision="10" />
+                    <Field Name="LastModifiedUtc" Ordinal="7" IsOptional="true" DbType="4" />
+                    <Field Name="LastModifiedByUserId" Ordinal="8" IsOptional="true" DbType="8" Precision="10" />
+                  </Fields>
+                </Table>
+                <Table Name="ProjectView">
+                  <PkConstraintName Name="PK_ProjectView" />
+                  <Fields>
+                    <Field Name="Id" Ordinal="1" IsIdentity="true" IsPrimaryKey="true" DbType="8" Precision="10" />
+                    <Field Name="ProjectId" Ordinal="2" DbType="8" Precision="10" />
+                    <Field Name="Name" Ordinal="3" DbType="12" Length="200" />
+                    <Field Name="Description" Ordinal="4" IsOptional="true" DbType="12" Length="750" />
+                    <Field Name="BackgroundPdf" Ordinal="5" IsOptional="true" DbType="23" Length="2147483647" />
+                    <Field Name="ObjectStatus" Ordinal="6" HasDefaultValue="true" DefaultValue="1" DbType="8" Precision="10" />
+                    <Field Name="DateCreatedUtc" Ordinal="7" HasDefaultValue="true" DefaultValue="getutcdate()" DbType="4" />
+                    <Field Name="CreatedByUserId" Ordinal="8" IsOptional="true" DbType="8" Precision="10" />
+                    <Field Name="LastModifiedUtc" Ordinal="9" IsOptional="true" DbType="4" />
+                    <Field Name="LastModifiedByUserId" Ordinal="10" IsOptional="true" DbType="8" Precision="10" />
+                  </Fields>
+                </Table>
+                <Table Name="User">
+                  <PkConstraintName Name="PK_User" />
+                  <Fields>
+                    <Field Name="Id" Ordinal="1" IsIdentity="true" IsPrimaryKey="true" DbType="8" Precision="10" />
+                    <Field Name="Password" Ordinal="2" DbType="12" Length="200" />
+                    <Field Name="PersonId" Ordinal="3" DbType="8" Precision="10" />
+                    <Field Name="ResetToken" Ordinal="4" IsOptional="true" DbType="25" />
+                    <Field Name="ResetExpirationDate" Ordinal="5" IsOptional="true" DbType="4" />
+                    <Field Name="ObjectStatus" Ordinal="6" HasDefaultValue="true" DefaultValue="1" DbType="8" Precision="10" />
+                    <Field Name="DateCreatedUtc" Ordinal="7" HasDefaultValue="true" DefaultValue="getutcdate()" DbType="4" />
+                    <Field Name="CreatedByUserId" Ordinal="8" IsOptional="true" DbType="8" Precision="10" />
+                    <Field Name="LastModifiedUtc" Ordinal="9" IsOptional="true" DbType="4" />
+                    <Field Name="LastModifiedByUserId" Ordinal="10" IsOptional="true" DbType="8" Precision="10" />
+                  </Fields>
+                </Table>
+                <Table Name="ViewLevel">
+                  <PkConstraintName Name="PK_ViewLevel" />
+                  <Fields>
+                    <Field Name="Id" Ordinal="1" IsPrimaryKey="true" DbType="25" />
+                    <Field Name="ViewId" Ordinal="2" DbType="8" Precision="10" />
+                    <Field Name="Name" Ordinal="3" DbType="12" Length="200" />
+                    <Field Name="Description" Ordinal="4" IsOptional="true" DbType="12" Length="750" />
+                    <Field Name="DxfData" Ordinal="5" IsOptional="true" DbType="12" Length="2147483647" />
+                    <Field Name="EntityData" Ordinal="6" IsOptional="true" DbType="12" Length="2147483647" />
+                    <Field Name="Scale" Ordinal="7" IsOptional="true" DbType="14" Precision="24" />
+                    <Field Name="TransitionX" Ordinal="8" IsOptional="true" DbType="14" Precision="24" />
+                    <Field Name="TransitionY" Ordinal="9" IsOptional="true" DbType="14" Precision="24" />
+                    <Field Name="ObjectStatus" Ordinal="10" HasDefaultValue="true" DefaultValue="1" DbType="8" Precision="10" />
+                    <Field Name="DateCreatedUtc" Ordinal="11" HasDefaultValue="true" DefaultValue="getutcdate()" DbType="4" />
+                    <Field Name="CreatedByUserId" Ordinal="12" IsOptional="true" DbType="8" Precision="10" />
+                    <Field Name="LastModifiedUtc" Ordinal="13" IsOptional="true" DbType="4" />
+                    <Field Name="LastModifiedByUserId" Ordinal="14" IsOptional="true" DbType="8" Precision="10" />
+                  </Fields>
+                </Table>
+              </Tables>
+            </Schema>
+          </Schemas>
+          <ForeignKeyConstraints>
+            <ForeignKeyConstraint Name="dbo:EntityType:FK_EntityType_CreatedByUserId_User_Id">
+              <FieldPairs>
+                <FieldPair PkField="dbo:User:Id" FkField="dbo:EntityType:CreatedByUserId" />
+              </FieldPairs>
+            </ForeignKeyConstraint>
+            <ForeignKeyConstraint Name="dbo:EntityType:FK_EntityType_LastModifiedByUserId_User_Id">
+              <FieldPairs>
+                <FieldPair PkField="dbo:User:Id" FkField="dbo:EntityType:LastModifiedByUserId" />
+              </FieldPairs>
+            </ForeignKeyConstraint>
+            <ForeignKeyConstraint Name="dbo:LevelChild:FK_LevelChild_CreatedByUserId_User_Id">
+              <FieldPairs>
+                <FieldPair PkField="dbo:User:Id" FkField="dbo:LevelChild:CreatedByUserId" />
+              </FieldPairs>
+            </ForeignKeyConstraint>
+            <ForeignKeyConstraint Name="dbo:LevelChild:FK_LevelChild_LastModifiedByUserId_User_Id">
+              <FieldPairs>
+                <FieldPair PkField="dbo:User:Id" FkField="dbo:LevelChild:LastModifiedByUserId" />
+              </FieldPairs>
+            </ForeignKeyConstraint>
+            <ForeignKeyConstraint Name="dbo:LevelChild:FK_LevelChild_LevelId_ViewLevel_Id">
+              <FieldPairs>
+                <FieldPair PkField="dbo:ViewLevel:Id" FkField="dbo:LevelChild:LevelId" />
+              </FieldPairs>
+            </ForeignKeyConstraint>
+            <ForeignKeyConstraint Name="dbo:LevelChild:FK_LevelChild_ParentId_LevelChild_Id">
+              <FieldPairs>
+                <FieldPair PkField="dbo:LevelChild:Id" FkField="dbo:LevelChild:ParentId" />
+              </FieldPairs>
+            </ForeignKeyConstraint>
+            <ForeignKeyConstraint Name="dbo:LevelEntity:FK_LevelEntity_CreatedByUserId_User_Id">
+              <FieldPairs>
+                <FieldPair PkField="dbo:User:Id" FkField="dbo:LevelEntity:CreatedByUserId" />
+              </FieldPairs>
+            </ForeignKeyConstraint>
+            <ForeignKeyConstraint Name="dbo:LevelEntity:FK_LevelEntity_EntityTypeId_EntityType_Id">
+              <FieldPairs>
+                <FieldPair PkField="dbo:EntityType:Id" FkField="dbo:LevelEntity:EntityTypeId" />
+              </FieldPairs>
+            </ForeignKeyConstraint>
+            <ForeignKeyConstraint Name="dbo:LevelEntity:FK_LevelEntity_LastModifiedByUserId_User_Id">
+              <FieldPairs>
+                <FieldPair PkField="dbo:User:Id" FkField="dbo:LevelEntity:LastModifiedByUserId" />
+              </FieldPairs>
+            </ForeignKeyConstraint>
+            <ForeignKeyConstraint Name="dbo:LevelEntity:FK_LevelEntity_LevelId_ViewLevel_Id">
+              <FieldPairs>
+                <FieldPair PkField="dbo:ViewLevel:Id" FkField="dbo:LevelEntity:LevelId" />
+              </FieldPairs>
+            </ForeignKeyConstraint>
+            <ForeignKeyConstraint Name="dbo:Person:FK_Person_CreatedByUserId_User_Id">
+              <FieldPairs>
+                <FieldPair PkField="dbo:User:Id" FkField="dbo:Person:CreatedByUserId" />
+              </FieldPairs>
+            </ForeignKeyConstraint>
+            <ForeignKeyConstraint Name="dbo:Person:FK_Person_LastModifiedByUserId_User_Id">
+              <FieldPairs>
+                <FieldPair PkField="dbo:User:Id" FkField="dbo:Person:LastModifiedByUserId" />
+              </FieldPairs>
+            </ForeignKeyConstraint>
+            <ForeignKeyConstraint Name="dbo:Project:FK_Project_CreatedByUserId_User_Id">
+              <FieldPairs>
+                <FieldPair PkField="dbo:User:Id" FkField="dbo:Project:CreatedByUserId" />
+              </FieldPairs>
+            </ForeignKeyConstraint>
+            <ForeignKeyConstraint Name="dbo:Project:FK_Project_LastModifiedByUserId_User_Id">
+              <FieldPairs>
+                <FieldPair PkField="dbo:User:Id" FkField="dbo:Project:LastModifiedByUserId" />
+              </FieldPairs>
+            </ForeignKeyConstraint>
+            <ForeignKeyConstraint Name="dbo:ProjectView:FK_ProjectView_CreatedByUserId_User_Id">
+              <FieldPairs>
+                <FieldPair PkField="dbo:User:Id" FkField="dbo:ProjectView:CreatedByUserId" />
+              </FieldPairs>
+            </ForeignKeyConstraint>
+            <ForeignKeyConstraint Name="dbo:ProjectView:FK_ProjectView_LastModifiedByUserId_User_Id">
+              <FieldPairs>
+                <FieldPair PkField="dbo:User:Id" FkField="dbo:ProjectView:LastModifiedByUserId" />
+              </FieldPairs>
+            </ForeignKeyConstraint>
+            <ForeignKeyConstraint Name="dbo:ProjectView:FK_ProjectView_ProjectId_Project_Id">
+              <FieldPairs>
+                <FieldPair PkField="dbo:Project:Id" FkField="dbo:ProjectView:ProjectId" />
+              </FieldPairs>
+            </ForeignKeyConstraint>
+            <ForeignKeyConstraint Name="dbo:User:FK_User_CreatedByUserId_User_Id">
+              <FieldPairs>
+                <FieldPair PkField="dbo:User:Id" FkField="dbo:User:CreatedByUserId" />
+              </FieldPairs>
+            </ForeignKeyConstraint>
+            <ForeignKeyConstraint Name="dbo:User:FK_User_LastModifiedByUserId_User_Id">
+              <FieldPairs>
+                <FieldPair PkField="dbo:User:Id" FkField="dbo:User:LastModifiedByUserId" />
+              </FieldPairs>
+            </ForeignKeyConstraint>
+            <ForeignKeyConstraint Name="dbo:User:FK_User_PersonId_Person_Id">
+              <FieldPairs>
+                <FieldPair PkField="dbo:Person:Id" FkField="dbo:User:PersonId" />
+              </FieldPairs>
+            </ForeignKeyConstraint>
+            <ForeignKeyConstraint Name="dbo:ViewLevel:FK_ViewLevel_CreatedByUserId_User_Id">
+              <FieldPairs>
+                <FieldPair PkField="dbo:User:Id" FkField="dbo:ViewLevel:CreatedByUserId" />
+              </FieldPairs>
+            </ForeignKeyConstraint>
+            <ForeignKeyConstraint Name="dbo:ViewLevel:FK_ViewLevel_LastModifiedByUserId_User_Id">
+              <FieldPairs>
+                <FieldPair PkField="dbo:User:Id" FkField="dbo:ViewLevel:LastModifiedByUserId" />
+              </FieldPairs>
+            </ForeignKeyConstraint>
+            <ForeignKeyConstraint Name="dbo:ViewLevel:FK_ViewLevel_ViewId_ProjectView_Id">
+              <FieldPairs>
+                <FieldPair PkField="dbo:ProjectView:Id" FkField="dbo:ViewLevel:ViewId" />
+              </FieldPairs>
+            </ForeignKeyConstraint>
+          </ForeignKeyConstraints>
+        </Catalog>
+      </Catalogs>
+    </TargetDatabase>
+  </TargetDatabases>
+  <MappingStores>
+    <MappingStore Type="2D18D138-1DD2-467E-86CC-4838250611AE">
+      <EntityMappings>
+        <EntityMapping EntityName=":EntityType" TargetName="ConTech:dbo:EntityType">
+          <FieldMappings>
+            <FieldMapping FieldName="CreatedByUserId" TargetFieldName="CreatedByUserId" />
+            <FieldMapping FieldName="DateCreatedUtc" TargetFieldName="DateCreatedUtc" />
+            <FieldMapping FieldName="Id" TargetFieldName="Id" />
+            <FieldMapping FieldName="LastModifiedByUserId" TargetFieldName="LastModifiedByUserId" />
+            <FieldMapping FieldName="LastModifiedUtc" TargetFieldName="LastModifiedUtc" />
+            <FieldMapping FieldName="NameArabic" TargetFieldName="NameArabic" />
+            <FieldMapping FieldName="NameEnglish" TargetFieldName="NameEnglish" />
+            <FieldMapping FieldName="ObjectStatus" TargetFieldName="ObjectStatus" />
+          </FieldMappings>
+        </EntityMapping>
+        <EntityMapping EntityName=":LevelChild" TargetName="ConTech:dbo:LevelChild">
+          <FieldMappings>
+            <FieldMapping FieldName="CreatedByUserId" TargetFieldName="CreatedByUserId" />
+            <FieldMapping FieldName="DateCreatedUtc" TargetFieldName="DateCreatedUtc" />
+            <FieldMapping FieldName="Description" TargetFieldName="Description" />
+            <FieldMapping FieldName="EntityList" TargetFieldName="EntityList" />
+            <FieldMapping FieldName="Id" TargetFieldName="Id" />
+            <FieldMapping FieldName="LastModifiedByUserId" TargetFieldName="LastModifiedByUserId" />
+            <FieldMapping FieldName="LastModifiedUtc" TargetFieldName="LastModifiedUtc" />
+            <FieldMapping FieldName="LevelId" TargetFieldName="LevelId" />
+            <FieldMapping FieldName="Name" TargetFieldName="Name" />
+            <FieldMapping FieldName="ObjectStatus" TargetFieldName="ObjectStatus" />
+            <FieldMapping FieldName="ParentId" TargetFieldName="ParentId" />
+          </FieldMappings>
+        </EntityMapping>
+        <EntityMapping EntityName=":LevelEntity" TargetName="ConTech:dbo:LevelEntity">
+          <FieldMappings>
+            <FieldMapping FieldName="ColorCode" TargetFieldName="ColorCode" />
+            <FieldMapping FieldName="ColorIndex" TargetFieldName="ColorIndex" />
+            <FieldMapping FieldName="CreatedByUserId" TargetFieldName="CreatedByUserId" />
+            <FieldMapping FieldName="DateCreatedUtc" TargetFieldName="DateCreatedUtc" />
+            <FieldMapping FieldName="EntityName" TargetFieldName="EntityName" />
+            <FieldMapping FieldName="EntityTypeId" TargetFieldName="EntityTypeId" />
+            <FieldMapping FieldName="Frozen" TargetFieldName="Frozen" />
+            <FieldMapping FieldName="Id" TargetFieldName="Id" SequenceToUse="SCOPE_IDENTITY()" />
+            <FieldMapping FieldName="LastModifiedByUserId" TargetFieldName="LastModifiedByUserId" />
+            <FieldMapping FieldName="LastModifiedUtc" TargetFieldName="LastModifiedUtc" />
+            <FieldMapping FieldName="LevelId" TargetFieldName="LevelId" />
+            <FieldMapping FieldName="ObjectStatus" TargetFieldName="ObjectStatus" />
+            <FieldMapping FieldName="UniqueId" TargetFieldName="UniqueId" />
+            <FieldMapping FieldName="Vertices" TargetFieldName="Vertices" />
+            <FieldMapping FieldName="Visible" TargetFieldName="Visible" />
+          </FieldMappings>
+        </EntityMapping>
+        <EntityMapping EntityName=":Person" TargetName="ConTech:dbo:Person">
+          <FieldMappings>
+            <FieldMapping FieldName="CreatedByUserId" TargetFieldName="CreatedByUserId" />
+            <FieldMapping FieldName="DateCreatedUtc" TargetFieldName="DateCreatedUtc" />
+            <FieldMapping FieldName="Email" TargetFieldName="Email" />
+            <FieldMapping FieldName="FirstName" TargetFieldName="FirstName" />
+            <FieldMapping FieldName="Id" TargetFieldName="Id" SequenceToUse="SCOPE_IDENTITY()" />
+            <FieldMapping FieldName="LastModifiedByUserId" TargetFieldName="LastModifiedByUserId" />
+            <FieldMapping FieldName="LastModifiedUtc" TargetFieldName="LastModifiedUtc" />
+            <FieldMapping FieldName="LastName" TargetFieldName="LastName" />
+            <FieldMapping FieldName="ObjectStatus" TargetFieldName="ObjectStatus" />
+            <FieldMapping FieldName="Phone" TargetFieldName="Phone" />
+            <FieldMapping FieldName="Title" TargetFieldName="Title" />
+            <FieldMapping FieldName="VerificationCode" TargetFieldName="VerificationCode" />
+            <FieldMapping FieldName="Verified" TargetFieldName="Verified" />
+          </FieldMappings>
+        </EntityMapping>
+        <EntityMapping EntityName=":Project" TargetName="ConTech:dbo:Project">
+          <FieldMappings>
+            <FieldMapping FieldName="CreatedByUserId" TargetFieldName="CreatedByUserId" />
+            <FieldMapping FieldName="DateCreatedUtc" TargetFieldName="DateCreatedUtc" />
+            <FieldMapping FieldName="Description" TargetFieldName="Description" />
+            <FieldMapping FieldName="Id" TargetFieldName="Id" SequenceToUse="SCOPE_IDENTITY()" />
+            <FieldMapping FieldName="LastModifiedByUserId" TargetFieldName="LastModifiedByUserId" />
+            <FieldMapping FieldName="LastModifiedUtc" TargetFieldName="LastModifiedUtc" />
+            <FieldMapping FieldName="Name" TargetFieldName="Name" />
+            <FieldMapping FieldName="ObjectStatus" TargetFieldName="ObjectStatus" />
+          </FieldMappings>
+        </EntityMapping>
+        <EntityMapping EntityName=":ProjectView" TargetName="ConTech:dbo:ProjectView">
+          <FieldMappings>
+            <FieldMapping FieldName="BackgroundPdf" TargetFieldName="BackgroundPdf" />
+            <FieldMapping FieldName="CreatedByUserId" TargetFieldName="CreatedByUserId" />
+            <FieldMapping FieldName="DateCreatedUtc" TargetFieldName="DateCreatedUtc" />
+            <FieldMapping FieldName="Description" TargetFieldName="Description" />
+            <FieldMapping FieldName="Id" TargetFieldName="Id" SequenceToUse="SCOPE_IDENTITY()" />
+            <FieldMapping FieldName="LastModifiedByUserId" TargetFieldName="LastModifiedByUserId" />
+            <FieldMapping FieldName="LastModifiedUtc" TargetFieldName="LastModifiedUtc" />
+            <FieldMapping FieldName="Name" TargetFieldName="Name" />
+            <FieldMapping FieldName="ObjectStatus" TargetFieldName="ObjectStatus" />
+            <FieldMapping FieldName="ProjectId" TargetFieldName="ProjectId" />
+          </FieldMappings>
+        </EntityMapping>
+        <EntityMapping EntityName=":User" TargetName="ConTech:dbo:User">
+          <FieldMappings>
+            <FieldMapping FieldName="CreatedByUserId" TargetFieldName="CreatedByUserId" />
+            <FieldMapping FieldName="DateCreatedUtc" TargetFieldName="DateCreatedUtc" />
+            <FieldMapping FieldName="Id" TargetFieldName="Id" SequenceToUse="SCOPE_IDENTITY()" />
+            <FieldMapping FieldName="LastModifiedByUserId" TargetFieldName="LastModifiedByUserId" />
+            <FieldMapping FieldName="LastModifiedUtc" TargetFieldName="LastModifiedUtc" />
+            <FieldMapping FieldName="ObjectStatus" TargetFieldName="ObjectStatus" />
+            <FieldMapping FieldName="Password" TargetFieldName="Password" />
+            <FieldMapping FieldName="PersonId" TargetFieldName="PersonId" />
+            <FieldMapping FieldName="ResetExpirationDate" TargetFieldName="ResetExpirationDate" />
+            <FieldMapping FieldName="ResetToken" TargetFieldName="ResetToken" />
+          </FieldMappings>
+        </EntityMapping>
+        <EntityMapping EntityName=":ViewLevel" TargetName="ConTech:dbo:ViewLevel">
+          <FieldMappings>
+            <FieldMapping FieldName="CreatedByUserId" TargetFieldName="CreatedByUserId" />
+            <FieldMapping FieldName="DateCreatedUtc" TargetFieldName="DateCreatedUtc" />
+            <FieldMapping FieldName="Description" TargetFieldName="Description" />
+            <FieldMapping FieldName="DxfData" TargetFieldName="DxfData" />
+            <FieldMapping FieldName="EntityData" TargetFieldName="EntityData" />
+            <FieldMapping FieldName="Id" TargetFieldName="Id" />
+            <FieldMapping FieldName="LastModifiedByUserId" TargetFieldName="LastModifiedByUserId" />
+            <FieldMapping FieldName="LastModifiedUtc" TargetFieldName="LastModifiedUtc" />
+            <FieldMapping FieldName="Name" TargetFieldName="Name" />
+            <FieldMapping FieldName="ObjectStatus" TargetFieldName="ObjectStatus" />
+            <FieldMapping FieldName="Scale" TargetFieldName="Scale" />
+            <FieldMapping FieldName="TransitionX" TargetFieldName="TransitionX" />
+            <FieldMapping FieldName="TransitionY" TargetFieldName="TransitionY" />
+            <FieldMapping FieldName="ViewId" TargetFieldName="ViewId" />
+          </FieldMappings>
+        </EntityMapping>
+      </EntityMappings>
+      <TypedViewMappings />
+      <SPCallMappings />
+      <TvfCallMappings />
+      <TypeConversionDefinitions />
+    </MappingStore>
+  </MappingStores>
+  <ModelViews />
+  <DerivedModels>
+    <DerivedModel Name="Read" ObjectID="399539b7-5009-4639-b9c4-0c461a8473b9" TargetFrameworkName="DTO Class Model" UseLegacyDefaults="false">
+      <CodeGenerationMetaDataDefaults>
+        <TargetElement Type="32768">
+          <Defaults>
+            <Attributes>
+              <Attribute Value="Serializable" />
+              <Attribute Value="DataContract" />
+            </Attributes>
+          </Defaults>
+        </TargetElement>
+        <TargetElement Type="65536">
+          <Defaults>
+            <Attributes>
+              <Attribute Value="Serializable" />
+              <Attribute Value="DataContract" />
+            </Attributes>
+          </Defaults>
+        </TargetElement>
+        <TargetElement Type="131072">
+          <Defaults>
+            <Attributes>
+              <Attribute Value="DataMember" />
+            </Attributes>
+          </Defaults>
+        </TargetElement>
+        <TargetElement Type="262144">
+          <Defaults>
+            <Attributes>
+              <Attribute Value="DataMember" />
+            </Attributes>
+          </Defaults>
+        </TargetElement>
+        <TargetElement Type="524288">
+          <Defaults>
+            <Attributes>
+              <Attribute Value="DataMember" />
+            </Attributes>
+          </Defaults>
+        </TargetElement>
+      </CodeGenerationMetaDataDefaults>
+      <Settings>
+        <Property Name="DerivedElementClassNameSuffix" Value="" />
+        <Property Name="PrefixDenormalizedFieldsWithNavigatorName" Value="true" />
+        <Property Name="SyncDerivedElementNamesWithSourceElementNames" Value="false" />
+      </Settings>
+      <CodeGenerationCyclePreferences OutputType="3">
+        <LastUsedPreferences>
+          <DestinationRootFolder Value="./LLBL" />
+          <FrameworkName Value="DTO Class Model" />
+          <LanguageName Value="C#" />
+          <PlatformName Value=".NET 4.8.0" />
+          <PresetName Value="SD.DTOClasses.ReadOnlyDTOs" />
+          <RootNamespace Value="ConTech.Data.Read" />
+          <TemplateGroup Value="General" />
+          <TemplateBindings>
+            <Binding Name="SD.DTOClassModel" />
+            <Binding Name="SD.TemplateBindings.General" />
+          </TemplateBindings>
+          <AdhocTemplateSets />
+        </LastUsedPreferences>
+      </CodeGenerationCyclePreferences>
+      <Documents>
+        <Document Name="ProjectView">
+          <RootEntity Entity=":Project" />
+          <Fields>
+            <Field Name="CreatedByUserId">
+              <EntityField Name="CreatedByUserId" />
+            </Field>
+            <Field Name="DateCreatedUtc">
+              <EntityField Name="DateCreatedUtc" />
+            </Field>
+            <Field Name="Description">
+              <EntityField Name="Description" />
+            </Field>
+            <Field Name="Id">
+              <EntityField Name="Id" />
+            </Field>
+            <Field Name="LastModifiedByUserId">
+              <EntityField Name="LastModifiedByUserId" />
+            </Field>
+            <Field Name="LastModifiedUtc">
+              <EntityField Name="LastModifiedUtc" />
+            </Field>
+            <Field Name="Name">
+              <EntityField Name="Name" />
+            </Field>
+            <Field Name="ObjectStatus">
+              <EntityField Name="ObjectStatus" />
+            </Field>
+          </Fields>
+        </Document>
+      </Documents>
+    </DerivedModel>
+  </DerivedModels>
+</Project>
