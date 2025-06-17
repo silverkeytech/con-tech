@@ -6,3 +6,5 @@ global using ConTech.Data.Read.Persistence;
 global using ConTech.Data.DatabaseSpecific;
 global using Microsoft.Extensions.Localization;
 global using SK.Framework;
+global using SD.LLBLGen.Pro.LinqSupportClasses;
+global using SD.LLBLGen.Pro.ORMSupportClasses;
