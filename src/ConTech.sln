@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36109.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConTech.Web", "con-tech\ConTech.Web.csproj", "{A2F85918-D613-471E-B453-7B3CC689F3E1}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConTech.Core", "ConTech.Core\ConTech.Core.csproj", "{6593810B-07C1-46C0-8D6C-1040E52E7544}"
@@ -21,16 +19,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConTech.Migration", "ConTec
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SK.Framework", "SK.Framework\SK.Framework.csproj", "{FD6B6B49-5D85-BBC4-5957-A11090DD3CDA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConTech.Web", "ConTech.Web\ConTech.Web.csproj", "{8F00A029-8657-1C37-B91E-0A68249F9F8D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A2F85918-D613-471E-B453-7B3CC689F3E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A2F85918-D613-471E-B453-7B3CC689F3E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A2F85918-D613-471E-B453-7B3CC689F3E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A2F85918-D613-471E-B453-7B3CC689F3E1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6593810B-07C1-46C0-8D6C-1040E52E7544}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6593810B-07C1-46C0-8D6C-1040E52E7544}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6593810B-07C1-46C0-8D6C-1040E52E7544}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -59,6 +55,10 @@ Global
 		{FD6B6B49-5D85-BBC4-5957-A11090DD3CDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD6B6B49-5D85-BBC4-5957-A11090DD3CDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD6B6B49-5D85-BBC4-5957-A11090DD3CDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F00A029-8657-1C37-B91E-0A68249F9F8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F00A029-8657-1C37-B91E-0A68249F9F8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F00A029-8657-1C37-B91E-0A68249F9F8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F00A029-8657-1C37-B91E-0A68249F9F8D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
