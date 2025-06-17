@@ -1,0 +1,8 @@
+﻿global using ConTech.Data.EntityClasses;
+global using ConTech.Data.HelperClasses;
+global using ConTech.Data.Linq;
+global using ConTech.Data.Read.DtoClasses;
+global using ConTech.Data.Read.Persistence;
+global using ConTech.Data.DatabaseSpecific;
+global using Microsoft.Extensions.Localization;
+global using SK.Framework;

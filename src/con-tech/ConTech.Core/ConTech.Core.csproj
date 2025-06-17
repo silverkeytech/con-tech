@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Markdig" Version="0.41.2" />
+    <PackageReference Include="Microsoft.Orleans.Client" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Orleans.Reminders" Version="9.0.0" />
+    <PackageReference Include="SD.LLBLGen.Pro.DQE.SqlServer" Version="5.10.6" />
+    <PackageReference Include="SD.LLBLGen.Pro.ORMSupportClasses" Version="5.10.6" />
+    <PackageReference Include="Sqids" Version="3.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Data\LLBL\ConTech.Data.Read.Persistence\ConTech.Data.Read.Persistence.csproj" />
+    <ProjectReference Include="..\..\Data\LLBL\ConTech.Data.Read\ConTech.Data.Read.csproj" />
+    <ProjectReference Include="..\..\Data\LLBL\DatabaseGeneric\ConTech.Data.csproj" />
+    <ProjectReference Include="..\..\Data\LLBL\DatabaseSpecific\ConTech.DataDBSpecific.csproj" />
+    <ProjectReference Include="..\..\SK.Framework\SK.Framework.csproj" />
+  </ItemGroup>
+
+</Project>

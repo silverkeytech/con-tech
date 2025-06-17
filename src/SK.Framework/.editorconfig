@@ -1,0 +1,13 @@
+﻿[*.cs]
+
+# RCS1090: Call 'ConfigureAwait(false)'.
+dotnet_diagnostic.RCS1090.severity = none
+
+
+# RCS1102: Make class static.
+dotnet_diagnostic.RCS1102.severity = none
+
+
+# File-scoped namespace
+csharp_style_namespace_declarations = file_scoped
+dotnet_diagnostic.IDE0161.severity = error
