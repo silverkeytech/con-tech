@@ -1,4 +1,4 @@
-﻿namespace con_tech.Migration._100;
+﻿namespace ConTech.Migration._100;
 
 [Migration(05)]
 public class _0005_ProjectViewTable : AutoReversingMigration

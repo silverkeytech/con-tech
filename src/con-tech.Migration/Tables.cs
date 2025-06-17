@@ -1,4 +1,4 @@
-﻿namespace con_tech.Migration;
+﻿namespace ConTech.Migration;
 
 public static class Tables
 {

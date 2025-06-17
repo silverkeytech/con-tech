@@ -1,4 +1,4 @@
-﻿namespace con_tech.Migration._100;
+﻿namespace ConTech.Migration._100;
 
 [Migration(08)]
 public class _0008_EntityTypeTable : AutoReversingMigration

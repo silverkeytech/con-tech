@@ -1,7 +1,7 @@
 ﻿using FluentMigrator.Builders.Alter.Table;
 using FluentMigrator.Builders.Create.Table;
 
-namespace con_tech.Migration;
+namespace ConTech.Migration;
 
 public record NameEnglishAndArabic(string nameEnglish, string nameArabic);
 public static class Constants

@@ -1,12 +1,12 @@
-﻿using con_tech.Migration;
+﻿using ConTech.Migration;
 using FluentMigrator.Runner;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.CommandLine;
 using System.CommandLine.Invocation;
-using con_tech.Migration._100;
+using ConTech.Migration._100;
 
-namespace con_tech.Migration;
+namespace ConTech.Migration;
 
 internal class Program
 {

@@ -1,4 +1,4 @@
-using con_tech.Migration;
+using ConTech.Migration;
 
 namespace CMIS.Migration.Seed;
 

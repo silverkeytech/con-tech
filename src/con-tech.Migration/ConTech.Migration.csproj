@@ -3,7 +3,7 @@
   <PropertyGroup>
 	  <OutputType>Exe</OutputType>
     <TargetFramework>net9.0</TargetFramework>
-    <RootNamespace>con_tech.Migration</RootNamespace>
+    <RootNamespace>ConTech.Migration</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
 	  <OutputPath>..\..\Migration\</OutputPath>

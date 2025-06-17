@@ -1,4 +1,4 @@
-namespace con_tech
+namespace ConTech.Web
 {
     public class WeatherForecast
     {
