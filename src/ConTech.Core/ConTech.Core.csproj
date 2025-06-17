@@ -17,11 +17,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Data\LLBL\ConTech.Data.Read.Persistence\ConTech.Data.Read.Persistence.csproj" />
-    <ProjectReference Include="..\..\Data\LLBL\ConTech.Data.Read\ConTech.Data.Read.csproj" />
-    <ProjectReference Include="..\..\Data\LLBL\DatabaseGeneric\ConTech.Data.csproj" />
-    <ProjectReference Include="..\..\Data\LLBL\DatabaseSpecific\ConTech.DataDBSpecific.csproj" />
-    <ProjectReference Include="..\..\SK.Framework\SK.Framework.csproj" />
+    <ProjectReference Include="..\Data\LLBL\ConTech.Data.Read.Persistence\ConTech.Data.Read.Persistence.csproj" />
+    <ProjectReference Include="..\Data\LLBL\ConTech.Data.Read\ConTech.Data.Read.csproj" />
+    <ProjectReference Include="..\Data\LLBL\DatabaseGeneric\ConTech.Data.csproj" />
+    <ProjectReference Include="..\Data\LLBL\DatabaseSpecific\ConTech.DataDBSpecific.csproj" />
+    <ProjectReference Include="..\SK.Framework\SK.Framework.csproj" />
   </ItemGroup>
 
 </Project>
