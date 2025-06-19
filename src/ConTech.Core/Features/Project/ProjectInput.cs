@@ -13,8 +13,10 @@ public class ProjectNewInput
     {
         var e = new ProjectEntity
         {
+            Name = Name,
+            Description = Description,
             ObjectStatus = ObjectStatus.Active,
-            CreatedByUserId = by.UserId,
+            //CreatedByUserId = by.UserId,
             DateCreatedUtc = DateTime.UtcNow,
             IsNew = true
         };
