@@ -3,6 +3,20 @@
 public class ProjectRepository(DataAccessAdapter adapter, IStringLocalizer<Global> local) : BaseRepository(adapter, local), IProjectRepository
 {
 
+    public async Task<IQuerySetMany<ProjectView>> GetProjectListAsync()
+    {
+        try
+        {
+            var projectList = await _meta.Project.Where(x => x.ObjectStatus == ObjectStatus.Active).ProjectToProjectView().ToListAsync();
+            return QuerySet.Many<ProjectView>(projectList);
+        }
+        catch (Exception ex)
+        {
+            CodeTemplate.HandleException(ex);
+            return QuerySet.ManyException<ProjectView>(ex);
+        }
+    }
+
     public async Task<IQuerySetPaging<ProjectView>> GetProjectListByFilterAsync(ProjectFilter filter, ISort<ProjectEntity> sort)
     {
         try

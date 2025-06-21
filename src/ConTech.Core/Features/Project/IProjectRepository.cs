@@ -2,6 +2,8 @@
 
 public interface IProjectRepository
 {
+    Task<IQuerySetMany<ProjectView>> GetProjectListAsync();
+
     Task<IQuerySetMany<ProjectView>> GetProjectListByFilterAsync(IFilter<ProjectEntity> filter);
 
     Task<IQuerySetPaging<ProjectView>> GetProjectListByFilterAsync(ProjectFilter filter, ISort<ProjectEntity> sort);
