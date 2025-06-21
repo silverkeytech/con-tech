@@ -4,6 +4,7 @@ using ConTech.Core.Features.Project;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Localization;
+using System.Diagnostics;
 
 namespace ConTech.Web.Pages.Project;
 
@@ -28,6 +29,13 @@ public class CreateModel : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
+        // Check what values made it through binding
+        var keys = ModelState.Keys.Where(k => ModelState[k].AttemptedValue != "");
+        foreach (var key in keys)
+        {
+            Debug.WriteLine($"{key}: {ModelState[key].AttemptedValue}");
+        }
+
         if (!ModelState.IsValid)
         {
             return Page();
