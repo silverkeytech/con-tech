@@ -7,7 +7,6 @@
 <h2>Create New Item</h2>
 
 <form method="post" asp-page-handler="OnPost">
-    @Html.AntiForgeryToken()
     <div class="row simple-input-form min-vh-60">
         <div class="col-md-6">
 
@@ -15,12 +14,14 @@
                 <label asp-for="Project.Name"></label>
                 <input asp-for="Project.Name" class="form-control" />
             </div>
+        </div>
+        <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="Project.Description"></label>
                 <textarea asp-for="Project.Description" class="form-control" rows="3"></textarea>
             </div>
             <button type="submit" class="btn btn-primary">Create</button>
-            </div>
+        </div>
     </div>
 </form>
 @* @section Scripts {

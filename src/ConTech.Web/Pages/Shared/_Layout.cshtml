@@ -1,0 +1,72 @@
+@using Microsoft.AspNetCore.Localization
+@{
+    var culture = GetCulture();
+    if (culture.StartsWith("ar"))
+        Language = Lang.Arabic;
+    else if (culture.StartsWith("en"))
+        Language = Lang.English;
+    else
+        Language = Lang.English;
+}
+<!doctype html>
+<html dir="@Direction()" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ConTech</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+
+    @await RenderSectionAsync("CssInline", required: false)
+    <base href="~/" />
+    <component type="typeof(Microsoft.AspNetCore.Components.Web.HeadOutlet)"
+               render-mode="ServerPrerendered" />
+</head>
+<body>
+<div class="main-container @GetContainer()">
+
+        <div class="breadcrumbs">
+            @await RenderSectionAsync("Breadcrumb", required: false)
+        </div>
+        @RenderBody() 
+</div>
+    @await RenderSectionAsync("JsInline", required: false)
+
+ 
+</body>
+</html>
+
+@functions {
+    enum Lang
+    {
+        English,
+        Arabic
+    }
+
+    Lang Language { get; set; } = Lang.English;
+
+    string Direction()
+    {
+        if (Language == Lang.Arabic)
+            return "rtl";
+        else
+            return "ltr";
+    }
+
+    string GetCulture()
+    {
+        var culture = Context.Request.HttpContext.Features.Get<IRequestCultureFeature>()!;
+        return "en-GB";//culture.RequestCulture.Culture.Name;
+    }
+
+    string GetContainer()
+    {
+        // if (ViewData[Fmt.IsFluid] is true)
+        //     return "container-fluid";
+        // else
+            return "container-fluid";
+    }
+}
