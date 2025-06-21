@@ -9,6 +9,6 @@ public class IndexModel : PageModel
     public IActionResult OnGet()
     {
         // Redirect to another page in the Pages folder
-        return RedirectToPage("Project/Index");
+        return RedirectToPage("Project/Create");
     }
 }

@@ -20,9 +20,9 @@
     <PackageReference Include="Serilog.Sinks.Console" Version="4.0.1" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
   </ItemGroup>
-   
+  
   <ItemGroup>
-    <ProjectReference Include="..\Data\LLBL\DatabaseGeneric\ConTech.Data.csproj" />
-    <ProjectReference Include="..\Data\LLBL\DatabaseSpecific\ConTech.DataDBSpecific.csproj" />
+    <ProjectReference Include="..\Data\Code\DatabaseGeneric\ConTech.Data.csproj" />
+    <ProjectReference Include="..\Data\Code\DatabaseSpecific\ConTech.DataDBSpecific.csproj" />
   </ItemGroup>
 </Project>

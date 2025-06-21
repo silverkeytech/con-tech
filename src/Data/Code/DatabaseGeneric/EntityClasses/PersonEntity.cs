@@ -20,18 +20,20 @@ namespace ConTech.Data.EntityClasses
 {
 	// __LLBLGENPRO_USER_CODE_REGION_START AdditionalNamespaces
 	// __LLBLGENPRO_USER_CODE_REGION_END
+
 	/// <summary>Entity class which represents the entity 'Person'.<br/><br/></summary>
 	[Serializable]
 	public partial class PersonEntity : CommonEntityBase
 		// __LLBLGENPRO_USER_CODE_REGION_START AdditionalInterfaces
-		// __LLBLGENPRO_USER_CODE_REGION_END	
+		// __LLBLGENPRO_USER_CODE_REGION_END
+	
 	{
 		private EntityCollection<UserEntity> _users;
 		private UserEntity _user;
 		private UserEntity _user1;
-
 		// __LLBLGENPRO_USER_CODE_REGION_START PrivateMembers
 		// __LLBLGENPRO_USER_CODE_REGION_END
+
 		private static PersonEntityStaticMetaData _staticMetaData = new PersonEntityStaticMetaData();
 		private static PersonRelations _relationsFactory = new PersonRelations();
 
@@ -128,6 +130,7 @@ namespace ConTech.Data.EntityClasses
 			PerformDependencyInjection();
 			// __LLBLGENPRO_USER_CODE_REGION_START InitClassMembers
 			// __LLBLGENPRO_USER_CODE_REGION_END
+
 			OnInitClassMembersComplete();
 		}
 
@@ -142,6 +145,7 @@ namespace ConTech.Data.EntityClasses
 			InitClassMembers();
 			// __LLBLGENPRO_USER_CODE_REGION_START InitClassEmpty
 			// __LLBLGENPRO_USER_CODE_REGION_END
+
 
 			OnInitialized();
 		}
@@ -283,9 +287,9 @@ namespace ConTech.Data.EntityClasses
 			get { return _user1; }
 			set { SetSingleRelatedEntityNavigator(value, "User1"); }
 		}
-
 		// __LLBLGENPRO_USER_CODE_REGION_START CustomEntityCode
 		// __LLBLGENPRO_USER_CODE_REGION_END
+
 
 	}
 }

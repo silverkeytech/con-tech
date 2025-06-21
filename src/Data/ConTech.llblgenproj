@@ -51,8 +51,8 @@
     <Property Name="PreferSystemSequencesOverSchemaSequencesIfApplicable" Value="true" />
     <Property Name="PreferVariableLengthTypes" Value="true" />
     <Property Name="PrimaryKeyConstraintPattern" Value="PK_{$Guid}" />
-    <Property Name="ProjectCreator" Value="MGenidyO" />
-    <Property Name="ProjectName" Value="ConTech" />
+    <Property Name="ProjectCreator" Value="MGenidy" />
+    <Property Name="ProjectName" Value="ConTech.Data" />
     <Property Name="ReflectNullabilityOfElementFieldInTargetField_v5" Value="false" />
     <Property Name="ReflectTypeOfElementFieldInTargetField_v5" Value="true" />
     <Property Name="RelationalModelDataElementNameCasingCaseInsensitiveDBs" Value="3" />
@@ -96,16 +96,15 @@
   <CodeGenerationCyclePreferences>
     <OutputType Value="3">
       <LastUsedPreferences>
-        <DestinationRootFolder Value=".\LLBL" />
+        <DestinationRootFolder Value=".\Code" />
         <FrameworkName Value="LLBLGen Pro Runtime Framework" />
         <LanguageName Value="C#" />
-        <PlatformName Value=".NET 4.8.0" />
-        <PresetName Value="SD.Presets.Adapter.General" />
+        <PlatformName Value=".NET 6" />
+        <PresetName Value="SD.Presets.Adapter.General.Netstandard" />
         <RootNamespace Value="ConTech.Data" />
         <TemplateGroup Value="Adapter" />
         <TemplateBindings>
-          <Binding Name="SD.TemplateBindings.SharedTemplates.Deprecated" />
-          <Binding Name="SD.TemplateBindings.SharedTemplates.NET45x" />
+          <Binding Name="SD.TemplateBindings.SharedTemplates.Net6" />
           <Binding Name="SD.TemplateBindings.SharedTemplates" />
           <Binding Name="SD.TemplateBindings.SqlServerSpecific" />
           <Binding Name="SD.TemplateBindings.General" />
@@ -147,7 +146,7 @@
   <EntityModel>
     <ValueTypeDefinitions />
     <EntityDefinitions>
-      <EntityDefinition Name="EntityType" ObjectID="7c1ced68-28b5-4519-b74e-87bef91de3a8">
+      <EntityDefinition Name="EntityType" ObjectID="80ee470b-1944-4cca-ba33-0d06b759f803">
         <Fields>
           <Field Name="CreatedByUserId" Type="int" IsOptional="true" Precision="10" />
           <Field Name="DateCreatedUtc" Type="datetime" />
@@ -159,7 +158,7 @@
           <Field Name="ObjectStatus" Type="int" Precision="10" />
         </Fields>
       </EntityDefinition>
-      <EntityDefinition Name="LevelChild" ObjectID="d640b9d7-d16d-415a-abb8-dd42c459d13d">
+      <EntityDefinition Name="LevelChild" ObjectID="f47f05d7-fa5d-4e24-a3db-1c4d7f68f6ed">
         <Fields>
           <Field Name="CreatedByUserId" Type="int" IsOptional="true" Precision="10" />
           <Field Name="DateCreatedUtc" Type="datetime" />
@@ -174,7 +173,7 @@
           <Field Name="ParentId" Type="guid" />
         </Fields>
       </EntityDefinition>
-      <EntityDefinition Name="LevelEntity" ObjectID="fd35451c-c11f-4edd-849e-1b72fe3c7f4f">
+      <EntityDefinition Name="LevelEntity" ObjectID="8aa31dac-4a69-4621-9356-2fa8180c2ce9">
         <Fields>
           <Field Name="ColorCode" Type="string" IsOptional="true" MaxLength="20" />
           <Field Name="ColorIndex" Type="int" Precision="10" />
@@ -193,7 +192,7 @@
           <Field Name="Visible" Type="bool" />
         </Fields>
       </EntityDefinition>
-      <EntityDefinition Name="Person" ObjectID="ae8a3a5d-7cfb-4311-bf65-7047f1c8a1a1">
+      <EntityDefinition Name="Person" ObjectID="3b00cc16-cbfe-498a-8504-2a775e99dd86">
         <Fields>
           <Field Name="CreatedByUserId" Type="int" IsOptional="true" Precision="10" />
           <Field Name="DateCreatedUtc" Type="datetime" />
@@ -210,7 +209,7 @@
           <Field Name="Verified" Type="bool" />
         </Fields>
       </EntityDefinition>
-      <EntityDefinition Name="Project" ObjectID="3b552303-f825-457f-a516-c1eaf55c6426">
+      <EntityDefinition Name="Project" ObjectID="478f36f8-6ed1-4f10-b7ad-67bc70f5d49e">
         <Fields>
           <Field Name="CreatedByUserId" Type="int" IsOptional="true" Precision="10" />
           <Field Name="DateCreatedUtc" Type="datetime" />
@@ -222,7 +221,7 @@
           <Field Name="ObjectStatus" Type="int" Precision="10" />
         </Fields>
       </EntityDefinition>
-      <EntityDefinition Name="ProjectView" ObjectID="826809d2-a2aa-4848-9f50-1101fe7216ce">
+      <EntityDefinition Name="ProjectView" ObjectID="0e7fd9f8-d120-4523-86c7-e98911bd66b1">
         <Fields>
           <Field Name="BackgroundPdf" Type="byte[]" IsOptional="true" MaxLength="2147483647" />
           <Field Name="CreatedByUserId" Type="int" IsOptional="true" Precision="10" />
@@ -236,7 +235,7 @@
           <Field Name="ProjectId" Type="int" Precision="10" />
         </Fields>
       </EntityDefinition>
-      <EntityDefinition Name="User" ObjectID="68968aaf-ec09-4ac7-8b15-4bbda8182944">
+      <EntityDefinition Name="User" ObjectID="a0ad4f6e-16f8-4f48-8237-f50bff6042ac">
         <Fields>
           <Field Name="CreatedByUserId" Type="int" IsOptional="true" Precision="10" />
           <Field Name="DateCreatedUtc" Type="datetime" />
@@ -250,7 +249,7 @@
           <Field Name="ResetToken" Type="guid" IsOptional="true" />
         </Fields>
       </EntityDefinition>
-      <EntityDefinition Name="ViewLevel" ObjectID="f4d719f7-f9ff-40ea-a7af-d4ebab5b5bab">
+      <EntityDefinition Name="ViewLevel" ObjectID="ba353d30-72c6-4672-bcb6-f8bcb4049c0f">
         <Fields>
           <Field Name="CreatedByUserId" Type="int" IsOptional="true" Precision="10" />
           <Field Name="DateCreatedUtc" Type="datetime" />
@@ -404,7 +403,7 @@
       <Catalogs>
         <Catalog Name="ConTech" SyncSource="2">
           <Schemas>
-            <Schema Name="dbo" SyncSource="2" LastSyncWithDatabase="2025-06-03T15:25:55.4164003Z">
+            <Schema Name="dbo" SyncSource="2" LastSyncWithDatabase="2025-06-21T10:40:54.252755Z">
               <Tables>
                 <Table Name="EntityType">
                   <PkConstraintName Name="PK_EntityType" />
@@ -792,7 +791,7 @@
   </MappingStores>
   <ModelViews />
   <DerivedModels>
-    <DerivedModel Name="Read" ObjectID="399539b7-5009-4639-b9c4-0c461a8473b9" TargetFrameworkName="DTO Class Model" UseLegacyDefaults="false">
+    <DerivedModel Name="Read" ObjectID="27e8790c-7dc7-4db5-98bb-ae04b0ccb5d2" TargetFrameworkName="DTO Class Model" UseLegacyDefaults="false">
       <CodeGenerationMetaDataDefaults>
         <TargetElement Type="32768">
           <Defaults>
@@ -839,14 +838,15 @@
       </Settings>
       <CodeGenerationCyclePreferences OutputType="3">
         <LastUsedPreferences>
-          <DestinationRootFolder Value="./LLBL" />
+          <DestinationRootFolder Value=".\Code" />
           <FrameworkName Value="DTO Class Model" />
           <LanguageName Value="C#" />
-          <PlatformName Value=".NET 4.8.0" />
+          <PlatformName Value=".NET 6" />
           <PresetName Value="SD.DTOClasses.ReadOnlyDTOs" />
           <RootNamespace Value="ConTech.Data.Read" />
           <TemplateGroup Value="General" />
           <TemplateBindings>
+            <Binding Name="SD.DTOClassModel.NET6" />
             <Binding Name="SD.DTOClassModel" />
             <Binding Name="SD.TemplateBindings.General" />
           </TemplateBindings>

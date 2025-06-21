@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <AssemblyName>ConTech.Data.Read.Persistence</AssemblyName>
+    <RootNamespace>ConTech.Data.Read.Persistence</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Linq.Queryable" Version="4.3.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DatabaseGeneric\ConTech.Data.csproj" />
+    <ProjectReference Include="..\ConTech.Data.Read\ConTech.Data.Read.csproj" />
+  </ItemGroup>
+</Project>
