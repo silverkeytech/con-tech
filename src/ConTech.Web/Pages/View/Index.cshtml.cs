@@ -20,9 +20,9 @@ public class IndexModel : PageModel
 
     public IList<ProjectViewLlblView> ProjectViewList { get; set; }
 
-    public async Task OnGetAsync()
+    public async Task OnGetAsync(int projectId)
     {
-        var result = await _repo.GetProjectViewListAsync();
+        var result = await _repo.GetProjectViewListAsync(projectId);
 
         ProjectViewList = result.Items;
     }

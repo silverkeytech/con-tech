@@ -23,7 +23,6 @@ builder.Services.RegisterApplicationServices(builder.Configuration, builder.Envi
 
 builder.Services.AddPortableObjectLocalization(options => options.ResourcesPath = "Localization");
 builder.Services.AddSingleton<ILocalizationFileLocationProvider, MultiplePoFilesLocationProvider>();
-builder.Services.AddTransient<IProjectRepository, ProjectRepository>();
 
 ConfigureLLBLGen(builder.Services, builder.Configuration);
 

@@ -1,6 +1,7 @@
 ﻿using ConTech.Core;
 using ConTech.Data.DatabaseSpecific;
 using ConTech.Core.Features.Project;
+using ConTech.Core.Features.View;
 namespace ConTech.Web.Extensions
 {
     public static class ServiceExtensions
@@ -17,7 +18,8 @@ namespace ConTech.Web.Extensions
 
             /* Registrations */
             //services.AddTransient(x => new DataAccessAdapter());
-            //services.AddTransient<IProjectRepository, ProjectRepository>();
+            services.AddTransient<IProjectRepository, ProjectRepository>();
+            services.AddTransient<IProjectViewRepository, ProjectViewRepository>();
 
             return services;
         }

@@ -5,11 +5,11 @@ namespace ConTech.Core.Features.View;
 public class ProjectViewRepository(DataAccessAdapter adapter, IStringLocalizer<Global> local) : BaseRepository(adapter, local), IProjectViewRepository
 {
 
-    public async Task<IQuerySetMany<ProjectViewLlblView>> GetProjectViewListAsync()
+    public async Task<IQuerySetMany<ProjectViewLlblView>> GetProjectViewListAsync(int projectId)
     {
         try
         {
-            var projectViewList = await _meta.ProjectView.Where(x => x.ObjectStatus == ObjectStatus.Active).ProjectToProjectViewLlblView().ToListAsync();
+            var projectViewList = await _meta.ProjectView.Where(x => x.ObjectStatus == ObjectStatus.Active && x.ProjectId == projectId).ProjectToProjectViewLlblView().ToListAsync();
             return QuerySet.Many<ProjectViewLlblView>(projectViewList);
         }
         catch (Exception ex)

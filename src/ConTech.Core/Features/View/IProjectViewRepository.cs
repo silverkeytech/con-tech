@@ -2,7 +2,7 @@
 
 public interface IProjectViewRepository
 {
-    Task<IQuerySetMany<ProjectViewLlblView>> GetProjectViewListAsync();
+    Task<IQuerySetMany<ProjectViewLlblView>> GetProjectViewListAsync(int projectId);
 
     Task<IQuerySetMany<ProjectViewLlblView>> GetProjectViewListByFilterAsync(IFilter<ProjectViewEntity> filter);
 
