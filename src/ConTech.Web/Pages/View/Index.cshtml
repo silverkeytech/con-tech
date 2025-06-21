@@ -1,0 +1,50 @@
+﻿@page
+@model ConTech.Web.Pages.View.IndexModel
+@{
+    
+}
+
+@* <h1>Message from Project</h1>
+
+<div style="color:blue;font-size:large;">
+    <form method="get">
+        <button type="submit" asp-page="Create">Create Project</button>
+    </form>
+</div> *@
+@{
+    ViewData["Title"] = "Items";
+}
+
+<div class="container">
+    <h2 class="mb-4">Project Views List</h2>
+    
+    <!-- Create New Button -->
+    <div class="mb-4">
+        <a asp-page="Create" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Create New
+        </a>
+    </div>
+
+    <!-- Card Grid -->
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        @foreach (var view in Model.ProjectViewList)
+        {
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">@view.Name</h5>
+                        <p class="card-text">@view.Description</p>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <a asp-page="./Update" asp-route-id="@view.Id" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-pencil"></i> Edit
+                        </a>
+                        <a asp-page="./Delete" asp-route-id="@view.Id" class="btn btn-sm btn-outline-danger">
+                            <i class="bi bi-trash"></i> Delete
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,29 @@
+﻿@page
+@model ConTech.Web.Pages.View.CreateModel
+@{
+    ViewData["Title"] = "Create New Item";
+}
+
+<h2>Create New Item</h2>
+
+<form method="post" asp-page-handler="OnPost">
+    <div class="row simple-input-form min-vh-60">
+        <div class="col-md-6">
+
+            <div class="form-group">
+                <label asp-for="View.Name"></label>
+                <input asp-for="View.Name" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="View.Description"></label>
+                <textarea asp-for="View.Description" class="form-control" rows="3"></textarea>
+            </div>
+        </div>
+    </div>
+            <button type="submit" class="btn btn-primary">Create</button>
+</form>
+@* @section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+} *@
