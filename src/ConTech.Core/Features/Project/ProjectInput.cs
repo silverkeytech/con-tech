@@ -36,17 +36,30 @@ public class ProjectNewInput
 
 public class ProjectUpdateInput
 {
-    public string Id { get; set; } = string.Empty;
+    public int Id { get; set; }
     public string? Name { get; set; }
     public string? Description { get; set; }
+
+    public ProjectUpdateInput()
+    {
+            
+    }
+
+    public ProjectUpdateInput(ProjectView v)
+    {
+        Name = v.Name;
+        Description = v.Description;
+        Id = v.Id;
+    }
 
     public ProjectEntity ToEntity(IByUser by)
     {
         var e = new ProjectEntity
         {
+            Id = Id,
             Name = Name,
             Description = Description,
-            LastModifiedByUserId = by.UserId,
+            //LastModifiedByUserId = by.UserId,
             LastModifiedUtc = Stamp.DateTimeUtc(),
             IsNew = false
         };
