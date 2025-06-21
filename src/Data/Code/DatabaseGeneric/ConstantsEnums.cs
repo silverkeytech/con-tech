@@ -37,6 +37,5 @@ namespace ConTech.Data
 	// __LLBLGENPRO_USER_CODE_REGION_START CustomUserConstants
 	// __LLBLGENPRO_USER_CODE_REGION_END
 
-
 }
 

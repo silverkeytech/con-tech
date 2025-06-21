@@ -20,21 +20,19 @@ namespace ConTech.Data.EntityClasses
 {
 	// __LLBLGENPRO_USER_CODE_REGION_START AdditionalNamespaces
 	// __LLBLGENPRO_USER_CODE_REGION_END
-
 	/// <summary>Entity class which represents the entity 'LevelEntity'.<br/><br/></summary>
 	[Serializable]
 	public partial class LevelEntityEntity : CommonEntityBase
 		// __LLBLGENPRO_USER_CODE_REGION_START AdditionalInterfaces
-		// __LLBLGENPRO_USER_CODE_REGION_END
-	
+		// __LLBLGENPRO_USER_CODE_REGION_END	
 	{
 		private EntityTypeEntity _entityType;
 		private UserEntity _user;
 		private UserEntity _user1;
 		private ViewLevelEntity _viewLevel;
+
 		// __LLBLGENPRO_USER_CODE_REGION_START PrivateMembers
 		// __LLBLGENPRO_USER_CODE_REGION_END
-
 		private static LevelEntityEntityStaticMetaData _staticMetaData = new LevelEntityEntityStaticMetaData();
 		private static LevelEntityRelations _relationsFactory = new LevelEntityRelations();
 
@@ -138,7 +136,6 @@ namespace ConTech.Data.EntityClasses
 			PerformDependencyInjection();
 			// __LLBLGENPRO_USER_CODE_REGION_START InitClassMembers
 			// __LLBLGENPRO_USER_CODE_REGION_END
-
 			OnInitClassMembersComplete();
 		}
 
@@ -153,7 +150,6 @@ namespace ConTech.Data.EntityClasses
 			InitClassMembers();
 			// __LLBLGENPRO_USER_CODE_REGION_START InitClassEmpty
 			// __LLBLGENPRO_USER_CODE_REGION_END
-
 
 			OnInitialized();
 		}
@@ -327,9 +323,9 @@ namespace ConTech.Data.EntityClasses
 			get { return _viewLevel; }
 			set { SetSingleRelatedEntityNavigator(value, "ViewLevel"); }
 		}
+
 		// __LLBLGENPRO_USER_CODE_REGION_START CustomEntityCode
 		// __LLBLGENPRO_USER_CODE_REGION_END
-
 
 	}
 }

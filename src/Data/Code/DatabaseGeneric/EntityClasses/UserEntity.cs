@@ -20,13 +20,11 @@ namespace ConTech.Data.EntityClasses
 {
 	// __LLBLGENPRO_USER_CODE_REGION_START AdditionalNamespaces
 	// __LLBLGENPRO_USER_CODE_REGION_END
-
 	/// <summary>Entity class which represents the entity 'User'.<br/><br/></summary>
 	[Serializable]
 	public partial class UserEntity : CommonEntityBase
 		// __LLBLGENPRO_USER_CODE_REGION_START AdditionalInterfaces
-		// __LLBLGENPRO_USER_CODE_REGION_END
-	
+		// __LLBLGENPRO_USER_CODE_REGION_END	
 	{
 		private EntityCollection<EntityTypeEntity> _entityTypes;
 		private EntityCollection<EntityTypeEntity> _entityTypes1;
@@ -47,9 +45,9 @@ namespace ConTech.Data.EntityClasses
 		private PersonEntity _person;
 		private UserEntity _user;
 		private UserEntity _user1;
+
 		// __LLBLGENPRO_USER_CODE_REGION_START PrivateMembers
 		// __LLBLGENPRO_USER_CODE_REGION_END
-
 		private static UserEntityStaticMetaData _staticMetaData = new UserEntityStaticMetaData();
 		private static UserRelations _relationsFactory = new UserRelations();
 
@@ -258,7 +256,6 @@ namespace ConTech.Data.EntityClasses
 			PerformDependencyInjection();
 			// __LLBLGENPRO_USER_CODE_REGION_START InitClassMembers
 			// __LLBLGENPRO_USER_CODE_REGION_END
-
 			OnInitClassMembersComplete();
 		}
 
@@ -273,7 +270,6 @@ namespace ConTech.Data.EntityClasses
 			InitClassMembers();
 			// __LLBLGENPRO_USER_CODE_REGION_START InitClassEmpty
 			// __LLBLGENPRO_USER_CODE_REGION_END
-
 
 			OnInitialized();
 		}
@@ -523,9 +519,9 @@ namespace ConTech.Data.EntityClasses
 			get { return _user1; }
 			set { SetSingleRelatedEntityNavigator(value, "User1"); }
 		}
+
 		// __LLBLGENPRO_USER_CODE_REGION_START CustomEntityCode
 		// __LLBLGENPRO_USER_CODE_REGION_END
-
 
 	}
 }

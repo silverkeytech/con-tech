@@ -883,6 +883,41 @@
             </Field>
           </Fields>
         </Document>
+        <Document Name="ProjectViewLlblView">
+          <RootEntity Entity=":ProjectView" />
+          <Fields>
+            <Field Name="BackgroundPdf">
+              <EntityField Name="BackgroundPdf" />
+            </Field>
+            <Field Name="CreatedByUserId">
+              <EntityField Name="CreatedByUserId" />
+            </Field>
+            <Field Name="DateCreatedUtc">
+              <EntityField Name="DateCreatedUtc" />
+            </Field>
+            <Field Name="Description">
+              <EntityField Name="Description" />
+            </Field>
+            <Field Name="Id">
+              <EntityField Name="Id" />
+            </Field>
+            <Field Name="LastModifiedByUserId">
+              <EntityField Name="LastModifiedByUserId" />
+            </Field>
+            <Field Name="LastModifiedUtc">
+              <EntityField Name="LastModifiedUtc" />
+            </Field>
+            <Field Name="Name">
+              <EntityField Name="Name" />
+            </Field>
+            <Field Name="ObjectStatus">
+              <EntityField Name="ObjectStatus" />
+            </Field>
+            <Field Name="ProjectId">
+              <EntityField Name="ProjectId" />
+            </Field>
+          </Fields>
+        </Document>
       </Documents>
     </DerivedModel>
   </DerivedModels>
