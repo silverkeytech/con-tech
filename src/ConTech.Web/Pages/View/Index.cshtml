@@ -1,7 +1,7 @@
 ﻿@page
 @model ConTech.Web.Pages.View.IndexModel
 @{
-    
+
 }
 
 @* <h1>Message from Project</h1>
@@ -15,9 +15,36 @@
     ViewData["Title"] = "Items";
 }
 
-<div class="container">
+
+@section CssInline
+{
+    <style>
+        .actions {
+            margin-left: 10px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .nav-item:hover .actions {
+            opacity: 1;
+        }
+
+        .tab-content {
+            padding: 20px;
+            border: 1px solid #dee2e6;
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+        }
+
+        .add-tab-btn {
+            margin-left: 10px;
+        }
+    </style>
+}
+
+<div class="container mt-5">
     <h2 class="mb-4">Project Views List</h2>
-    
+
     <!-- Create New Button -->
     <div class="mb-4">
         <a asp-page="Create" asp-route-projectId="@Model.ProjectId" class="btn btn-primary">
@@ -25,11 +52,38 @@
         </a>
     </div>
 
-    <!-- Card Grid -->
-    <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="d-flex align-items-center mb-3">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            @{
+                var firstTab = true;
+            }
+            @foreach (var view in Model.ProjectViewList)
+            {
+                <li class="nav-item " role="presentation">
+                    <a class="nav-link d-inline-block @(firstTab ? "active" : "")" id="@view.Id-tab" data-bs-toggle="tab" data-bs-target="#@view.Id" role="tab" aria-controls="@view.Id">
+                        @view.Name <span>
+                            <a asp-page="./Update" asp-route-id="@view.Id" class="btn btn-sm btn-outline-secondary edit-tab actions">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <a asp-page="./Delete" asp-route-id="@view.Id" class="btn btn-sm btn-outline-danger delete-tab actions">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </span>
+                    </a>
+                </li>
+                firstTab = false;
+            }
+        </ul>
+    </div>
+
+    <!-- Tab content area -->
+    <div class="tab-content" id="myTabContent">
+        @{
+            var firstContent = true;
+        }
         @foreach (var view in Model.ProjectViewList)
         {
-            <div class="col">
+            <div class="tab-pane fade  @(firstContent ? "show active" : "")" id="@view.Id" role="tabpanel" aria-labelledby="@view.Id-tab">
                 <div class="card h-100">
                     <div class="card-body">
                         <h5 class="card-title">@view.Name</h5>
@@ -45,6 +99,7 @@
                     </div>
                 </div>
             </div>
+            firstContent = false;
         }
     </div>
 </div>
