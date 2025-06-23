@@ -1,4 +1,5 @@
 ﻿using ConTech.Data.Read.DtoClasses;
+using SD.LLBLGen.Pro.ORMSupportClasses;
 
 namespace ConTech.Core.Features.View;
 
@@ -76,14 +77,31 @@ public class ProjectViewRepository(DataAccessAdapter adapter, IStringLocalizer<G
             ArgumentNullException.ThrowIfNull(input);
             ArgumentNullException.ThrowIfNull(by);
 
-            var project = input.ToEntity(by);
-            bool isOK = await _adapter.SaveEntityAsync(project, refetchAfterSave: true);
+            var view = input.ToEntity(by);
+
+            using (var memoryStream = new MemoryStream())
+            {
+                await input.PdfFile.CopyToAsync(memoryStream);
+
+                view.BackgroundPdf = memoryStream.ToArray();
+
+
+                //var document = new PdfDocument
+                //{
+                //    FileContent = memoryStream.ToArray(),
+                //    FileName = PdfDocument.PdfFile.FileName,
+                //    ContentType = PdfDocument.PdfFile.ContentType,
+                //    FileSize = PdfDocument.PdfFile.Length,
+                //};
+            }
+
+            bool isOK = await _adapter.SaveEntityAsync(view, refetchAfterSave: true);
 
             if (isOK is false)
-                throw new SaveOperationException(_local["exception-new-project-cannot-be-saved"], project.SaveOperationType());
+                throw new SaveOperationException(_local["exception-new-view-cannot-be-saved"], view.SaveOperationType());
 
 
-            return Result<ProjectViewEntity?>.True(project);
+            return Result<ProjectViewEntity?>.True(view);
         }
         catch (Exception ex)
         {
@@ -101,6 +119,22 @@ public class ProjectViewRepository(DataAccessAdapter adapter, IStringLocalizer<G
             ArgumentNullException.ThrowIfNull(by);
 
             var e = input.ToEntity(by);
+
+            using (var memoryStream = new MemoryStream())
+            {
+                await input.PdfFile.CopyToAsync(memoryStream);
+
+                e.BackgroundPdf = memoryStream.ToArray();
+
+
+                //var document = new PdfDocument
+                //{
+                //    FileContent = memoryStream.ToArray(),
+                //    FileName = PdfDocument.PdfFile.FileName,
+                //    ContentType = PdfDocument.PdfFile.ContentType,
+                //    FileSize = PdfDocument.PdfFile.Length,
+                //};
+            }
 
             bool isOK = await _adapter.SaveEntityAsync(e, refetchAfterSave: true);
 

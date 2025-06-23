@@ -51,10 +51,10 @@ public class UpdateModel : PageModel
 
         var currentUser = new IdentityInfo(HttpContext);
 
-        //if (Project != null)
+        //if (View != null)
         var result = await _repo.UpdateProjectViewAsync(View, currentUser);
 
-        return RedirectToPage("./Index");
+        return RedirectToPage("./Index", new {projectId = View.ProjectId});
     }
 
 }

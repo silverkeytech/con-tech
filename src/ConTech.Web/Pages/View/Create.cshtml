@@ -4,9 +4,10 @@
     ViewData["Title"] = "Create New Item";
 }
 
-<h2>Create New Item</h2>
+<h2>Create New View</h2>
 
-<form method="post" asp-page-handler="OnPost">
+<form method="post" asp-page-handler="OnPost" enctype="multipart/form-data">
+    <input type="hidden" asp-for="ProjectId" />
     <div class="row simple-input-form min-vh-60">
         <div class="col-md-6">
 
@@ -21,6 +22,16 @@
                 <textarea asp-for="View.Description" class="form-control" rows="3"></textarea>
             </div>
         </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="form-group mb-3">
+                    <label asp-for="View.PdfFile" class="form-label"></label>
+                    <input asp-for="View.PdfFile" class="form-control" type="file" accept=".pdf" />
+                    <span asp-validation-for="View.PdfFile" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
     </div>
             <button type="submit" class="btn btn-primary">Create</button>
 </form>

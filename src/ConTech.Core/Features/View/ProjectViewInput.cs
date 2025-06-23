@@ -1,6 +1,8 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace ConTech.Core.Features.View;
 
@@ -8,13 +10,22 @@ public class ProjectViewNewInput
 {
     public string? Name { get; set; }
     public string? Description { get; set; }
+    public int ProjectId { get; set; }
 
+    public IFormFile PdfFile { get; set; }
+
+    public byte[]? FileContent { get; set; }
+    //public string FileName { get; set; }
+    //public string ContentType { get; set; }
+    //public DateTime UploadDate { get; set; }
+    //public long FileSize { get; set; }
     public ProjectViewEntity ToEntity(IByUser by)
     {
         var e = new ProjectViewEntity
         {
             Name = Name,
             Description = Description,
+            ProjectId = ProjectId,
             ObjectStatus = ObjectStatus.Active,
             //CreatedByUserId = by.UserId,
             DateCreatedUtc = DateTime.UtcNow,
@@ -37,8 +48,13 @@ public class ProjectViewNewInput
 public class ProjectViewUpdateInput
 {
     public int Id { get; set; }
+    public int ProjectId { get; set; }
     public string? Name { get; set; }
     public string? Description { get; set; }
+
+    public IFormFile PdfFile { get; set; }
+
+    public byte[]? FileContent { get; set; }
 
     public ProjectViewUpdateInput()
     {
@@ -50,6 +66,7 @@ public class ProjectViewUpdateInput
         Name = v.Name;
         Description = v.Description;
         Id = v.Id;
+        ProjectId = v.ProjectId;
     }
 
     public ProjectViewEntity ToEntity(IByUser by)
