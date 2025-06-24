@@ -1,16 +1,7 @@
 ﻿@page
 @model ConTech.Web.Pages.View.IndexModel
-@{
 
-}
 
-@* <h1>Message from Project</h1>
-
-<div style="color:blue;font-size:large;">
-    <form method="get">
-        <button type="submit" asp-page="Create">Create Project</button>
-    </form>
-</div> *@
 @{
     ViewData["Title"] = "Items";
 }
@@ -39,67 +30,1306 @@
         .add-tab-btn {
             margin-left: 10px;
         }
+
+        .zoom-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        button {
+            padding: 5px 10px;
+            margin: 0 5px;
+        }
     </style>
 }
 
-<div class="container mt-5">
-    <h2 class="mb-4">Project Views List</h2>
+@*/////////////////////////////////////////////*@
 
-    <!-- Create New Button -->
-    <div class="mb-4">
-        <a asp-page="Create" asp-route-projectId="@Model.ProjectId" class="btn btn-primary">
-            <i class="bi bi-plus-circle"></i> Create New
-        </a>
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+    <div class="container-fluid">
+        <img class="navbar-brand" src="~/images/projecs.png" height="40" width="170" />
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-4 mt-3 nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item me-4"><a class="nav-link" href="#">Project 01</a></li>
+
+                @{
+                    var firstTab = true;
+                }
+                @foreach (var view in Model.ProjectViewList)
+                {
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link d-inline-block @(firstTab ? "active" : "")" id="@view.Id-tab" data-bs-toggle="tab" data-bs-target="#@view.Id" role="tab" aria-controls="@view.Id">
+                            @view.Name <span>
+                                <a asp-page="./Update" asp-route-id="@view.Id" class="btn btn-sm btn-outline-secondary edit-tab actions">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a asp-page="./Delete" asp-route-id="@view.Id" class="btn btn-sm btn-outline-danger delete-tab actions">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </span>
+                        </a>
+                    </li>
+                    firstTab = false;
+                }
+            </ul>
+        </div>
+
+        <div class="">
+            <a asp-page="Create" asp-route-projectId="@Model.ProjectId" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Create New
+            </a>
+        </div>
     </div>
+</nav>
 
-    <div class="d-flex align-items-center mb-3">
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-            @{
-                var firstTab = true;
-            }
-            @foreach (var view in Model.ProjectViewList)
-            {
-                <li class="nav-item " role="presentation">
-                    <a class="nav-link d-inline-block @(firstTab ? "active" : "")" id="@view.Id-tab" data-bs-toggle="tab" data-bs-target="#@view.Id" role="tab" aria-controls="@view.Id">
-                        @view.Name <span>
-                            <a asp-page="./Update" asp-route-id="@view.Id" class="btn btn-sm btn-outline-secondary edit-tab actions">
-                                <i class="bi bi-pencil"></i>
-                            </a>
-                            <a asp-page="./Delete" asp-route-id="@view.Id" class="btn btn-sm btn-outline-danger delete-tab actions">
-                                <i class="bi bi-trash"></i>
-                            </a>
-                        </span>
-                    </a>
-                </li>
-                firstTab = false;
-            }
+<div class="row">
+    <nav class="col-md-4 col-lg-2 d-md-block sidebar">
+        <div class="d-flex align-items-center">
+            <img src="~/images/back.png" id="backImg" class="ms-3 mt-2">
+            <h5 class="mt-3">Layers</h5>
+        </div>
+        <ul class="nav flex-column">
+
+            <li class=" nav-item mt-3">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked">
+                    <label class="form-check-label" for="flexSwitchCheckChecked">Display Progress</label>
+                </div>
+            </li>
+            <!--
+            <li class="nav-item my-1">
+              <div class="input-group">
+                <input class="form-control border" type="search" placeholder="search" id="search-input">
+              </div>
+            </li> -->
+            <!-- Button trigger modal -->
+            <button type="button" id="openModalButton" class="btn btn-primary mt-2" data-bs-toggle="modal"
+                    data-bs-target="#exampleModal">
+
+                Add Layers
+                <span class="ms-2"> &#43;</span>
+            </button>
+            <li class="nav-item mt-2">
+                <div id="layer-controls" class="mt-3">
+                    <h6>Manage Layers</h6>
+                    <ul class="list-group list-group-flush" id="layerList"></ul>
+                </div>
+            </li>
         </ul>
-    </div>
-
-    <!-- Tab content area -->
-    <div class="tab-content" id="myTabContent">
+    </nav>
+    <div class="tab-content col-md-7 col-lg-9  mt-4 px-md-4" id="myTabContent">
         @{
             var firstContent = true;
         }
         @foreach (var view in Model.ProjectViewList)
         {
             <div class="tab-pane fade  @(firstContent ? "show active" : "")" id="@view.Id" role="tabpanel" aria-labelledby="@view.Id-tab">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">@view.Name</h5>
-                        <p class="card-text">@view.Description</p>
-                    </div>
-                    <div class="card-footer bg-transparent">
-                        <a asp-page="./Update" asp-route-id="@view.Id" class="btn btn-sm btn-outline-primary">
-                            <i class="bi bi-pencil"></i> Edit
-                        </a>
-                        <a asp-page="./Delete" asp-route-id="@view.Id" class="btn btn-sm btn-outline-danger">
-                            <i class="bi bi-trash"></i> Delete
-                        </a>
-                    </div>
-                </div>
+                @if (firstContent)
+                {
+                    <main>
+                        <!-- <div class="w-75 mx-auto">
+                          <div class="d-flex justify-content-between mb-1 text-center">
+                            <div class="text-start">
+                              <span id="completed-progress-title-value" class="d-block fw-bold fs-1">40%</span>
+                              <span class="fs-1">Completed</span>
+                            </div>
+                            <div>
+                              <span id="pending-progress-title-value" class="d-block fw-bold fs-1">60%</span>
+                              <span class="fs-1">Pending</span>
+                            </div>
+                          </div>
+                          <div class="progress">
+                            <div id="completed-progress-bar-value" class="progress-bar bg-warning" role="progressbar"
+                              style="width: 40%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div id="pending-progress-bar-value" class="progress-bar bg-secondary" role="progressbar"
+                              style="width: 60%;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                          <div class="mt-2">
+                            <span class="fs-3">Current phase: Structural frame</span>
+                          </div>
+                        </div> -->
+                        <div class="d-flex justify-content-center mb-3">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div id="svg_client_2_container" class="position-relative d-flex justify-content-center">
+
+
+                                        <canvas id="pdf-canvas" class="position-absolute" style="width:1500px; height:1100px;"></canvas>
+                                        <svg class="position-absolute" width="1500" height="1100" style="border:1px solid black;"></svg>
+
+                                    </div>
+                                    <div class="zoom-controls">
+                                        <button id="zoom-out">-</button>
+                                        <span id="zoom-level">100%</span>
+                                        <button id="zoom-in">+</button>
+                                        <button id="zoom-fit">Fit</button>
+                                    </div>
+
+                                    <div id="tooltip">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="d-flex justify-content-start gap-4 my-1 ms-5 text-center">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <div class="color1"></div>
+                                            <div class="mt-2">0–29%</div>
+                                        </div>
+                                        <div class="d-flex flex-column align-items-center">
+                                            <div class="color2"></div>
+                                            <div class="mt-2">30–70%</div>
+                                        </div>
+                                        <div class="d-flex flex-column align-items-center">
+                                            <div class="color3"></div>
+                                            <div class="mt-2">71+%</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+                                        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+                                        crossorigin="anonymous"></script>
+                                <script src="~/js/import_js_files.js" type="module"></script>
+                            </div>
+                        </div>
+                    </main>
+                }
             </div>
             firstContent = false;
         }
     </div>
+    <!-- Main Content -->
+    
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="levelId" name="levelId" value="0">
+                <div class="mb-3">
+                    <label for="layerName" class="form-label">Layer name</label>
+                    <input type="text" class="form-control" id="layerName" placeholder="Please enter layer name">
+                </div>
+                <div class="mb-3">
+                    <label for="upload-dxf-input" class="form-label">Dxf file</label>
+                    <input type="file" class="form-control" id="upload-dxf-input" accept=".dxf">
+                </div>
+                <div class="mb-3">
+                    <label for="upload-file-input" class="form-label">Progress excel file</label>
+                    <input type="file" class="form-control" id="upload-file-input"
+                           accept=".xls,.xlsx,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                </div>
+                <div class="mb-3">
+                    <label for="layerScale" class="form-label">Layer Scale</label>
+                    <input type="number" class="form-control" id="layerScale" placeholder="Enter scale (default is 1)"
+                           step="0.1" value="1">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="closeModalButton" data-bs-dismiss="modal">Close</button>
+                <input type="button" class="btn btn-success" id="saveButton" value="Save">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="addChildLevel" tabindex="-1" aria-labelledby="addChildLevelLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="addChildLevelLabel">Add Child level</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="childLevelId" name="childLevelId" value="">
+                <input type="hidden" id="parentLevelId" name="parentLevelId" value="">
+                <input type="hidden" id="mainLayerId" name="mainLayerId" value="">
+
+                <div class="mb-3">
+                    <label for="childLevelName" class="form-label">level name</label>
+                    <input type="text" class="form-control" id="childLevelName" placeholder="Please enter level name">
+                </div>
+
+                <ul id="addChildLevelList"></ul>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="closeChildLevelModalButton"
+                        data-bs-dismiss="modal">
+                    Close
+                </button>
+                <input type="button" class="btn btn-success" id="saveChildLevelButton" value="Save">
+            </div>
+        </div>
+    </div>
+</div>
+
+@*/////////////////////////////////////////////*@
+
+@section JsInline{
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dxf-parser@1.1.5/dist/dxf-parser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script type="module">
+            const layerList = document.getElementById('layerList');
+            const saveButton = document.getElementById('saveButton');
+            const closeModalButton = document.getElementById('closeModalButton');
+            const openModalButton = document.getElementById('openModalButton');
+            const layerInput = document.getElementById('layerName');
+            const excelFile = document.getElementById("upload-file-input");
+            const dxfFile = document.getElementById("upload-dxf-input");
+            const scaleInput = document.getElementById("layerScale");
+            const levelIdInput = document.getElementById("levelId");
+            const saveChildLevelButton = document.getElementById('saveChildLevelButton');
+            const closeChildLevelModalButton = document.getElementById('closeChildLevelModalButton');
+            const childLevelName = document.getElementById('childLevelName');
+            const childLevelId = document.getElementById("childLevelId");
+
+            saveButton.addEventListener('click', () => {
+              const layerName = layerInput.value.trim();
+
+              if (layerName === '' || excelFile === '' || dxfFile === '' || scaleInput === '') {
+                alert('Please enter the valid data');
+                return;
+              }
+
+              var storedLevels = localStorage.getItem("storedLevels");
+              var currentLevels = [];
+              if (storedLevels)
+                currentLevels = JSON.parse(storedLevels)
+
+              var updatedLevel = {};
+
+              if (window.isEditMode) {
+                currentLevels = currentLevels.map((item) => {
+                  if (item.levelId === levelIdInput.value) {
+
+                    item.levelName = layerName;
+                    item.excelData = window.lastExcelData;
+                    item.dxfData = window.lastDxfData;
+                    item.scale = scaleInput.value;
+                    updatedLevel = item;
+                    return item;
+                  }
+                  return item;
+                });
+              }
+              else {
+                const uuid = crypto.randomUUID();
+
+                var newLevel =
+                {
+                  levelId: "_" + uuid, // sometime the generated uuid starts with a number and this make a problem with selectors
+                  levelName: layerName,
+                  excelData: window.lastExcelData,
+                  dxfData: window.lastDxfData,
+                  scale: scaleInput.value,
+                  transitionX: 0,
+                  transitionY: 0,
+                  levelList: []
+                };
+                currentLevels.push(newLevel);
+
+                // Create list item
+                const li = document.createElement('li');
+                li.classList.add('d-flex', 'align-items-center', 'mb-2');
+                li.setAttribute('name', newLevel.levelId);
+
+                // Create checkbox
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.classList.add('form-check-input', 'me-2');
+                checkbox.checked = true;
+                checkbox.setAttribute('name', newLevel.levelId);
+
+                // Create layer name text
+                const span = document.createElement('span');
+                span.textContent = layerName;
+                span.classList.add('me-auto');
+                span.setAttribute('name', newLevel.levelId);
+
+                // Create trash icon
+                const trash = document.createElement('i');
+                trash.classList.add('bi', 'bi-trash', 'text-danger', 'ms-2');
+                trash.style.cursor = 'pointer';
+                trash.setAttribute('name', newLevel.levelId);
+
+                // Trash click removes the layer
+                trash.addEventListener('click', () => {
+                  let updatedLevels = currentLevels.filter(a => a.levelId !== newLevel.levelId);
+                  localStorage.setItem("storedLevels", JSON.stringify(updatedLevels))
+                  //let le
+                  d3.select("svg").selectAll("#" + newLevel.levelId).remove();  // Remove old DXF group
+                  li.remove();
+                });
+
+                // Create trash icon
+                const edit = document.createElement('i');
+                edit.classList.add('bi', 'bi-pencil-square', 'text-primary', 'ms-2');
+                edit.style.cursor = 'pointer';
+                edit.setAttribute('name', newLevel.levelId);
+
+                // Trash click removes the layer
+                edit.addEventListener('click', () => {
+                  layerInput.value = newLevel.levelName;
+                  levelIdInput.value = newLevel.levelId;
+                  scaleInput.value = newLevel.scale;
+                  window.isEditMode = true;
+                  window.lastExcelData = newLevel.excelData;
+                  window.lastDxfData = newLevel.dxfData;
+                  openModalButton.click();
+                  // let updatedLevels = currentLevels.filter(a => a.levelId !== newLevel.levelId);
+                  // localStorage.setItem("storedLevels", JSON.stringify(updatedLevels))
+                  // //let le
+                  // d3.select("svg").selectAll("#" + newLevel.levelId).remove();  // Remove old DXF group
+                  // li.remove();
+                });
+
+                checkbox.addEventListener('change', (e) => {
+                  const isChecked = e.target.checked;
+                  const layerGroup = d3.select("svg").selectAll("#" + newLevel.levelId);
+                  layerGroup.style('display', isChecked ? null : 'none');
+
+                });
+
+                // Append all elements
+                li.appendChild(checkbox);
+                li.appendChild(span);
+                li.appendChild(edit);
+                li.appendChild(trash);
+                layerList.appendChild(li);
+                updatedLevel = newLevel;
+
+              }
+
+              localStorage.setItem("storedLevels", JSON.stringify(currentLevels));
+
+
+              // Clear input
+              layerInput.value = '';
+              excelFile.value = '';
+              dxfFile.value = '';
+              scaleInput.value = '';
+              window.lastExcelData = '';
+              window.lastDxfData = '';
+              window.isEditMode = false;
+              closeModalButton.click();
+              window.location.reload();
+
+            });
+
+            saveChildLevelButton.addEventListener('click', () => {
+
+              const levelName = childLevelName.value.trim();
+              const mainLayerId = document.getElementById("mainLayerId").value;
+              const parentLevelId = document.getElementById("parentLevelId").value;
+
+              if (levelName === '' || childLevelId.value === '') {
+                alert('Please enter the valid data');
+                return;
+              }
+
+              var storedLevels = localStorage.getItem("storedLevels");
+              var currentLevels = [];
+              if (storedLevels)
+                currentLevels = JSON.parse(storedLevels)
+
+              const checkboxes = document.querySelectorAll(`input[type="checkbox"][name="${childLevelId.value}"]`);
+
+              var childLevel = {
+                levelName: levelName,
+                levelId: childLevelId.value,
+                mainLayerId: mainLayerId,
+                parentLevelId: parentLevelId,
+                entityList: []
+              };
+
+              if (currentLevels) {
+                let updatedLevels = currentLevels.map((item) => {
+                  if (item.levelId === mainLayerId) {
+
+                    checkboxes.forEach(checkbox => {
+                      // Perform actions on each checkbox here
+                      // For example, check if it's checked and log its value
+                      if (checkbox.checked) {
+
+                        var areaId = checkbox.dataset.areaid;
+                        childLevel.entityList.push(areaId);
+                      }
+                    });
+                    item.levelList.push(childLevel);
+                    return item;
+                  }
+                  return item;
+                });
+
+                localStorage.setItem("storedLevels", JSON.stringify(updatedLevels))
+              }
+
+              childLevelName.value = '';
+              childLevelId.value = '';
+              closeChildLevelModalButton.click();
+              window.location.reload();
+            });
+
+            document.getElementById('layerScale').addEventListener('input', function () {
+              const scaleValue = parseFloat(this.value) || 1; // Default to 1 if invalid
+              console.log('Scale Value:', scaleValue);
+              // if (window.lastDxfData) {
+              //   drawUploadedDXF(window.lastDxfData, scaleValue);
+              // }
+            });
+            let excelData = []; // Will hold Excel rows
+            let uploadGroup;
+            document.getElementById('upload-file-input').addEventListener('change', handleExcelUpload);
+
+            // Function to handle uploaded Excel file
+            function handleExcelUpload(event) {
+              const file = event.target.files[0];
+              if (!file) return console.log("No Excel selected");
+              const reader = new FileReader();
+              reader.onload = function (e) {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+                const sheetName = workbook.SheetNames[0];
+                const sheet = workbook.Sheets[sheetName];
+                excelData = XLSX.utils.sheet_to_json(sheet);
+                console.log("Excel Parsed Data:", excelData);
+                window.lastExcelData = excelData;
+                // const svg = d3.select("svg");
+                // const existingDxfGroup = svg.select("#uploaded-dxf-group");
+                // if (!existingDxfGroup.empty()) {
+                //   drawUploadedDXF(window.lastDxfData);
+                // }
+              };
+              reader.readAsArrayBuffer(file);
+            }
+
+            // Function to generate tooltip content by mapping all Excel rows
+            function getTooltipContent(entity) {
+              // Map over ALL rows and format each row
+              let info = excelData.map((row, index) => {
+                let rowInfo = Object.entries(row).map(([key, value]) => {
+                  return `${key}: ${value}`;
+                }).join("<br>");
+                return `<b>Row ${index + 1}:</b><br>${rowInfo}`;
+              }).join("<br><br>"); // separate rows
+
+              return info;
+            }
+
+            const svgWidth = 1300;
+            const svgHeight = 1300;
+            document.getElementById('upload-dxf-input').addEventListener('change', handleDxfUpload);
+
+            // Function to calculate the bounds (min/max X and Y) of DXF entities
+            function getBounds(entities) {
+              let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+              entities.forEach(entity => {
+                if (entity.vertices) {
+                  entity.vertices.forEach(vertex => {
+                    minX = Math.min(minX, vertex.x);
+                    minY = Math.min(minY, vertex.y);
+                    maxX = Math.max(maxX, vertex.x);
+                    maxY = Math.max(maxY, vertex.y);
+                  });
+                } else if (entity.center) {
+                  minX = Math.min(minX, entity.center.x - entity.radius);
+                  minY = Math.min(minY, entity.center.y - entity.radius);
+                  maxX = Math.max(maxX, entity.center.x + entity.radius);
+                  maxY = Math.max(maxY, entity.center.y + entity.radius);
+                }
+              });
+              return { minX, minY, maxX, maxY };
+            }
+
+
+            // Function to handle DXF file upload
+            async function handleDxfUpload(event) {
+              const file = event.target.files[0];
+              if (!file) return console.log("No file selected");
+              const reader = new FileReader();
+              reader.onload = function (e) {
+                const parser = new DxfParser();
+                let dxfData;
+                try {
+                  dxfData = parser.parseSync(e.target.result);
+                  window.lastDxfData = dxfData; // Store dxfData globally
+                  // const scaleInput = parseFloat(document.getElementById("layerScale").value) || 1;
+                  // drawUploadedDXF(dxfData, scaleInput);
+
+                } catch (error) {
+                  console.error("Error parsing DXF:", error);
+                  return;
+                }
+                console.log("DXF Parsed Data:", dxfData);
+              };
+              reader.readAsText(file);
+            }
+
+
+            // Initialize drag behavior
+            const drag = d3.drag()
+              .on("start", dragStarted)
+              .on("drag", dragged)
+              .on("end", dragEnded);
+
+            const tooltip2 = d3.select("#tooltip")
+              .style("opacity", 0)
+              .attr("class", "tooltip");
+
+            // Function to draw uploaded DXF entities on SVG
+            function drawUploadedDXF(levelData) {
+
+              let dxfData = levelData.dxfData;
+              let layersDetails = new Map(Object.entries(dxfData.tables.layer.layers).map(([key, value]) => [key.toLowerCase(), value])
+        );
+              let excelData = levelData.excelData;
+              let levelId = levelData.levelId;
+              let userScale = levelData.scale;
+              let levelName = levelData.levelName;
+              const progressChecked = document.getElementById("flexSwitchCheckChecked").checked;
+
+              const svg = d3.select("svg");
+              svg.selectAll(`#${levelId}`).remove();  // Remove old DXF group
+              const uploadGroup = svg.append("g")
+                .attr("id", levelId)
+                .attr("transform", "translate(0,0)")
+                .style("cursor", "move");
+              let currentX = 0, currentY = 0;
+              // Make the group draggable
+              uploadGroup.call(
+                d3.drag()
+                  .on("drag", function (event) {
+                    currentX += event.dx;
+                    currentY += event.dy;
+                    d3.select(this).attr("transform", `translate(${currentX},${currentY})`);
+
+                    var storedLevels = localStorage.getItem("storedLevels");
+                    var currentLevels = null;
+                    if (storedLevels)
+                      currentLevels = JSON.parse(storedLevels)
+
+                    if (currentLevels) {
+                      let updatedLevels = currentLevels.map((item) => {
+                        if (item.levelId === levelId) {
+                          item.transitionX = currentX;
+                          item.transitionY = currentY;
+                          return item;
+                        }
+                        return item;
+                      });
+
+                      localStorage.setItem("storedLevels", JSON.stringify(updatedLevels))
+                    }
+                  })
+              );
+
+              const bounds = getBounds(dxfData.entities);
+              if (bounds.maxX === bounds.minX || bounds.maxY === bounds.minY) {
+                console.error("Invalid bounds – DXF data may be empty or invalid");
+                return;
+              }
+
+              const tooltip = d3.select("#tooltip");
+              const baseScale = ((svgWidth + svgHeight) / 4) / (bounds.maxX - bounds.minX);
+              const scale = baseScale * userScale;
+              const offsetX = -bounds.minX * scale + (svgWidth - (bounds.maxX - bounds.minX) * scale) / 2;
+              const offsetY = -bounds.minY * scale + (svgHeight - (bounds.maxY - bounds.minY) * scale) / 2;
+
+              dxfData.entities.forEach(entity => {
+
+                let entityColor = layersDetails.get(entity.layer.toLowerCase());
+                const hexColor = `#${entityColor.color.toString(16).padStart(6, '0')}`;
+                
+
+                switch (entity.type) {
+                  case "LINE":
+                    uploadGroup.append("line")
+                      .attr("x1", entity.vertices[0].x * scale + offsetX)
+                      .attr("y1", svgHeight - (entity.vertices[0].y * scale + offsetY))
+                      .attr("x2", entity.vertices[1].x * scale + offsetX)
+                      .attr("y2", svgHeight - (entity.vertices[1].y * scale + offsetY))
+                      .attr("stroke", "black")
+                      .attr("stroke-width", 2)
+                      .on("mouseover", function (event) {
+                        d3.select("#tooltip")
+                          .style("display", "block")
+                          .style("opacity", 1)
+                          .style("left", (event.pageX + 10) + "px")
+                          .style("top", (event.pageY + 10) + "px")
+                          .html(getTooltipContent(entity) + "<br>Tooltip working");
+                      })
+                      .on("mousemove", function (event) {
+                        d3.select("#tooltip")
+                          .style("left", (event.pageX + 10) + "px")
+                          .style("top", (event.pageY + 10) + "px");
+                      })
+                      .on("mouseout", function (d) {
+                        tooltip.transition()
+                          .duration(500)
+                          .style("display", "none")
+                          .style("opacity", 0);
+                      });
+                    break;
+
+                  case "CIRCLE":
+                    uploadGroup.append("circle")
+                      .attr("cx", entity.center.x * scale + offsetX)
+                      .attr("cy", svgHeight - (entity.center.y * scale + offsetY))
+                      .attr("r", entity.radius * scale)
+                      .attr("stroke", "black")
+                      .attr("fill", "none")
+                      .attr("stroke-width", 2)
+                      .on("mouseover", function (event) {
+                        d3.select("#tooltip")
+                          .style("display", "block")
+                          .style("opacity", 1)
+                          .style("left", (event.pageX + 10) + "px")
+                          .style("top", (event.pageY + 10) + "px")
+                          .html(getTooltipContent(entity) + "<br>Tooltip working");
+                      })
+                      .on("mousemove", function (event) {
+                        d3.select("#tooltip")
+                          .style("left", (event.pageX + 10) + "px")
+                          .style("top", (event.pageY + 10) + "px");
+                      })
+                      .on("mouseout", function (d) {
+                        tooltip.transition()
+                          .duration(500)
+                          .style("display", "none")
+                          .style("opacity", 0);
+                      });
+                    break;
+
+                  case "POLYLINE":
+                  case "LWPOLYLINE":
+                    const points = entity.vertices.map(v => [
+                      v.x * scale + offsetX,
+                      svgHeight - (v.y * scale + offsetY)
+                    ]);
+                    // const points = entity.vertices.map(v => [
+                    //   v.x * 30,
+                    //   (v.y * 30)
+                    // ]);
+                    uploadGroup.append("polyline")
+                      .attr("points", points.join(" "))
+                      .attr("stroke", "black")
+                      .attr("stroke-width", 2)
+                      .attr("name", `${levelId}`)
+                      .attr("class", `area`)
+                      .attr("data-level", levelId)
+                      .attr("data-layer", entity.layer)
+                      .attr("id", entity.layer)
+                      .attr("fill", progressChecked ? getColorByCompleteness(parseFloat(excelData.find((e) => e.UniqueID == entity.layer)?.complete)) :  `${hexColor}`)
+                      .style("fill-opacity", 0.3)
+                      .attr("stroke-width", 2)
+                      //.call(getArea)
+                      .on("mouseover", function (d) {
+                        tooltip2
+                          .style("opacity", 1)
+                          .style("display", "block")
+                          .html(`
+            <h3 class="layerName">${levelName}</h3>
+            <div class="row">
+              <div class="label">Complete:</div>
+           <div class="value d-flex align-items-center">
+            <span class="precentage">${Math.floor((excelData.find((e) => e.UniqueID == entity.layer)?.complete) * 100)}%</span>
+            <div class="progress ml-3" id="smallProgress">
+              <div class="progress-bar bg-success" role="progressbar" style="width: ${Math.floor((excelData.find((e) => e.UniqueID == entity.layer)?.complete) * 100)}%;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+              <div class="progress-bar bg-secondary" role="progressbar" style="width: ${100 - Math.floor((excelData.find((e) => e.UniqueID == entity.layer)?.complete) * 100)}%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+             </div>
+            <div class="row">
+              <div class="label">Level:</div>
+              <div class="value">${excelData.find((e) => e.UniqueID == entity.layer)?.Level}</div>
+            </div>
+            <div class="row">
+              <div class="label">Finish:</div>
+              <div class="value">${excelData.find((e) => e.UniqueID == entity.layer)?.Finish}</div>
+            </div>
+            <div class="row description-row">
+              <div class="label">Description:</div>
+              <div class="value" style="max-width: 400px;">${excelData.find((e) => e.UniqueID == entity.layer)?.Description}</div>
+            </div>
+            <div class="row">
+              <div class="alert alert-warning" role="alert">
+                 <i class="fas fa-exclamation-triangle"></i> Notes : Discoloration on the north wall
+            </div>
+            </div>
+          `)
+                          .style("left", (event.pageX + 20) + "px")
+                          .style("top", (event.pageY - 30) + "px");
+                      })
+                      .on("mouseout", function () {
+                        tooltip2
+                          .style("display", "none")
+                          .style("opacity", 0);
+                      })
+                      // .on("mouseover", function (event) {
+                      //   d3.select("#tooltip")
+                      //     .style("display", "block")
+                      //     .style("opacity", 1)
+                      //     .style("left", (event.pageX + 10) + "px")
+                      //     .style("top", (event.pageY + 10) + "px")
+                      //     .html(getTooltipContent(entity) + "<br>Tooltip working");
+                      // })
+                      .on("mousemove", function (event) {
+                        d3.select("#tooltip")
+                          .style("left", (event.pageX + 10) + "px")
+                          .style("top", (event.pageY + 10) + "px");
+                      });
+                    break;
+
+                  case "POINT":
+                    uploadGroup.append("circle")
+                      .attr("cx", entity.position.x * scale + offsetX)
+                      .attr("cy", svgHeight - (entity.position.y * scale + offsetY))
+                      .attr("r", 3)
+                      .attr("fill", "red")
+                      .on("mouseover", function (event) {
+                        d3.select("#tooltip")
+                          .style("display", "block")
+                          .style("opacity", 1)
+                          .style("left", (event.pageX + 10) + "px")
+                          .style("top", (event.pageY + 10) + "px")
+                          .html(getTooltipContent(entity) + "<br>Tooltip working");
+                      })
+                      .on("mousemove", function (event) {
+                        d3.select("#tooltip")
+                          .style("left", (event.pageX + 10) + "px")
+                          .style("top", (event.pageY + 10) + "px");
+                      })
+                      .on("mouseout", function (d) {
+                        tooltip.transition()
+                          .duration(500)
+                          .style("display", "none")
+                          .style("opacity", 0);
+                      });
+                    break;
+
+                  case "MTEXT":
+                    uploadGroup.append("text")
+                      .attr("x", entity.position.x * scale + offsetX)
+                      .attr("y", svgHeight - (entity.position.y * scale + offsetY))
+                      .attr("font-size", 12)
+                      .attr("fill", "blue")
+                      .text(entity.text || "")
+                      .on("mouseover", function (event) {
+                        d3.select("#tooltip")
+                          .style("display", "block")
+                          .style("opacity", 1)
+                          .style("left", (event.pageX + 10) + "px")
+                          .style("top", (event.pageY + 10) + "px")
+                          .html(getTooltipContent(entity) + "<br>Tooltip working");
+                      })
+                      .on("mousemove", function (event) {
+                        d3.select("#tooltip")
+                          .style("left", (event.pageX + 10) + "px")
+                          .style("top", (event.pageY + 10) + "px");
+                      })
+                      .on("mouseout", function (d) {
+                        tooltip.transition()
+                          .duration(500)
+                          .style("display", "none")
+                          .style("opacity", 0);
+                      });
+                    break;
+
+                  default:
+                    console.log("Unsupported uploaded entity type:", entity.type);
+                }
+              });
+            }
+
+
+            let currentTransform = d3.zoomIdentity;
+
+            function dragStarted(event) {
+              d3.select(this).raise().attr("stroke", "black");
+            }
+
+            function dragged(event) {
+              currentTransform = currentTransform.translate(event.dx, event.dy);
+              d3.select(this).attr("transform", currentTransform);
+            }
+
+            function dragEnded(event) {
+              d3.select(this).attr("stroke", null);
+            }
+
+            function appendLayers() {
+
+              layerList.innerHTML = '';
+              var storedLevels = localStorage.getItem("storedLevels");
+              var currentLevels = null;
+              if (storedLevels)
+                currentLevels = JSON.parse(storedLevels)
+
+              if (currentLevels) {
+                Object.entries(currentLevels).forEach(([index, level]) => {
+                  //level.levelList = [];
+                  // Create list item
+                  const li = document.createElement('li');
+                  li.classList.add('list-group-item', 'mb-2');
+                  li.setAttribute('name', level.levelId);
+
+                  var nestedLevels = getChildLevel(level.levelList, level.levelId, level.levelId);
+
+                  // Create checkbox
+                  const checkbox = document.createElement('input');
+                  checkbox.type = 'checkbox';
+                  checkbox.classList.add('form-check-input', 'me-2');
+                  checkbox.checked = true;
+                  checkbox.setAttribute('name', level.levelId);
+
+                  checkbox.addEventListener('change', (e) => {
+                    const isChecked = e.target.checked;
+
+                    document.getElementById(level.levelId).style.display = isChecked ? null : 'none';
+                    //const layerGroup = d3.select("svg").selectAll("#" + level.levelId);
+                    //layerGroup.style('display', isChecked ? null : 'none')
+
+                  });
+
+                  // Create layer name text
+                  const span = document.createElement('span');
+                  span.textContent = level.levelName; //:"asd"
+                  span.classList.add('me-auto');
+                  span.setAttribute('name', level.levelId);
+
+                  // Create trash icon
+                  const trash = document.createElement('i');
+                  trash.classList.add('bi', 'bi-trash', 'text-danger', 'ms-2');
+                  trash.style.cursor = 'pointer';
+                  trash.setAttribute('name', level.levelId);
+
+                  // Trash click removes the layer
+                  trash.addEventListener('click', () => {
+                    let updatedLevels = currentLevels.filter(a => a.levelId !== level.levelId);
+                    localStorage.setItem("storedLevels", JSON.stringify(updatedLevels))
+
+                    d3.select("svg").selectAll("#" + level.levelId).remove();  // Remove old DXF group
+                    li.remove();
+
+                  });
+
+                  // Create edit icon
+                  const edit = document.createElement('i');
+                  edit.classList.add('bi', 'bi-pencil-square', 'text-primary', 'ms-2');
+                  edit.style.cursor = 'pointer';
+                  edit.setAttribute('name', level.levelId);
+
+                  // Edit click removes the layer
+                  edit.addEventListener('click', () => {
+                    layerInput.value = level.levelName;
+                    scaleInput.value = level.scale;
+                    levelIdInput.value = level.levelId;
+                    window.isEditMode = true;
+                    window.lastExcelData = level.excelData;
+                    window.lastDxfData = level.dxfData;
+                    openModalButton.click();
+                  });
+
+                  // Create add icon
+                  const add = document.createElement('i');
+                  add.classList.add('bi', 'bi-plus-circle-fill', 'text-primary', 'ms-2');
+                  add.style.cursor = 'pointer';
+                  add.setAttribute('name', level.levelId);
+                  add.setAttribute('data-bs-toggle', "modal");
+                  add.setAttribute('data-bs-target', "#addChildLevel");
+
+                  // add click removes the layer
+                  add.addEventListener('click', () => {
+                    const modalList = document.getElementById("addChildLevelList");
+                    const childLevel_uuid = "_" + crypto.randomUUID();
+                    document.getElementById("childLevelId").value = childLevel_uuid;
+                    document.getElementById("mainLayerId").value = level.levelId;
+                    document.getElementById("parentLevelId").value = level.levelId;
+
+                    var selectedEntities = [];
+                    var filteredLevels = level.levelList.filter(l => l.parentLevelId == level.levelId);
+                    if (filteredLevels) {
+                      filteredLevels.forEach(item => {
+                        selectedEntities.push.apply(selectedEntities, item.entityList);
+                      });
+                    }
+                    modalList.innerHTML = ''
+
+                    Object.entries(level.dxfData.entities).forEach(([index, entity]) => {
+
+                      //if (selectedEntities.includes(entity.layer))
+                      //return;
+
+                      const li = document.createElement('li');
+                      li.classList.add('d-flex', 'align-items-center', 'mb-2');
+                      li.setAttribute('name', childLevel_uuid);
+
+                      // Create checkbox
+                      const checkbox = document.createElement('input');
+                      checkbox.type = 'checkbox';
+                      checkbox.classList.add('form-check-input', 'me-2');
+                      checkbox.checked = false;
+                      checkbox.setAttribute('name', childLevel_uuid);
+                      checkbox.setAttribute('data-areaId', entity.layer);
+
+
+                      // Create layer name text
+                      const span = document.createElement('span');
+                      span.textContent = entity.layer;
+                      span.classList.add('me-auto');
+                      span.setAttribute('name', childLevel_uuid);
+
+
+                      li.appendChild(checkbox);
+                      li.appendChild(span);
+                      modalList.append(li);
+
+                    });
+                  });
+
+                  // Append all elements
+                  li.appendChild(checkbox);
+                  li.appendChild(span);
+                  li.appendChild(add);
+                  li.appendChild(edit);
+                  li.appendChild(trash);
+                  if (nestedLevels)
+                    li.appendChild(nestedLevels);
+                  layerList.appendChild(li);
+
+                  // console.log(level);
+                  drawUploadedDXF(level);
+
+                  d3.select("svg").selectAll("#" + level.levelId).attr("transform", `translate(${level.transitionX},${level.transitionY})`);
+                });
+              }
+            }
+            appendLayers();
+
+            function getChildLevel(levelList, mainLevelId, parentLevelId) {
+
+              // Create list item
+              const ul = document.createElement('ul');
+              ul.classList.add('list-group', 'list-group-flush');
+              ul.setAttribute('name', parentLevelId);
+              if (levelList) {
+
+                levelList.filter(l => l.parentLevelId == parentLevelId).forEach(level => {
+
+                  const childLevel_uuid = "_" + crypto.randomUUID();
+                  const li = document.createElement('li');
+                  li.classList.add('list-group-item', 'mb-2');
+                  li.setAttribute('name', childLevel_uuid);
+                  li.setAttribute('data-levelId', childLevel_uuid);
+                  li.setAttribute('data-mainLayerId', mainLevelId);
+                  li.setAttribute('data-parentLevelId', level.levelId);
+
+
+                  // Create list item
+                  const nested_ul = document.createElement('ul');
+                  var checkChildExist = levelList.filter(l => l.parentLevelId == level.levelId);
+                  if (checkChildExist) {
+                    nested_ul.classList.add('list-group', 'list-group-flush');
+                    nested_ul.setAttribute('name', childLevel_uuid);
+
+                    var nestedLevels = getChildLevel(levelList, mainLevelId, level.levelId);
+                    if (nestedLevels)
+                      nested_ul.appendChild(nestedLevels);
+
+                  }
+                  /*
+                      var childLevel = {
+                        levelName: levelName,
+                        entityList: []
+                      };*/
+                  // Create checkbox
+                  const checkbox = document.createElement('input');
+                  checkbox.type = 'checkbox';
+                  checkbox.classList.add('form-check-input', 'me-2');
+                  checkbox.checked = true;
+                  checkbox.setAttribute('name', childLevel_uuid);
+
+                  checkbox.addEventListener('change', (e) => {
+                    const isChecked = e.target.checked;
+
+                    level.entityList.forEach(entity => {
+
+                      document.getElementById(entity).style.display = isChecked ? null : 'none';
+
+                    });
+                    // const layerGroup = d3.select("svg").selectAll("#" + level.levelId);
+                    // layerGroup.style('display', isChecked ? null : 'none');
+
+                  });
+
+                  // Create layer name text
+                  const span = document.createElement('span');
+                  span.textContent = level.levelName; //:"asd"
+                  span.classList.add('me-auto');
+                  span.setAttribute('name', childLevel_uuid);
+
+                  // Create trash icon
+                  const trash = document.createElement('i');
+                  trash.classList.add('bi', 'bi-trash', 'text-danger', 'ms-2');
+                  trash.style.cursor = 'pointer';
+                  trash.setAttribute('name', childLevel_uuid);
+
+                  // Trash click removes the layer
+                  trash.addEventListener('click', () => {
+
+                    var storedLevels = localStorage.getItem("storedLevels");
+                    var currentLevels = [];
+                    if (storedLevels)
+                      currentLevels = JSON.parse(storedLevels)
+
+                    if (currentLevels) {
+                      let updatedLevels = currentLevels.map((item) => {
+                        if (item.levelId === mainLevelId) {
+                          item.levelList = item.levelList.filter(a => a.levelId !== level.levelId)
+                          return item;
+                        }
+                        return item;
+                      });
+
+                      localStorage.setItem("storedLevels", JSON.stringify(updatedLevels))
+                    }
+
+                    //d3.select("svg").selectAll("#" + level.levelId).remove();  // Remove old DXF group
+                    li.remove();
+
+                  });
+                  // Create add icon
+                  const add = document.createElement('i');
+                  add.classList.add('bi', 'bi-plus-circle-fill', 'text-primary', 'ms-2');
+                  add.style.cursor = 'pointer';
+                  add.setAttribute('name', childLevel_uuid);
+                  add.setAttribute('data-parentId', level.levelId);
+                  add.setAttribute('data-bs-toggle', "modal");
+                  add.setAttribute('data-bs-target', "#addChildLevel");
+
+                  // add click removes the layer
+                  add.addEventListener('click', () => {
+
+                    const modalList = document.getElementById("addChildLevelList");
+                    const childLevel_uuid = "_" + crypto.randomUUID();
+                    document.getElementById("childLevelId").value = childLevel_uuid;
+                    document.getElementById("mainLayerId").value = level.mainLayerId;
+                    document.getElementById("parentLevelId").value = level.levelId;
+
+
+                    var mainLevel = getStoredLevels(level.mainLayerId);
+
+                    var selectedEntities = [];
+                    var filteredLevels = mainLevel.levelList.filter(l => l.parentLevelId == level.levelId);
+                    if (filteredLevels) {
+                      filteredLevels.forEach(item => {
+                        selectedEntities.push.apply(selectedEntities, item.entityList);
+                      });
+                    }
+
+                    modalList.innerHTML = ''
+
+                    Object.entries(level.entityList).forEach(([index, entity]) => {
+
+                      //if (selectedEntities.includes(entity))
+                      //return;
+
+                      const li = document.createElement('li');
+                      li.classList.add('d-flex', 'align-items-center', 'mb-2');
+                      li.setAttribute('name', childLevel_uuid);
+
+                      // Create checkbox
+                      const checkbox = document.createElement('input');
+                      checkbox.type = 'checkbox';
+                      checkbox.classList.add('form-check-input', 'me-2');
+                      checkbox.checked = false;
+                      checkbox.setAttribute('name', childLevel_uuid);
+                      checkbox.setAttribute('data-areaId', entity);
+
+
+                      // Create layer name text
+                      const span = document.createElement('span');
+                      span.textContent = entity;
+                      span.classList.add('me-auto');
+                      span.setAttribute('name', childLevel_uuid);
+
+                      li.appendChild(checkbox);
+                      li.appendChild(span);
+                      modalList.append(li);
+
+                    });
+                  });
+
+
+                  // Append all elements
+                  li.appendChild(checkbox);
+                  li.appendChild(span);
+                  li.appendChild(add);
+                  li.appendChild(trash);
+                  li.appendChild(nested_ul);
+                  ul.appendChild(li);
+
+                });
+              }
+              return ul;
+            }
+
+            // function getArea() {
+            //   const value = document.getElementById("search-input").value
+
+            //   const multiLayerSelected = document.querySelectorAll('input[name=chbx-level]:checked').length > 1;
+            //   const progressChecked = document.getElementById(`flexSwitchCheckChecked`).checked;
+
+            //   const existElements = d3.selectAll('.area').filter(function () {
+            //     const name = d3.select(this).attr("name");
+            //     return value && name.toLowerCase().includes(value.toLowerCase()); // filter by single attribute
+            //   })
+            //     .style("fill-opacity", 0.3)
+            //     .attr("fill", "red")
+
+
+            //   const notExistElements2 = d3.selectAll('.area').filter(function () {
+            //     const name = d3.select(this).attr("name");
+            //     return !value || !name.toLowerCase().includes(value.toLowerCase()); // filter by single attribute
+            //   })
+
+            //   // notExistElements2.each(function () {
+            //   //   const entity = d3.select(this).node().dataset
+            //   //   d3.select(this).style("fill-opacity",  0.35)
+            //   //   .attr("fill", multiLayerSelected ? "none" : progressChecked ? getColorByCompleteness(parseFloat(excelData.find((e) => e.UniqueID == entity.layer)?.complete)) : "white")
+            //   // });
+            // }
+
+            document.getElementById('flexSwitchCheckChecked').addEventListener("change", function () {
+              appendLayers();
+            });
+
+            function getColorByCompleteness(percentage) {
+              //console.log("the precentage ",percentage);
+              if (percentage <= 0.29) return "#DB4E41";      // Red
+              if (percentage <= 0.70) return "#ECCB28";      // Yellow
+              return "#97CA58";                            // Green
+            }
+
+            function getStoredLevels(levelId) {
+
+              var storedLevels = localStorage.getItem("storedLevels");
+              var currentLevels = null;
+              if (storedLevels)
+                currentLevels = JSON.parse(storedLevels)
+
+              if (levelId && currentLevels)
+                currentLevels = currentLevels.find(x => x.levelId == levelId);
+
+              return currentLevels;
+            }
+    </script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <script>
+        // Initialize PDF.js
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+
+        let pdfDoc = null;
+        let currentPage = 1;
+        let currentScale = 1.0;
+        const scaleIncrement = 0.25;
+        const container = document.getElementById('svg_client_2_container');
+        const canvas = document.getElementById('pdf-canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Load the PDF
+        pdfjsLib.getDocument('/files/HH-lv1.pdf').promise.then(function (pdf) {
+          pdfDoc = pdf;
+          renderPage(currentPage, currentScale);
+        });
+
+        function renderPage(pageNum, scale) {
+          pdfDoc.getPage(pageNum).then(function (page) {
+            const viewport = page.getViewport({ scale: scale });
+
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+
+            container.style.width = `${viewport.width}px`;
+            container.style.height = `${viewport.height}px`;
+
+            const renderContext = {
+              canvasContext: ctx,
+              viewport: viewport
+            };
+
+            page.render(renderContext);
+            updateZoomDisplay();
+          });
+        }
+
+        function zoomIn() {
+          currentScale += scaleIncrement;
+          renderPage(currentPage, currentScale);
+        }
+
+        function zoomOut() {
+          if (currentScale > scaleIncrement) {
+            currentScale -= scaleIncrement;
+            renderPage(currentPage, currentScale);
+          }
+        }
+
+        function zoomToFit() {
+          const containerWidth = container.clientWidth - 40; // Account for padding
+          pdfDoc.getPage(currentPage).then(function (page) {
+            const pageWidth = page.getViewport({ scale: 1.0 }).width;
+            currentScale = containerWidth / pageWidth;
+            renderPage(currentPage, currentScale);
+          });
+        }
+
+        function updateZoomDisplay() {
+          document.getElementById('zoom-level').textContent = `${Math.round(currentScale * 100)}%`;
+        }
+
+        // Event listeners
+        document.getElementById('zoom-in').addEventListener('click', zoomIn);
+        document.getElementById('zoom-out').addEventListener('click', zoomOut);
+        document.getElementById('zoom-fit').addEventListener('click', zoomToFit);
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function (e) {
+          if (e.ctrlKey) {
+            if (e.key === '+' || e.key === '=') {
+              zoomIn();
+              e.preventDefault();
+            } else if (e.key === '-') {
+              zoomOut();
+              e.preventDefault();
+            } else if (e.key === '0') {
+              zoomToFit();
+              e.preventDefault();
+            }
+          }
+        });
+    </script>
+}
