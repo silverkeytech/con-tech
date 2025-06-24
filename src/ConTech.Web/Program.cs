@@ -42,6 +42,8 @@ app.UseAuthorization();
 app.MapControllers(); 
 app.MapRazorPages();
 
+MappingEndpoints.Map(app);
+
 app.Run();
 
 static void ConfigureLLBLGen(IServiceCollection services, IConfiguration config)
