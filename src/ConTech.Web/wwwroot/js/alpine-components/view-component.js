@@ -28,7 +28,7 @@
     });
 
     return {
-        view: {},
+        viewList: [],
         loading: true,
         error: null,
         newProduct: { name: '', price: 0, inStock: false },
@@ -39,12 +39,19 @@
             ctx = canvas.getContext('2d');
 
             try {
-                debugger
-                this.loading = true;
-                const response = await fetch('/admin/view/get-view-details-by-id/' + id);
-                this.view = await response.json();
 
-                await this.base64ToUint8Array(this.view.backgroundPdf);
+                this.loading = true;
+                var view = this.viewList.find(item => item.id == id);
+
+                if (!view) {
+
+                    const response = await fetch('/admin/view/get-view-details-by-id/' + id);
+                    view = await response.json();
+
+                    this.viewList.push(view);
+                }
+
+                await this.base64ToUint8Array(view.backgroundPdf);
 
                 this.error = null;
 
