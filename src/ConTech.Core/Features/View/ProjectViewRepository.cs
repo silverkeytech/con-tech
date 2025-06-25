@@ -6,21 +6,21 @@ namespace ConTech.Core.Features.View;
 public class ProjectViewRepository(DataAccessAdapter adapter, IStringLocalizer<Global> local) : BaseRepository(adapter, local), IProjectViewRepository
 {
 
-    public async Task<IQuerySetMany<ProjectViewLlblView>> GetProjectViewListAsync(int projectId)
+    public async Task<IQuerySetMany<ProjectViewListLlblView>> GetProjectViewListAsync(int projectId)
     {
         try
         {
-            var projectViewList = await _meta.ProjectView.Where(x => x.ObjectStatus == ObjectStatus.Active && x.ProjectId == projectId).ProjectToProjectViewLlblView().ToListAsync();
-            return QuerySet.Many<ProjectViewLlblView>(projectViewList);
+            var projectViewList = await _meta.ProjectView.Where(x => x.ObjectStatus == ObjectStatus.Active && x.ProjectId == projectId).ProjectToProjectViewListLlblView().ToListAsync();
+            return QuerySet.Many<ProjectViewListLlblView>(projectViewList);
         }
         catch (Exception ex)
         {
             CodeTemplate.HandleException(ex);
-            return QuerySet.ManyException<ProjectViewLlblView>(ex);
+            return QuerySet.ManyException<ProjectViewListLlblView>(ex);
         }
     }
 
-    public async Task<IQuerySetPaging<ProjectViewLlblView>> GetProjectViewListByFilterAsync(ProjectViewFilter filter, ISort<ProjectViewEntity> sort)
+    public async Task<IQuerySetPaging<ProjectViewListLlblView>> GetProjectViewListByFilterAsync(ProjectViewFilter filter, ISort<ProjectViewEntity> sort)
     {
         try
         {
@@ -28,17 +28,17 @@ public class ProjectViewRepository(DataAccessAdapter adapter, IStringLocalizer<G
             var projectViewList = _meta.ProjectView.Where(x => x.ObjectStatus == ObjectStatus.Active).AsQueryable();
             var query = QueryBuilder.Paging(projectViewList, pagingQuery, _meta);
             int count = await query.Count.CountAsync();
-            var result = await query.Listing.ProjectToProjectViewLlblView().ToListAsync();
+            var result = await query.Listing.ProjectToProjectViewListLlblView().ToListAsync();
             return QuerySet.Paging(result, count).GetPagingInfo(filter.CurrentPage, filter.PageSize);
         }
         catch (Exception ex)
         {
             CodeTemplate.HandleException(ex);
-            return QuerySet.PagingException<ProjectViewLlblView>(ex).GetPagingInfoException();
+            return QuerySet.PagingException<ProjectViewListLlblView>(ex).GetPagingInfoException();
         }
     }
 
-    public async Task<IQuerySetMany<ProjectViewLlblView>> GetProjectViewListByFilterAsync(IFilter<ProjectViewEntity> filter)
+    public async Task<IQuerySetMany<ProjectViewListLlblView>> GetProjectViewListByFilterAsync(IFilter<ProjectViewEntity> filter)
     {
         try
         {
@@ -46,13 +46,13 @@ public class ProjectViewRepository(DataAccessAdapter adapter, IStringLocalizer<G
             var queryable = _meta.ProjectView.OrderByDescending(c => c.Id).AsQueryable();
             var query = QueryBuilder.Many(queryable, queryCondition, _meta);
 
-            var results = await query.Listing.ProjectToProjectViewLlblView().ToListAsync();
+            var results = await query.Listing.ProjectToProjectViewListLlblView().ToListAsync();
             return QuerySet.Many(results);
         }
         catch (Exception ex)
         {
             CodeTemplate.HandleException(ex);
-            return QuerySet.Many<ProjectViewLlblView>([]);
+            return QuerySet.Many<ProjectViewListLlblView>([]);
         }
     }
 

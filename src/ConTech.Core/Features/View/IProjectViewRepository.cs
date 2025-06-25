@@ -2,11 +2,11 @@
 
 public interface IProjectViewRepository
 {
-    Task<IQuerySetMany<ProjectViewLlblView>> GetProjectViewListAsync(int projectId);
+    Task<IQuerySetMany<ProjectViewListLlblView>> GetProjectViewListAsync(int projectId);
 
-    Task<IQuerySetMany<ProjectViewLlblView>> GetProjectViewListByFilterAsync(IFilter<ProjectViewEntity> filter);
+    Task<IQuerySetMany<ProjectViewListLlblView>> GetProjectViewListByFilterAsync(IFilter<ProjectViewEntity> filter);
 
-    Task<IQuerySetPaging<ProjectViewLlblView>> GetProjectViewListByFilterAsync(ProjectViewFilter filter, ISort<ProjectViewEntity> sort);
+    Task<IQuerySetPaging<ProjectViewListLlblView>> GetProjectViewListByFilterAsync(ProjectViewFilter filter, ISort<ProjectViewEntity> sort);
 
     Task<IQuerySetOne<ProjectViewLlblView?>> GetProjectViewByIdAsync(int id);
 

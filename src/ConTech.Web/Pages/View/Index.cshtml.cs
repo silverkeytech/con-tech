@@ -22,7 +22,7 @@ public class IndexModel : PageModel
         _local = local;
     }
 
-    public IList<ProjectViewLlblView> ProjectViewList { get; set; }
+    public IList<ProjectViewListLlblView> ProjectViewList { get; set; }
 
     public async Task OnGetAsync(int projectId)
     {
