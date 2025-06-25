@@ -8,9 +8,24 @@
     let currentScale = 1.0;
     const scaleIncrement = 0.25;
     const container = document.getElementById('svg_client_2_container');
-    const canvas = document.getElementById('pdf-canvas');
-    const ctx = canvas.getContext('2d');
+    let canvas = null;
+    let ctx = null;
 
+    // Keyboard shortcuts
+    document.addEventListener('keydown', function (e) {
+        if (e.ctrlKey) {
+            if (e.key === '+' || e.key === '=') {
+                zoomIn();
+                e.preventDefault();
+            } else if (e.key === '-') {
+                zoomOut();
+                e.preventDefault();
+            } else if (e.key === '0') {
+                zoomToFit();
+                e.preventDefault();
+            }
+        }
+    });
 
     return {
         view: {},
@@ -19,8 +34,12 @@
         newProduct: { name: '', price: 0, inStock: false },
 
         async fetchViewDetails(id) {
+
+            canvas = document.getElementById('pdf-canvas-' + id);
+            ctx = canvas.getContext('2d');
+
             try {
-                
+                debugger
                 this.loading = true;
                 const response = await fetch('/admin/view/get-view-details-by-id/' + id);
                 this.view = await response.json();
@@ -67,9 +86,30 @@
                 };
 
                 page.render(renderContext);
-                updateZoomDisplay();
             });
+            this.updateZoomDisplay();
         },
+        zoomIn() {
+            currentScale += scaleIncrement;
+            this.renderPage(currentPage, currentScale);
+        },
+        zoomOut() {
+            if (currentScale > scaleIncrement) {
+                currentScale -= scaleIncrement;
+                this.renderPage(currentPage, currentScale);
+            }
+        },
+        zoomToFit() {
+            const containerWidth = container.clientWidth - 40; // Account for padding
+            pdfDoc.getPage(currentPage).then(function (page) {
+                const pageWidth = page.getViewport({ scale: 1.0 }).width;
+                currentScale = containerWidth / pageWidth;
+            });
+            this.renderPage(currentPage, currentScale);
+        },
+        updateZoomDisplay() {
+            document.getElementById('zoom-level').textContent = `${Math.round(currentScale * 100)}%`;
+        }
         //async addProduct() {
         //    try {
         //        const response = await fetch('/api/products', {
@@ -90,49 +130,4 @@
         //}
     };
 
-    function zoomIn() {
-        currentScale += scaleIncrement;
-        renderPage(currentPage, currentScale);
-    }
-
-    function zoomOut() {
-        if (currentScale > scaleIncrement) {
-            currentScale -= scaleIncrement;
-            renderPage(currentPage, currentScale);
-        }
-    }
-
-    function zoomToFit() {
-        const containerWidth = container.clientWidth - 40; // Account for padding
-        pdfDoc.getPage(currentPage).then(function (page) {
-            const pageWidth = page.getViewport({ scale: 1.0 }).width;
-            currentScale = containerWidth / pageWidth;
-            renderPage(currentPage, currentScale);
-        });
-    }
-
-    function updateZoomDisplay() {
-        document.getElementById('zoom-level').textContent = `${Math.round(currentScale * 100)}%`;
-    }
-
-    // Event listeners
-    document.getElementById('zoom-in').addEventListener('click', zoomIn);
-    document.getElementById('zoom-out').addEventListener('click', zoomOut);
-    document.getElementById('zoom-fit').addEventListener('click', zoomToFit);
-
-    // Keyboard shortcuts
-    document.addEventListener('keydown', function (e) {
-        if (e.ctrlKey) {
-            if (e.key === '+' || e.key === '=') {
-                zoomIn();
-                e.preventDefault();
-            } else if (e.key === '-') {
-                zoomOut();
-                e.preventDefault();
-            } else if (e.key === '0') {
-                zoomToFit();
-                e.preventDefault();
-            }
-        }
-    });
 }
