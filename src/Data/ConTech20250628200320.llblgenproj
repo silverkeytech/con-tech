@@ -255,9 +255,7 @@
           <Field Name="DateCreatedUtc" Type="datetime" />
           <Field Name="Description" Type="string" IsOptional="true" MaxLength="750" />
           <Field Name="DxfData" Type="string" IsOptional="true" MaxLength="2147483647" />
-          <Field Name="DxfFile" Type="byte[]" IsOptional="true" MaxLength="2147483647" />
           <Field Name="EntityData" Type="string" IsOptional="true" MaxLength="2147483647" />
-          <Field Name="ExcelFile" Type="byte[]" IsOptional="true" MaxLength="2147483647" />
           <Field Name="Id" Type="guid" IsPrimaryKey="true" />
           <Field Name="LastModifiedByUserId" Type="int" IsOptional="true" Precision="10" />
           <Field Name="LastModifiedUtc" Type="datetime" IsOptional="true" />
@@ -403,9 +401,9 @@
         <Sequence Name="@@IDENTITY" />
       </SystemSequences>
       <Catalogs>
-        <Catalog Name="ConTech">
+        <Catalog Name="ConTech" SyncSource="2">
           <Schemas>
-            <Schema Name="dbo" SyncSource="2" LastSyncWithDatabase="2025-06-28T17:03:27.0492326Z">
+            <Schema Name="dbo" SyncSource="2" LastSyncWithDatabase="2025-06-21T10:40:54.252755Z">
               <Tables>
                 <Table Name="EntityType">
                   <PkConstraintName Name="PK_EntityType" />
@@ -526,16 +524,14 @@
                     <Field Name="Description" Ordinal="4" IsOptional="true" DbType="12" Length="750" />
                     <Field Name="DxfData" Ordinal="5" IsOptional="true" DbType="12" Length="2147483647" />
                     <Field Name="EntityData" Ordinal="6" IsOptional="true" DbType="12" Length="2147483647" />
-                    <Field Name="DxfFile" Ordinal="7" IsOptional="true" DbType="23" Length="2147483647" />
-                    <Field Name="excelFile" Ordinal="8" IsOptional="true" DbType="23" Length="2147483647" />
-                    <Field Name="Scale" Ordinal="9" IsOptional="true" DbType="14" Precision="24" />
-                    <Field Name="TransitionX" Ordinal="10" IsOptional="true" DbType="14" Precision="24" />
-                    <Field Name="TransitionY" Ordinal="11" IsOptional="true" DbType="14" Precision="24" />
-                    <Field Name="ObjectStatus" Ordinal="12" HasDefaultValue="true" DefaultValue="1" DbType="8" Precision="10" />
-                    <Field Name="DateCreatedUtc" Ordinal="13" HasDefaultValue="true" DefaultValue="getutcdate()" DbType="4" />
-                    <Field Name="CreatedByUserId" Ordinal="14" IsOptional="true" DbType="8" Precision="10" />
-                    <Field Name="LastModifiedUtc" Ordinal="15" IsOptional="true" DbType="4" />
-                    <Field Name="LastModifiedByUserId" Ordinal="16" IsOptional="true" DbType="8" Precision="10" />
+                    <Field Name="Scale" Ordinal="7" IsOptional="true" DbType="14" Precision="24" />
+                    <Field Name="TransitionX" Ordinal="8" IsOptional="true" DbType="14" Precision="24" />
+                    <Field Name="TransitionY" Ordinal="9" IsOptional="true" DbType="14" Precision="24" />
+                    <Field Name="ObjectStatus" Ordinal="10" HasDefaultValue="true" DefaultValue="1" DbType="8" Precision="10" />
+                    <Field Name="DateCreatedUtc" Ordinal="11" HasDefaultValue="true" DefaultValue="getutcdate()" DbType="4" />
+                    <Field Name="CreatedByUserId" Ordinal="12" IsOptional="true" DbType="8" Precision="10" />
+                    <Field Name="LastModifiedUtc" Ordinal="13" IsOptional="true" DbType="4" />
+                    <Field Name="LastModifiedByUserId" Ordinal="14" IsOptional="true" DbType="8" Precision="10" />
                   </Fields>
                 </Table>
               </Tables>
@@ -774,9 +770,7 @@
             <FieldMapping FieldName="DateCreatedUtc" TargetFieldName="DateCreatedUtc" />
             <FieldMapping FieldName="Description" TargetFieldName="Description" />
             <FieldMapping FieldName="DxfData" TargetFieldName="DxfData" />
-            <FieldMapping FieldName="DxfFile" TargetFieldName="DxfFile" />
             <FieldMapping FieldName="EntityData" TargetFieldName="EntityData" />
-            <FieldMapping FieldName="ExcelFile" TargetFieldName="excelFile" />
             <FieldMapping FieldName="Id" TargetFieldName="Id" />
             <FieldMapping FieldName="LastModifiedByUserId" TargetFieldName="LastModifiedByUserId" />
             <FieldMapping FieldName="LastModifiedUtc" TargetFieldName="LastModifiedUtc" />

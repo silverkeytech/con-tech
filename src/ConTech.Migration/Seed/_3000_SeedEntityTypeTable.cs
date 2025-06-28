@@ -9,7 +9,7 @@ public class _3000_SeedEntityTypeTable : FluentMigrator.Migration
 
     public override void Down()
     {
-        Execute.Sql($"TRUNCATE TABLE {Tables.EntityType} RESTART IDENTITY CASCADE;");
+        //Execute.Sql($"TRUNCATE TABLE {Tables.EntityType} RESTART IDENTITY CASCADE;");
     }
 
     public override void Up()

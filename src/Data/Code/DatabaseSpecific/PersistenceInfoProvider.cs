@@ -166,21 +166,23 @@ namespace ConTech.Data.DatabaseSpecific
 		/// <summary>Inits ViewLevelEntity's mappings</summary>
 		private void InitViewLevelEntityMappings()
 		{
-			this.AddElementMapping("ViewLevelEntity", @"ConTech", @"dbo", "ViewLevel", 14, 0);
+			this.AddElementMapping("ViewLevelEntity", @"ConTech", @"dbo", "ViewLevel", 16, 0);
 			this.AddElementFieldMapping("ViewLevelEntity", "CreatedByUserId", "CreatedByUserId", true, "Int", 0, 10, 0, false, "", null, typeof(System.Int32), 0);
 			this.AddElementFieldMapping("ViewLevelEntity", "DateCreatedUtc", "DateCreatedUtc", false, "DateTime", 0, 0, 0, false, "", null, typeof(System.DateTime), 1);
 			this.AddElementFieldMapping("ViewLevelEntity", "Description", "Description", true, "NVarChar", 750, 0, 0, false, "", null, typeof(System.String), 2);
 			this.AddElementFieldMapping("ViewLevelEntity", "DxfData", "DxfData", true, "NVarChar", 2147483647, 0, 0, false, "", null, typeof(System.String), 3);
-			this.AddElementFieldMapping("ViewLevelEntity", "EntityData", "EntityData", true, "NVarChar", 2147483647, 0, 0, false, "", null, typeof(System.String), 4);
-			this.AddElementFieldMapping("ViewLevelEntity", "Id", "Id", false, "UniqueIdentifier", 0, 0, 0, false, "", null, typeof(System.Guid), 5);
-			this.AddElementFieldMapping("ViewLevelEntity", "LastModifiedByUserId", "LastModifiedByUserId", true, "Int", 0, 10, 0, false, "", null, typeof(System.Int32), 6);
-			this.AddElementFieldMapping("ViewLevelEntity", "LastModifiedUtc", "LastModifiedUtc", true, "DateTime", 0, 0, 0, false, "", null, typeof(System.DateTime), 7);
-			this.AddElementFieldMapping("ViewLevelEntity", "Name", "Name", false, "NVarChar", 200, 0, 0, false, "", null, typeof(System.String), 8);
-			this.AddElementFieldMapping("ViewLevelEntity", "ObjectStatus", "ObjectStatus", false, "Int", 0, 10, 0, false, "", null, typeof(System.Int32), 9);
-			this.AddElementFieldMapping("ViewLevelEntity", "Scale", "Scale", true, "Real", 0, 24, 0, false, "", null, typeof(System.Single), 10);
-			this.AddElementFieldMapping("ViewLevelEntity", "TransitionX", "TransitionX", true, "Real", 0, 24, 0, false, "", null, typeof(System.Single), 11);
-			this.AddElementFieldMapping("ViewLevelEntity", "TransitionY", "TransitionY", true, "Real", 0, 24, 0, false, "", null, typeof(System.Single), 12);
-			this.AddElementFieldMapping("ViewLevelEntity", "ViewId", "ViewId", false, "Int", 0, 10, 0, false, "", null, typeof(System.Int32), 13);
+			this.AddElementFieldMapping("ViewLevelEntity", "DxfFile", "DxfFile", true, "VarBinary", 2147483647, 0, 0, false, "", null, typeof(System.Byte[]), 4);
+			this.AddElementFieldMapping("ViewLevelEntity", "EntityData", "EntityData", true, "NVarChar", 2147483647, 0, 0, false, "", null, typeof(System.String), 5);
+			this.AddElementFieldMapping("ViewLevelEntity", "ExcelFile", "excelFile", true, "VarBinary", 2147483647, 0, 0, false, "", null, typeof(System.Byte[]), 6);
+			this.AddElementFieldMapping("ViewLevelEntity", "Id", "Id", false, "UniqueIdentifier", 0, 0, 0, false, "", null, typeof(System.Guid), 7);
+			this.AddElementFieldMapping("ViewLevelEntity", "LastModifiedByUserId", "LastModifiedByUserId", true, "Int", 0, 10, 0, false, "", null, typeof(System.Int32), 8);
+			this.AddElementFieldMapping("ViewLevelEntity", "LastModifiedUtc", "LastModifiedUtc", true, "DateTime", 0, 0, 0, false, "", null, typeof(System.DateTime), 9);
+			this.AddElementFieldMapping("ViewLevelEntity", "Name", "Name", false, "NVarChar", 200, 0, 0, false, "", null, typeof(System.String), 10);
+			this.AddElementFieldMapping("ViewLevelEntity", "ObjectStatus", "ObjectStatus", false, "Int", 0, 10, 0, false, "", null, typeof(System.Int32), 11);
+			this.AddElementFieldMapping("ViewLevelEntity", "Scale", "Scale", true, "Real", 0, 24, 0, false, "", null, typeof(System.Single), 12);
+			this.AddElementFieldMapping("ViewLevelEntity", "TransitionX", "TransitionX", true, "Real", 0, 24, 0, false, "", null, typeof(System.Single), 13);
+			this.AddElementFieldMapping("ViewLevelEntity", "TransitionY", "TransitionY", true, "Real", 0, 24, 0, false, "", null, typeof(System.Single), 14);
+			this.AddElementFieldMapping("ViewLevelEntity", "ViewId", "ViewId", false, "Int", 0, 10, 0, false, "", null, typeof(System.Int32), 15);
 		}
 
 	}

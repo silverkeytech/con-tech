@@ -217,12 +217,28 @@ namespace ConTech.Data.EntityClasses
 			set	{ SetValue((int)ViewLevelFieldIndex.DxfData, value); }
 		}
 
+		/// <summary>The DxfFile property of the Entity ViewLevel<br/><br/></summary>
+		/// <remarks>Mapped on  table field: "ViewLevel"."DxfFile".<br/>Table field type characteristics (type, precision, scale, length): VarBinary, 0, 0, 2147483647.<br/>Table field behavior characteristics (is nullable, is PK, is identity): true, false, false</remarks>
+		public virtual System.Byte[] DxfFile
+		{
+			get { return (System.Byte[])GetValue((int)ViewLevelFieldIndex.DxfFile, true); }
+			set	{ SetValue((int)ViewLevelFieldIndex.DxfFile, value); }
+		}
+
 		/// <summary>The EntityData property of the Entity ViewLevel<br/><br/></summary>
 		/// <remarks>Mapped on  table field: "ViewLevel"."EntityData".<br/>Table field type characteristics (type, precision, scale, length): NVarChar, 0, 0, 2147483647.<br/>Table field behavior characteristics (is nullable, is PK, is identity): true, false, false</remarks>
 		public virtual System.String EntityData
 		{
 			get { return (System.String)GetValue((int)ViewLevelFieldIndex.EntityData, true); }
 			set	{ SetValue((int)ViewLevelFieldIndex.EntityData, value); }
+		}
+
+		/// <summary>The ExcelFile property of the Entity ViewLevel<br/><br/></summary>
+		/// <remarks>Mapped on  table field: "ViewLevel"."excelFile".<br/>Table field type characteristics (type, precision, scale, length): VarBinary, 0, 0, 2147483647.<br/>Table field behavior characteristics (is nullable, is PK, is identity): true, false, false</remarks>
+		public virtual System.Byte[] ExcelFile
+		{
+			get { return (System.Byte[])GetValue((int)ViewLevelFieldIndex.ExcelFile, true); }
+			set	{ SetValue((int)ViewLevelFieldIndex.ExcelFile, value); }
 		}
 
 		/// <summary>The Id property of the Entity ViewLevel<br/><br/></summary>
@@ -347,8 +363,12 @@ namespace ConTech.Data
 		Description,
 		///<summary>DxfData. </summary>
 		DxfData,
+		///<summary>DxfFile. </summary>
+		DxfFile,
 		///<summary>EntityData. </summary>
 		EntityData,
+		///<summary>ExcelFile. </summary>
+		ExcelFile,
 		///<summary>Id. </summary>
 		Id,
 		///<summary>LastModifiedByUserId. </summary>

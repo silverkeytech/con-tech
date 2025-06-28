@@ -12,6 +12,8 @@ public class _0006_ViewLevelTable : AutoReversingMigration
             .WithColumn("Description").AsString(StringLength.SevenHundredFifty).Nullable()
             .WithColumn("DxfData").AsString(StringLength.Max).Nullable()
             .WithColumn("EntityData").AsString(StringLength.Max).Nullable()
+            .WithColumn("DxfFile").AsCustom(SqlServerSpecificType.VarBinaryMax).Nullable()
+            .WithColumn("excelFile").AsCustom(SqlServerSpecificType.VarBinaryMax).Nullable()
             .WithColumn("Scale").AsFloat().Nullable()
             .WithColumn("TransitionX").AsFloat().Nullable()
             .WithColumn("TransitionY").AsFloat().Nullable()

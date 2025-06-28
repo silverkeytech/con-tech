@@ -206,8 +206,12 @@ namespace ConTech.Data.HelperClasses
 		public static EntityField2 Description { get { return ModelInfoProviderSingleton.GetInstance().CreateField2(ViewLevelFieldIndex.Description); }}
 		/// <summary>Creates a new ViewLevelEntity.DxfData field instance</summary>
 		public static EntityField2 DxfData { get { return ModelInfoProviderSingleton.GetInstance().CreateField2(ViewLevelFieldIndex.DxfData); }}
+		/// <summary>Creates a new ViewLevelEntity.DxfFile field instance</summary>
+		public static EntityField2 DxfFile { get { return ModelInfoProviderSingleton.GetInstance().CreateField2(ViewLevelFieldIndex.DxfFile); }}
 		/// <summary>Creates a new ViewLevelEntity.EntityData field instance</summary>
 		public static EntityField2 EntityData { get { return ModelInfoProviderSingleton.GetInstance().CreateField2(ViewLevelFieldIndex.EntityData); }}
+		/// <summary>Creates a new ViewLevelEntity.ExcelFile field instance</summary>
+		public static EntityField2 ExcelFile { get { return ModelInfoProviderSingleton.GetInstance().CreateField2(ViewLevelFieldIndex.ExcelFile); }}
 		/// <summary>Creates a new ViewLevelEntity.Id field instance</summary>
 		public static EntityField2 Id { get { return ModelInfoProviderSingleton.GetInstance().CreateField2(ViewLevelFieldIndex.Id); }}
 		/// <summary>Creates a new ViewLevelEntity.LastModifiedByUserId field instance</summary>

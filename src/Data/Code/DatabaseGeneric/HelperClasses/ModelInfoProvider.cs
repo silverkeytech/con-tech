@@ -177,7 +177,9 @@ namespace ConTech.Data.HelperClasses
 			this.AddElementFieldInfo("ViewLevelEntity", "DateCreatedUtc", typeof(System.DateTime), false, false, false, false,  (int)ViewLevelFieldIndex.DateCreatedUtc, 0, 0, 0);
 			this.AddElementFieldInfo("ViewLevelEntity", "Description", typeof(System.String), false, false, false, true,  (int)ViewLevelFieldIndex.Description, 750, 0, 0);
 			this.AddElementFieldInfo("ViewLevelEntity", "DxfData", typeof(System.String), false, false, false, true,  (int)ViewLevelFieldIndex.DxfData, 2147483647, 0, 0);
+			this.AddElementFieldInfo("ViewLevelEntity", "DxfFile", typeof(System.Byte[]), false, false, false, true,  (int)ViewLevelFieldIndex.DxfFile, 2147483647, 0, 0);
 			this.AddElementFieldInfo("ViewLevelEntity", "EntityData", typeof(System.String), false, false, false, true,  (int)ViewLevelFieldIndex.EntityData, 2147483647, 0, 0);
+			this.AddElementFieldInfo("ViewLevelEntity", "ExcelFile", typeof(System.Byte[]), false, false, false, true,  (int)ViewLevelFieldIndex.ExcelFile, 2147483647, 0, 0);
 			this.AddElementFieldInfo("ViewLevelEntity", "Id", typeof(System.Guid), true, false, false, false,  (int)ViewLevelFieldIndex.Id, 0, 0, 0);
 			this.AddElementFieldInfo("ViewLevelEntity", "LastModifiedByUserId", typeof(Nullable<System.Int32>), false, true, false, true,  (int)ViewLevelFieldIndex.LastModifiedByUserId, 0, 0, 10);
 			this.AddElementFieldInfo("ViewLevelEntity", "LastModifiedUtc", typeof(Nullable<System.DateTime>), false, false, false, true,  (int)ViewLevelFieldIndex.LastModifiedUtc, 0, 0, 0);
