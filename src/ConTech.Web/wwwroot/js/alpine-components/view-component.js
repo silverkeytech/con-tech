@@ -116,25 +116,25 @@
         },
         updateZoomDisplay() {
             document.getElementById('zoom-level').textContent = `${Math.round(currentScale * 100)}%`;
-        }
-        //async addProduct() {
-        //    try {
-        //        const response = await fetch('/api/products', {
-        //            method: 'POST',
-        //            headers: {
-        //                'Content-Type': 'application/json'
-        //            },
-        //            body: JSON.stringify(this.newProduct)
-        //        });
+        },
+        async addLevel() {
+            try {
+                const response = await fetch('/admin/view/add-view-level/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(this.newProduct)
+                });
 
-        //        if (response.ok) {
-        //            await this.fetchProducts();
-        //            this.newProduct = { name: '', price: 0, inStock: false };
-        //        }
-        //    } catch (err) {
-        //        console.error('Failed to add product:', err);
-        //    }
-        //}
+                if (response.ok) {
+                    await this.fetchProducts();
+                    this.newProduct = { name: '', price: 0, inStock: false };
+                }
+            } catch (err) {
+                console.error('Failed to add product:', err);
+            }
+        }
     };
 
 }
