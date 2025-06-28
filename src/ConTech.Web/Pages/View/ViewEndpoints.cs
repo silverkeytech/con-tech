@@ -1,8 +1,10 @@
 using ConTech.Core.Features.View;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+//using Newtonsoft.Json;
 using System.IO.Compression;
 using System.Text;
+using System.Text.Json;
 
 namespace ConTech.Web.Pages.View;
 
@@ -34,22 +36,58 @@ public class ViewEndpoints
         }
     }
 
-    public static async Task<IResult> AddViewLevelAsync(string id, IProjectViewRepository repo)
+    public static async Task<IResult> AddViewLevelAsync(HttpRequest request, IProjectViewRepository repo)
     {
         try
         {
-            var realId = Convert.ToInt32(id);
-            var result = await repo.GetProjectViewByIdAsync(realId);
+            //var realId = Convert.ToInt32(id);
+            //var result = await repo.GetProjectViewByIdAsync(realId);
 
-            if (result.IsNotFound)
-                return Results.NotFound();
+            //if (result.IsNotFound)
+            //    return Results.NotFound();
 
-            return Results.Json(result.Item);
+            //return Results.Json(result.Item);
+
+
+            if (!request.HasFormContentType)
+                return Results.BadRequest("Expected multipart form data");
+
+            var form = await request.ReadFormAsync();
+            var metadataJson = form["metadata"];
+
+            if (string.IsNullOrEmpty(metadataJson))
+                return Results.BadRequest("Metadata is required");
+
+            var metadata = JsonSerializer.Deserialize<UploadMetadata>(metadataJson!);
+            var files = form.Files;
+
+            // Process files and metadata
+            var results = new List<FileUploadResult>();
+            foreach (var file in files)
+            {
+                // Save file or process as needed
+                results.Add(new FileUploadResult(
+                    file.FileName,
+                    file.Length,
+                    file.ContentType
+                ));
+            }
+
+            return Results.Ok(new
+            {
+                Author = metadata.Author,
+                Files = results,
+                TotalSize = results.Sum(f => f.Size)
+            });
+
         }
         catch (Exception ex)
         {
             return Results.Problem();
         }
     }
-
+    // DTOs
+    record UploadMetadata(string Author, List<FileInfo> FileInfo);
+    record FileInfo(string OriginalName, long Size, string Type);
+    record FileUploadResult(string FileName, long Size, string ContentType);
 }

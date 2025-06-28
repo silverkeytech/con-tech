@@ -30,8 +30,26 @@
     return {
         viewList: [],
         loading: true,
+        isUploading: false,
         error: null,
+        files: [],
+        uploading: false,
+        progress: 0,
+        authorName: '',
+        isDragging: false,
+        uploadProgress: 0,
+        successMessage: '',
+        errorMessage: '',
         newProduct: { name: '', price: 0, inStock: false },
+        formData: {
+            author: '',
+            attachments: []
+        },
+        levelData: {
+            levelId: '',
+            levelName: '',
+            levelScale: 1,
+        },
 
         async fetchViewDetails(id) {
 
@@ -134,7 +152,194 @@
             } catch (err) {
                 console.error('Failed to add product:', err);
             }
-        }
+        },
+        async uploadFilesFetchWay() {
+            const formData = new FormData();
+            // ... (same formData setup as above)
+
+            const response = await fetch('/api/upload', {
+                method: 'POST',
+                body: formData,
+                signal: this.abortController?.signal
+            });
+
+            // For progress tracking with fetch:
+            const reader = response.body.getReader();
+            const contentLength = +response.headers.get('Content-Length');
+            let receivedLength = 0;
+            let chunks = [];
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                chunks.push(value);
+                receivedLength += value.length;
+                this.progress = Math.round((receivedLength / contentLength) * 100);
+            }
+
+            // Process complete response
+            const chunksAll = new Uint8Array(receivedLength);
+            let position = 0;
+            for (let chunk of chunks) {
+                chunksAll.set(chunk, position);
+                position += chunk.length;
+            }
+
+            const result = new TextDecoder("utf-8").decode(chunksAll);
+            return JSON.parse(result);
+        },
+
+        addFilesLast(e) {
+            this.files = Array.from(e.target.files);
+        },
+
+        async uploadFiles() {
+            this.uploading = true;
+            this.progress = 0;
+
+            const formData = new FormData();
+
+            // Add JSON metadata as a part
+            const metadata = {
+                author: this.formData.author,
+                fileInfo: this.files.map(file => ({
+                    originalName: file.name,
+                    size: file.size,
+                    type: file.type
+                }))
+            };
+            formData.append('metadata', JSON.stringify(metadata));
+
+            // Add files as separate parts
+            this.files.forEach(file => {
+                formData.append('files', file, file.name);
+            });
+
+            try {
+                const xhr = new XMLHttpRequest();
+
+                xhr.upload.addEventListener('progress', (e) => {
+                    if (e.lengthComputable) {
+                        this.progress = Math.round((e.loaded / e.total) * 100);
+                    }
+                });
+
+                const response = await new Promise((resolve, reject) => {
+                    xhr.onreadystatechange = () => {
+                        if (xhr.readyState === 4) {
+                            if (xhr.status === 200) {
+                                resolve(JSON.parse(xhr.responseText));
+                            } else {
+                                reject(new Error('Upload failed'));
+                            }
+                        }
+                    };
+
+                    xhr.open('POST', '/api/upload', true);
+                    xhr.send(formData);
+                });
+
+                console.log('Upload successful:', response);
+            } catch (error) {
+                console.error('Upload error:', error);
+            } finally {
+                this.uploading = false;
+            }
+        },
+
+        handleFileSelect(event) {
+            this.addFiles(Array.from(event.target.files));
+            event.target.value = ''; // Reset input to allow selecting same files again
+        },
+
+        handleDrop(event) {
+            this.isDragging = false;
+            this.addFiles(Array.from(event.dataTransfer.files));
+        },
+
+        addFiles(newFiles) {
+            // Filter out duplicates by name and size
+            newFiles = newFiles.filter(newFile =>
+                !this.files.some(existingFile =>
+                    existingFile.name === newFile.name &&
+                    existingFile.size === newFile.size
+                )
+            );
+
+            this.files = [...this.files, ...newFiles];
+        },
+
+        removeFile(index) {
+            this.files.splice(index, 1);
+        },
+
+        formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        },
+
+        async uploadFiles1() {
+            if (this.files.length === 0) {
+                this.errorMessage = 'Please select at least one file';
+                return;
+            }
+
+            if (!this.authorName.trim()) {
+                this.errorMessage = 'Please enter your name';
+                return;
+            }
+
+            //this.isUploading = true;
+            this.uploadProgress = 0;
+            this.successMessage = '';
+            this.errorMessage = '';
+
+            try {
+                const formData = new FormData();
+                formData.append('authorName', this.authorName);
+
+                this.files.forEach(file => {
+                    formData.append('files', file);
+                });
+
+                const xhr = new XMLHttpRequest();
+
+                xhr.upload.addEventListener('progress', (event) => {
+                    if (event.lengthComputable) {
+                        this.uploadProgress = Math.round((event.loaded / event.total) * 100);
+                    }
+                });
+
+                const response = await new Promise((resolve, reject) => {
+                    xhr.onreadystatechange = () => {
+                        if (xhr.readyState === 4) {
+                            if (xhr.status === 200) {
+                                resolve(JSON.parse(xhr.responseText));
+                            } else {
+                                reject(xhr.responseText ? JSON.parse(xhr.responseText) : 'Upload failed');
+                            }
+                        }
+                    };
+
+                    xhr.open('POST', '/api/upload', true);
+                    xhr.send(formData);
+                });
+
+                this.successMessage = `Success! ${response.uploadCount} file(s) uploaded by ${response.Author}`;
+                console.log('Upload response:', response);
+                this.files = [];
+                this.$refs.uploadForm.reset();
+            } catch (error) {
+                console.error('Upload error:', error);
+                this.errorMessage = error.message || 'An error occurred during upload';
+            } finally {
+                //this.isUploading = false;
+                this.uploadProgress = 0;
+            }
+        },
     };
 
 }

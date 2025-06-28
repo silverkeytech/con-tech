@@ -39,6 +39,9 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAuthorization();
 
+app.UseHttpsRedirection();
+app.UseCors("AllowAll");
+
 app.MapControllers(); 
 app.MapRazorPages();
 

@@ -47,6 +47,65 @@
             margin: 0 5px;
         }
     </style>
+    <style>
+        .container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+
+        .dropzone {
+            border: 2px dashed #ccc;
+            padding: 2rem;
+            text-align: center;
+            margin: 1rem 0;
+            cursor: pointer;
+        }
+
+            .dropzone.active {
+                border-color: #4CAF50;
+                background: #f8f8f8;
+            }
+
+        .file-list {
+            margin: 1rem 0;
+        }
+
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .progress-bar {
+            height: 5px;
+            background: #e0e0e0;
+            margin-top: 0.5rem;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: #4CAF50;
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .success {
+            color: green;
+        }
+
+        .error {
+            color: red;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
 }
 
 @*/////////////////////////////////////////////*@
@@ -96,7 +155,7 @@
         <nav class="col-md-4 col-lg-2 d-md-block sidebar">
             <div class="d-flex align-items-center">
                 <img src="~/images/back.png" id="backImg" class="ms-3 mt-2">
-                <h5 class="mt-3">Layers</h5>
+                <h5 class="mt-3">Levels</h5>
             </div>
             <ul class="nav flex-column">
 
@@ -113,12 +172,14 @@
                   </div>
                 </li> -->
                 <!-- Button trigger modal -->
-                <button type="button" id="openModalButton" class="btn btn-primary mt-2" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal">
 
-                    Add Layers
-                    <span class="ms-2"> &#43;</span>
-                </button>
+                <li class="nav-item mt-2">
+                    <button type="button" id="openUploadLevelButton" class="btn btn-primary mt-2" data-bs-toggle="modal"
+                            data-bs-target="#uploadLevelModal">
+                        Add Level
+                        <span class="ms-2"> &#43;</span>
+                    </button>
+                </li>
                 <li class="nav-item mt-2">
                     <div id="layer-controls" class="mt-3">
                         <h6>Manage Layers</h6>
@@ -206,72 +267,160 @@
 
     </div>
 
-</div>
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <input type="hidden" id="levelId" name="levelId" value="0">
-                <div class="mb-3">
-                    <label for="layerName" class="form-label">Layer name</label>
-                    <input type="text" class="form-control" id="layerName" placeholder="Please enter layer name">
+    <!-- Modal -->
+    <div class="modal fade" id="uploadLevelModal" tabindex="-1" aria-labelledby="uploadLevelModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="uploadLevelModalLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="mb-3">
-                    <label for="upload-dxf-input" class="form-label">Dxf file</label>
-                    <input type="file" class="form-control" id="upload-dxf-input" accept=".dxf">
+                <div class="modal-body">
+                    @*                     <form @@submit.prevent="uploadFiles">
+                        <!-- Author field -->
+                        <input type="text" x-model="formData.author" placeholder="Your name">
+
+                        <!-- File selection -->
+                        <input type="file" @@change="addFiles" multiple>
+
+                        <!-- Progress tracking -->
+                        <div x-show="uploading">
+                            <progress max="100" :value="progress"></progress>
+                            <span x-text="`${progress}%`"></span>
+                        </div>
+
+                        <!-- Submit button -->
+                        <button type="submit" :disabled="uploading">Upload</button>
+                    </form> *@
+
+                    <form enctype="multipart/form-data" @@submit.prevent="uploadFiles" x-init="console.log('Component state:', $data)">
+
+                        <input type="hidden" id="levelId" name="levelId" x-model="levelData.levelId" value="">
+                        <div class="mb-3">
+                            <label for="levelName" class="form-label">Level name</label>
+                            <input type="text" class="form-control"
+                                   id="levelName"
+                                   name="levelName"
+                                   x-model="levelData.levelName"
+                                   required
+                                   :disabled="isUploading">
+                        </div>
+                        <div class="mb-3">
+                            <label for="upload-dxf-file" class="form-label">Dxf file</label>
+                            <input type="file" class="form-control"
+                                   id="upload-dxf-file"
+                                   name="dxfFile"
+                                   @@change="addFiles($event)"
+                                   :disabled="isUploading"
+                                   accept=".dxf">
+                        </div>
+                        <div class="mb-3">
+                            <label for="upload-excel-file" class="form-label">Progress excel file</label>
+                            <input type="file" class="form-control"
+                                   id="upload-excel-file"
+                                   name="excelFile"
+                                   @@change="addFiles($event)"
+                                   :disabled="isUploading"
+                                   accept=".xls,.xlsx,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                        </div>
+                        <div class="mb-3">
+                            <label for="levelScale" class="form-label">Level Scale</label>
+                            <input type="number" class="form-control" id="levelScale"
+                                   name="levelScale"
+                                   :disabled="isUploading"
+                                   x-model="levelData.levelScale"
+                                   placeholder="Enter scale (default is 1)"
+                                   step="0.1" value="1">
+                        </div>
+                        @* 
+                        <div class="dropzone"
+                             @@dragover.prevent="isDragging = true"
+                             @@dragleave.prevent="isDragging = false"
+                             @@drop.prevent="handleDrop"
+                             :class="{ 'active': isDragging }">
+                            <p>Drag & drop files here or click to browse</p>
+                            <input type="file"
+                                   id="fileInput"
+                                   @@change="handleFileSelect"
+                                   multiple
+                                   style="display: none;">
+                            <button type="button" @@click="$refs.fileInput.click()" :disabled="isUploading">
+                                Select Files
+                            </button>
+                        </div> *@
+
+                        @*    <div class="file-list" x-show="files.length > 0">
+                            <h3>Selected Files:</h3>
+                            <div x-data="{ showAll: false }">
+                                <template x-for="(file, index) in showAll ? files : files.slice(0, 5)">
+                                    <div class="file-item">
+                                        <span x-text="file.name"></span>
+                                        <span x-text="formatFileSize(file.size)"></span>
+                                        <button type="button"
+                                                @@click="removeFile(index)"
+                                                :disabled="isUploading">
+                                            ×
+                                        </button>
+                                    </div>
+                                </template>
+                                <button type="button"
+                                        @@click="showAll = !showAll"
+                                        x-show="files.length > 5"
+                                        x-text="showAll ? 'Show Less' : 'Show All'"
+                                        class="text-button"></button>
+                            </div>
+                        </div> *@
+                        @* 
+                        <div class="progress-bar" x-show="isUploading">
+                            <div class="progress" :style="'width: ' + uploadProgress + '%'"></div>
+                        </div>
+
+                        <button type="submit" :disabled="isUploading || files.length === 0">
+                            <span x-show="!isUploading">Upload Files</span>
+                            <span x-show="isUploading">Uploading...</span>
+                        </button> *@
+                        @* 
+                        <div x-show="successMessage" x-text="successMessage" class="success"></div>
+                        <div x-show="errorMessage" x-text="errorMessage" class="error"></div> *@
+                    </form>
                 </div>
-                <div class="mb-3">
-                    <label for="upload-file-input" class="form-label">Progress excel file</label>
-                    <input type="file" class="form-control" id="upload-file-input"
-                           accept=".xls,.xlsx,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="closeModalButton" data-bs-dismiss="modal">Close</button>
+                    <input type="button" class="btn btn-success" id="saveButton" value="Save">
                 </div>
-                <div class="mb-3">
-                    <label for="layerScale" class="form-label">Layer Scale</label>
-                    <input type="number" class="form-control" id="layerScale" placeholder="Enter scale (default is 1)"
-                           step="0.1" value="1">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" id="closeModalButton" data-bs-dismiss="modal">Close</button>
-                <input type="button" class="btn btn-success" id="saveButton" value="Save">
             </div>
         </div>
     </div>
-</div>
 
 
-<!-- Modal -->
-<div class="modal fade" id="addChildLevel" tabindex="-1" aria-labelledby="addChildLevelLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="addChildLevelLabel">Add Child level</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <input type="hidden" id="childLevelId" name="childLevelId" value="">
-                <input type="hidden" id="parentLevelId" name="parentLevelId" value="">
-                <input type="hidden" id="mainLayerId" name="mainLayerId" value="">
-
-                <div class="mb-3">
-                    <label for="childLevelName" class="form-label">level name</label>
-                    <input type="text" class="form-control" id="childLevelName" placeholder="Please enter level name">
+    <!-- Modal -->
+    <div class="modal fade" id="addChildLevel" tabindex="-1" aria-labelledby="addChildLevelLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="addChildLevelLabel">Add Child level</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+                <div class="modal-body">
+                    <input type="hidden" id="childLevelId" name="childLevelId" value="">
+                    <input type="hidden" id="parentLevelId" name="parentLevelId" value="">
+                    <input type="hidden" id="mainLayerId" name="mainLayerId" value="">
 
-                <ul id="addChildLevelList"></ul>
+                    <div class="mb-3">
+                        <label for="childLevelName" class="form-label">level name</label>
+                        <input type="text" class="form-control" id="childLevelName" placeholder="Please enter level name">
+                    </div>
 
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" id="closeChildLevelModalButton"
-                        data-bs-dismiss="modal">
-                    Close
-                </button>
-                <input type="button" class="btn btn-success" id="saveChildLevelButton" value="Save">
+                    <ul id="addChildLevelList"></ul>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="closeChildLevelModalButton"
+                            data-bs-dismiss="modal">
+                        Close
+                    </button>
+                    <input type="button" class="btn btn-success" id="saveChildLevelButton" value="Save">
+                </div>
             </div>
         </div>
     </div>
@@ -293,10 +442,10 @@
             const saveButton = document.getElementById('saveButton');
             const closeModalButton = document.getElementById('closeModalButton');
             const openModalButton = document.getElementById('openModalButton');
-            const layerInput = document.getElementById('layerName');
-            const excelFile = document.getElementById("upload-file-input");
-            const dxfFile = document.getElementById("upload-dxf-input");
-            const scaleInput = document.getElementById("layerScale");
+            const layerInput = document.getElementById('levelName');
+            const excelFile = document.getElementById("upload-excel-file");
+            const dxfFile = document.getElementById("upload-dxf-file");
+            const scaleInput = document.getElementById("levelScale");
             const levelIdInput = document.getElementById("levelId");
             const saveChildLevelButton = document.getElementById('saveChildLevelButton');
             const closeChildLevelModalButton = document.getElementById('closeChildLevelModalButton');
@@ -490,7 +639,7 @@
               window.location.reload();
             });
 
-            document.getElementById('layerScale').addEventListener('input', function () {
+            document.getElementById('levelScale').addEventListener('input', function () {
               const scaleValue = parseFloat(this.value) || 1; // Default to 1 if invalid
               console.log('Scale Value:', scaleValue);
               // if (window.lastDxfData) {
@@ -499,7 +648,7 @@
             });
             let excelData = []; // Will hold Excel rows
             let uploadGroup;
-            document.getElementById('upload-file-input').addEventListener('change', handleExcelUpload);
+            document.getElementById('upload-excel-file').addEventListener('change', handleExcelUpload);
 
             // Function to handle uploaded Excel file
             function handleExcelUpload(event) {
@@ -538,7 +687,7 @@
 
             const svgWidth = 1300;
             const svgHeight = 1300;
-            document.getElementById('upload-dxf-input').addEventListener('change', handleDxfUpload);
+            document.getElementById('upload-dxf-file').addEventListener('change', handleDxfUpload);
 
             // Function to calculate the bounds (min/max X and Y) of DXF entities
             function getBounds(entities) {
@@ -573,7 +722,7 @@
                 try {
                   dxfData = parser.parseSync(e.target.result);
                   window.lastDxfData = dxfData; // Store dxfData globally
-                  // const scaleInput = parseFloat(document.getElementById("layerScale").value) || 1;
+                  // const scaleInput = parseFloat(document.getElementById("levelScale").value) || 1;
                   // drawUploadedDXF(dxfData, scaleInput);
 
                 } catch (error) {
