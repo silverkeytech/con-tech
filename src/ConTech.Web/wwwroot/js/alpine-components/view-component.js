@@ -257,7 +257,8 @@
             this.addFiles(Array.from(event.dataTransfer.files));
         },
 
-        addFiles(newFiles) {
+        addFiles(e) {
+            var newFiles = Array.from(e.target.files);
             // Filter out duplicates by name and size
             newFiles = newFiles.filter(newFile =>
                 !this.files.some(existingFile =>
