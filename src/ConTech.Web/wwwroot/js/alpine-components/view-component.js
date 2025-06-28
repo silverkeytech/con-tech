@@ -34,7 +34,7 @@
         error: null,
         files: [],
         uploading: false,
-        progress: 0,
+        progress: 10,
         authorName: '',
         isDragging: false,
         uploadProgress: 0,
@@ -46,7 +46,7 @@
             attachments: []
         },
         levelData: {
-            levelId: '',
+            levelId: 0,
             levelName: '',
             levelScale: 1,
         },
@@ -154,10 +154,31 @@
             }
         },
         async uploadFilesFetchWay() {
-            const formData = new FormData();
-            // ... (same formData setup as above)
+            
+            this.uploading = true;
+            this.progress = 0;
 
-            const response = await fetch('/api/upload', {
+            const formData = new FormData();
+
+            // Add JSON metadata as a part
+            const metadata = {
+                levelId: this.levelData.levelId,
+                levelName: this.levelData.levelName,
+                levelScale: this.levelData.levelScale,
+                fileInfo: this.files.map(file => ({
+                    originalName: file.name,
+                    size: file.size,
+                    type: file.type
+                }))
+            };
+            formData.append('metadata', JSON.stringify(metadata));
+
+            // Add files as separate parts
+            this.files.forEach(file => {
+                formData.append('files', file, file.name);
+            });
+
+            const response = await fetch('/admin/view/add-view-level', {
                 method: 'POST',
                 body: formData,
                 signal: this.abortController?.signal
@@ -189,11 +210,8 @@
             return JSON.parse(result);
         },
 
-        addFilesLast(e) {
-            this.files = Array.from(e.target.files);
-        },
 
-        async uploadFiles() {
+        async uploadFilesXhrWay() {
             this.uploading = true;
             this.progress = 0;
 
@@ -288,12 +306,12 @@
                 return;
             }
 
-            if (!this.authorName.trim()) {
-                this.errorMessage = 'Please enter your name';
+            if (!this.levelData.levelName.trim()) {
+                this.errorMessage = 'Please enter level name';
                 return;
             }
 
-            //this.isUploading = true;
+            this.isUploading = true;
             this.uploadProgress = 0;
             this.successMessage = '';
             this.errorMessage = '';
@@ -337,7 +355,7 @@
                 console.error('Upload error:', error);
                 this.errorMessage = error.message || 'An error occurred during upload';
             } finally {
-                //this.isUploading = false;
+                this.isUploading = false;
                 this.uploadProgress = 0;
             }
         },

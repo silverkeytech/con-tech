@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.IO.Compression;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace ConTech.Web.Pages.View;
 
@@ -75,7 +76,7 @@ public class ViewEndpoints
 
             return Results.Ok(new
             {
-                Author = metadata.Author,
+                Author = metadata.LevelName,
                 Files = results,
                 TotalSize = results.Sum(f => f.Size)
             });
@@ -86,8 +87,18 @@ public class ViewEndpoints
             return Results.Problem();
         }
     }
-    // DTOs
-    record UploadMetadata(string Author, List<FileInfo> FileInfo);
-    record FileInfo(string OriginalName, long Size, string Type);
+
+    public record UploadMetadata(
+        [property: JsonPropertyName("levelId")] int LevelId,
+        [property: JsonPropertyName("levelName")] string LevelName,
+        [property: JsonPropertyName("levelScale")] int LevelScale,
+        [property: JsonPropertyName("fileInfo")] List<FileInfo> FileInfo
+    );
+
+    public record FileInfo(
+        [property: JsonPropertyName("originalName")] string OriginalName,
+        [property: JsonPropertyName("size")] long Size,
+        [property: JsonPropertyName("type")] string Type
+    );
     record FileUploadResult(string FileName, long Size, string ContentType);
 }
