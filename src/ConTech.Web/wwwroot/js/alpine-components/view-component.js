@@ -135,6 +135,7 @@
         updateZoomDisplay() {
             document.getElementById('zoom-level').textContent = `${Math.round(currentScale * 100)}%`;
         },
+        /* add business */
         async addLevel() {
             try {
                 const response = await fetch('/admin/view/add-view-level/', {
@@ -219,7 +220,9 @@
 
             // Add JSON metadata as a part
             const metadata = {
-                author: this.formData.author,
+                levelId: this.levelData.levelId,
+                levelName: this.levelData.levelName,
+                levelScale: this.levelData.levelScale,
                 fileInfo: this.files.map(file => ({
                     originalName: file.name,
                     size: file.size,
@@ -253,7 +256,7 @@
                         }
                     };
 
-                    xhr.open('POST', '/api/upload', true);
+                    xhr.open('POST', '/admin/view/add-view-level', true);
                     xhr.send(formData);
                 });
 
@@ -265,15 +268,15 @@
             }
         },
 
-        handleFileSelect(event) {
-            this.addFiles(Array.from(event.target.files));
-            event.target.value = ''; // Reset input to allow selecting same files again
-        },
+        //handleFileSelect(event) {
+        //    this.addFiles(Array.from(event.target.files));
+        //    event.target.value = ''; // Reset input to allow selecting same files again
+        //},
 
-        handleDrop(event) {
-            this.isDragging = false;
-            this.addFiles(Array.from(event.dataTransfer.files));
-        },
+        //handleDrop(event) {
+        //    this.isDragging = false;
+        //    this.addFiles(Array.from(event.dataTransfer.files));
+        //},
 
         addFiles(e) {
             var newFiles = Array.from(e.target.files);
@@ -288,77 +291,77 @@
             this.files = [...this.files, ...newFiles];
         },
 
-        removeFile(index) {
-            this.files.splice(index, 1);
-        },
+        //removeFile(index) {
+        //    this.files.splice(index, 1);
+        //},
 
-        formatFileSize(bytes) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-        },
+        //formatFileSize(bytes) {
+        //    if (bytes === 0) return '0 Bytes';
+        //    const k = 1024;
+        //    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        //    const i = Math.floor(Math.log(bytes) / Math.log(k));
+        //    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        //},
 
-        async uploadFiles1() {
-            if (this.files.length === 0) {
-                this.errorMessage = 'Please select at least one file';
-                return;
-            }
+        //async uploadFiles1() {
+        //    if (this.files.length === 0) {
+        //        this.errorMessage = 'Please select at least one file';
+        //        return;
+        //    }
 
-            if (!this.levelData.levelName.trim()) {
-                this.errorMessage = 'Please enter level name';
-                return;
-            }
+        //    if (!this.levelData.levelName.trim()) {
+        //        this.errorMessage = 'Please enter level name';
+        //        return;
+        //    }
 
-            this.isUploading = true;
-            this.uploadProgress = 0;
-            this.successMessage = '';
-            this.errorMessage = '';
+        //    this.isUploading = true;
+        //    this.uploadProgress = 0;
+        //    this.successMessage = '';
+        //    this.errorMessage = '';
 
-            try {
-                const formData = new FormData();
-                formData.append('authorName', this.authorName);
+        //    try {
+        //        const formData = new FormData();
+        //        formData.append('authorName', this.authorName);
 
-                this.files.forEach(file => {
-                    formData.append('files', file);
-                });
+        //        this.files.forEach(file => {
+        //            formData.append('files', file);
+        //        });
 
-                const xhr = new XMLHttpRequest();
+        //        const xhr = new XMLHttpRequest();
 
-                xhr.upload.addEventListener('progress', (event) => {
-                    if (event.lengthComputable) {
-                        this.uploadProgress = Math.round((event.loaded / event.total) * 100);
-                    }
-                });
+        //        xhr.upload.addEventListener('progress', (event) => {
+        //            if (event.lengthComputable) {
+        //                this.uploadProgress = Math.round((event.loaded / event.total) * 100);
+        //            }
+        //        });
 
-                const response = await new Promise((resolve, reject) => {
-                    xhr.onreadystatechange = () => {
-                        if (xhr.readyState === 4) {
-                            if (xhr.status === 200) {
-                                resolve(JSON.parse(xhr.responseText));
-                            } else {
-                                reject(xhr.responseText ? JSON.parse(xhr.responseText) : 'Upload failed');
-                            }
-                        }
-                    };
+        //        const response = await new Promise((resolve, reject) => {
+        //            xhr.onreadystatechange = () => {
+        //                if (xhr.readyState === 4) {
+        //                    if (xhr.status === 200) {
+        //                        resolve(JSON.parse(xhr.responseText));
+        //                    } else {
+        //                        reject(xhr.responseText ? JSON.parse(xhr.responseText) : 'Upload failed');
+        //                    }
+        //                }
+        //            };
 
-                    xhr.open('POST', '/api/upload', true);
-                    xhr.send(formData);
-                });
+        //            xhr.open('POST', '/api/upload', true);
+        //            xhr.send(formData);
+        //        });
 
-                this.successMessage = `Success! ${response.uploadCount} file(s) uploaded by ${response.Author}`;
-                console.log('Upload response:', response);
-                this.files = [];
-                this.$refs.uploadForm.reset();
-            } catch (error) {
-                console.error('Upload error:', error);
-                this.errorMessage = error.message || 'An error occurred during upload';
-            } finally {
-                this.isUploading = false;
-                this.uploadProgress = 0;
-            }
-        },
+        //        this.successMessage = `Success! ${response.uploadCount} file(s) uploaded by ${response.Author}`;
+        //        console.log('Upload response:', response);
+        //        this.files = [];
+        //        this.$refs.uploadForm.reset();
+        //    } catch (error) {
+        //        console.error('Upload error:', error);
+        //        this.errorMessage = error.message || 'An error occurred during upload';
+        //    } finally {
+        //        this.isUploading = false;
+        //        this.uploadProgress = 0;
+        //    }
+        //},
     };
 
 }
