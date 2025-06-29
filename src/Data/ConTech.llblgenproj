@@ -956,6 +956,106 @@
             </Field>
           </Fields>
         </Document>
+        <Document Name="ViewLevelListView">
+          <RootEntity Entity=":ViewLevel" />
+          <Fields>
+            <Field Name="CreatedByUserId">
+              <EntityField Name="CreatedByUserId" />
+            </Field>
+            <Field Name="DateCreatedUtc">
+              <EntityField Name="DateCreatedUtc" />
+            </Field>
+            <Field Name="Description">
+              <EntityField Name="Description" />
+            </Field>
+            <Field Name="DxfData">
+              <EntityField Name="DxfData" />
+            </Field>
+            <Field Name="EntityData">
+              <EntityField Name="EntityData" />
+            </Field>
+            <Field Name="Id">
+              <EntityField Name="Id" />
+            </Field>
+            <Field Name="LastModifiedByUserId">
+              <EntityField Name="LastModifiedByUserId" />
+            </Field>
+            <Field Name="LastModifiedUtc">
+              <EntityField Name="LastModifiedUtc" />
+            </Field>
+            <Field Name="Name">
+              <EntityField Name="Name" />
+            </Field>
+            <Field Name="ObjectStatus">
+              <EntityField Name="ObjectStatus" />
+            </Field>
+            <Field Name="Scale">
+              <EntityField Name="Scale" />
+            </Field>
+            <Field Name="TransitionX">
+              <EntityField Name="TransitionX" />
+            </Field>
+            <Field Name="TransitionY">
+              <EntityField Name="TransitionY" />
+            </Field>
+            <Field Name="ViewId">
+              <EntityField Name="ViewId" />
+            </Field>
+          </Fields>
+        </Document>
+        <Document Name="ViewLevelView">
+          <RootEntity Entity=":ViewLevel" />
+          <Fields>
+            <Field Name="CreatedByUserId">
+              <EntityField Name="CreatedByUserId" />
+            </Field>
+            <Field Name="DateCreatedUtc">
+              <EntityField Name="DateCreatedUtc" />
+            </Field>
+            <Field Name="Description">
+              <EntityField Name="Description" />
+            </Field>
+            <Field Name="DxfData">
+              <EntityField Name="DxfData" />
+            </Field>
+            <Field Name="DxfFile">
+              <EntityField Name="DxfFile" />
+            </Field>
+            <Field Name="EntityData">
+              <EntityField Name="EntityData" />
+            </Field>
+            <Field Name="ExcelFile">
+              <EntityField Name="ExcelFile" />
+            </Field>
+            <Field Name="Id">
+              <EntityField Name="Id" />
+            </Field>
+            <Field Name="LastModifiedByUserId">
+              <EntityField Name="LastModifiedByUserId" />
+            </Field>
+            <Field Name="LastModifiedUtc">
+              <EntityField Name="LastModifiedUtc" />
+            </Field>
+            <Field Name="Name">
+              <EntityField Name="Name" />
+            </Field>
+            <Field Name="ObjectStatus">
+              <EntityField Name="ObjectStatus" />
+            </Field>
+            <Field Name="Scale">
+              <EntityField Name="Scale" />
+            </Field>
+            <Field Name="TransitionX">
+              <EntityField Name="TransitionX" />
+            </Field>
+            <Field Name="TransitionY">
+              <EntityField Name="TransitionY" />
+            </Field>
+            <Field Name="ViewId">
+              <EntityField Name="ViewId" />
+            </Field>
+          </Fields>
+        </Document>
       </Documents>
     </DerivedModel>
   </DerivedModels>

@@ -1,3 +1,4 @@
+using ConTech.Core.Features.Level;
 using ConTech.Core.Features.View;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -59,7 +60,7 @@ public class ViewEndpoints
             if (string.IsNullOrEmpty(metadataJson))
                 return Results.BadRequest("Metadata is required");
 
-            var metadata = JsonSerializer.Deserialize<UploadMetadata>(metadataJson!);
+            var metadata = JsonSerializer.Deserialize<ViewLevelNewInput>(metadataJson!);
             var files = form.Files;
 
             // Process files and metadata
@@ -88,17 +89,5 @@ public class ViewEndpoints
         }
     }
 
-    public record UploadMetadata(
-        [property: JsonPropertyName("levelId")] int LevelId,
-        [property: JsonPropertyName("levelName")] string LevelName,
-        [property: JsonPropertyName("levelScale")] int LevelScale,
-        [property: JsonPropertyName("fileInfo")] List<FileInfo> FileInfo
-    );
-
-    public record FileInfo(
-        [property: JsonPropertyName("originalName")] string OriginalName,
-        [property: JsonPropertyName("size")] long Size,
-        [property: JsonPropertyName("type")] string Type
-    );
     record FileUploadResult(string FileName, long Size, string ContentType);
 }
