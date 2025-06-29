@@ -8,8 +8,7 @@
     let currentScale = 1.0;
     const scaleIncrement = 0.25;
     const container = document.getElementById('svg_client_2_container');
-    const modalElement = document.getElementById('uploadLevelModal');
-    //const modal = bootstrap.Modal.getInstance(modalElement);
+    const closemodalElement = document.getElementById('btn-close');
 
     let canvas = null;
     let ctx = null;
@@ -32,28 +31,18 @@
 
     return {
         viewList: [],
-        loading: true,
         isUploading: false,
         error: null,
         dxfFile: null,
         excelFile: null,
-        modal: new bootstrap.Modal(modalElement),
-        uploading: false,
-        progress: 10,
-        authorName: '',
+        progress: 2,
         isDragging: false,
-        uploadProgress: 0,
         successMessage: '',
         errorMessage: '',
-        newProduct: { name: '', price: 0, inStock: false },
-        formData: {
-            author: '',
-            attachments: []
-        },
         levelData: {
             viewId: viewId,
             levelName: '',
-            levelScale: 1,
+            levelScale: '1',
         },
 
         async fetchViewDetails(id) {
@@ -284,16 +273,8 @@
             } finally {
                 this.uploading = false;
 
-                //this.addLevelModal.hide();
-                this.modal.hide(); this.removeBackdrop();
+                closemodalElement.click();
             }
-        },
-        removeBackdrop() {
-            const backdrops = document.querySelectorAll('.modal-backdrop');
-            backdrops.forEach(backdrop => backdrop.remove());
-
-            // Reset body class
-            document.body.classList.remove('modal-open');
         },
 
         //handleFileSelect(event) {

@@ -45,14 +45,6 @@ public class ViewEndpoints
     {
         try
         {
-            //var realId = Convert.ToInt32(id);
-            //var result = await repo.GetProjectViewByIdAsync(realId);
-
-            //if (result.IsNotFound)
-            //    return Results.NotFound();
-
-            //return Results.Json(result.Item);
-
 
             if (!request.HasFormContentType)
                 return Results.BadRequest("Expected multipart form data");
@@ -65,9 +57,7 @@ public class ViewEndpoints
 
             var metadata = JsonSerializer.Deserialize<ViewLevelNewInput>(metadataJson!);
 
-            //var files = form.Files;
 
-            // Get files from each input
             var dxfFile = form.Files.GetFiles("dxfFile");
             var excelFile = form.Files.GetFiles("excelFile");
 
@@ -75,21 +65,10 @@ public class ViewEndpoints
             metadata.ExcelFile = excelFile[0];
 
             var result = await repo.CreateViewLevelAsync(metadata);
-            //// Process files and metadata
-            //var results = new List<FileUploadResult>();
-            //foreach (var file in files)
-            //{
-            //    // Save file or process as needed
-            //    results.Add(new FileUploadResult(
-            //        file.FileName,
-            //        file.Length,
-            //        file.ContentType
-            //    ));
-            //}
 
             return Results.Ok(new
             {
-                Author = metadata.LevelName,
+                LevelName = metadata.LevelName,
                 //Files = results,
                 //TotalSize = results.Sum(f => f.Size)
             });
@@ -101,5 +80,4 @@ public class ViewEndpoints
         }
     }
 
-    record FileUploadResult(string FileName, long Size, string ContentType);
 }
