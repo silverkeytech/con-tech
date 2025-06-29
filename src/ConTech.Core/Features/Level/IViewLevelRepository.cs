@@ -10,7 +10,7 @@ public interface IViewLevelRepository
 
     Task<IQuerySetOne<ViewLevelView?>> GetViewLevelByIdAsync(string id);
 
-    Task<Result<ViewLevelEntity?>> CreateViewLevelAsync(ViewLevelNewInput input, IByUser by);
+    Task<Result<ViewLevelEntity?>> CreateViewLevelAsync(ViewLevelNewInput input);
 
     Task<Result<ViewLevelEntity?>> UpdateViewLevelAsync(ViewLevelUpdateInput input, IByUser by);
 

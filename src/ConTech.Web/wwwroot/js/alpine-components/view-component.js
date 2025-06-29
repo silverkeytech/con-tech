@@ -32,7 +32,8 @@
         loading: true,
         isUploading: false,
         error: null,
-        files: [],
+        dxfFile: null,
+        excelFile: null,
         uploading: false,
         progress: 10,
         authorName: '',
@@ -223,18 +224,31 @@
                 levelId: this.levelData.levelId,
                 levelName: this.levelData.levelName,
                 levelScale: this.levelData.levelScale,
-                fileInfo: this.files.map(file => ({
-                    originalName: file.name,
-                    size: file.size,
-                    type: file.type
-                }))
+                fileInfo: [],
             };
             formData.append('metadata', JSON.stringify(metadata));
 
-            // Add files as separate parts
-            this.files.forEach(file => {
-                formData.append('files', file, file.name);
-            });
+            //// Add files as separate parts
+            //this.files.forEach(file => {
+            //    formData.append('files', file, file.name);
+            //});
+
+            formData.append('dxfFile', this.dxfFile);
+            let dxfFileInfo = {
+                originalName: this.dxfFile.name,
+                size: this.dxfFile.size,
+                type: this.dxfFile.type
+            }
+            metadata.fileInfo.push(dxfFileInfo);
+
+            formData.append('excelFile', this.excelFile);
+            let excelFileInfo = {
+                originalName: this.excelFile.name,
+                size: this.excelFile.size,
+                type: this.excelFile.type
+            }
+            metadata.fileInfo.push(excelFileInfo);
+
 
             try {
                 const xhr = new XMLHttpRequest();
@@ -277,6 +291,14 @@
         //    this.isDragging = false;
         //    this.addFiles(Array.from(event.dataTransfer.files));
         //},
+
+        addDxfFile(e) {
+            this.dxfFile = e.target.files[0];
+        },
+
+        addExcelFile(e) {
+            this.excelFile = e.target.files[0];
+        },
 
         addFiles(e) {
             var newFiles = Array.from(e.target.files);

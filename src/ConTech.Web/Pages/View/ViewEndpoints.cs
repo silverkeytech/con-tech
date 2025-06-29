@@ -1,7 +1,10 @@
+using ConTech.Core.Features.Identity;
 using ConTech.Core.Features.Level;
 using ConTech.Core.Features.View;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using SD.LLBLGen.Pro.ORMSupportClasses;
+
 //using Newtonsoft.Json;
 using System.IO.Compression;
 using System.Text;
@@ -38,7 +41,7 @@ public class ViewEndpoints
         }
     }
 
-    public static async Task<IResult> AddViewLevelAsync(HttpRequest request, IProjectViewRepository repo)
+    public static async Task<IResult> AddViewLevelAsync(HttpRequest request, IViewLevelRepository repo)
     {
         try
         {
@@ -61,25 +64,31 @@ public class ViewEndpoints
                 return Results.BadRequest("Metadata is required");
 
             var metadata = JsonSerializer.Deserialize<ViewLevelNewInput>(metadataJson!);
-            var files = form.Files;
 
-            // Process files and metadata
-            var results = new List<FileUploadResult>();
-            foreach (var file in files)
-            {
-                // Save file or process as needed
-                results.Add(new FileUploadResult(
-                    file.FileName,
-                    file.Length,
-                    file.ContentType
-                ));
-            }
+            //var files = form.Files;
+
+            // Get files from each input
+            var dxfFile = form.Files.GetFiles("dxfFile");
+            var excelFile = form.Files.GetFiles("excelFile");
+
+            var result = await repo.CreateViewLevelAsync(metadata);
+            //// Process files and metadata
+            //var results = new List<FileUploadResult>();
+            //foreach (var file in files)
+            //{
+            //    // Save file or process as needed
+            //    results.Add(new FileUploadResult(
+            //        file.FileName,
+            //        file.Length,
+            //        file.ContentType
+            //    ));
+            //}
 
             return Results.Ok(new
             {
                 Author = metadata.LevelName,
-                Files = results,
-                TotalSize = results.Sum(f => f.Size)
+                //Files = results,
+                //TotalSize = results.Sum(f => f.Size)
             });
 
         }

@@ -84,7 +84,7 @@ public class ViewLevelUpdateInput
         ViewId = v.ViewId;
     }
 
-    public ViewLevelEntity ToEntity(IByUser by)
+    public ViewLevelEntity ToEntity()
     {
         var e = new ViewLevelEntity
         {

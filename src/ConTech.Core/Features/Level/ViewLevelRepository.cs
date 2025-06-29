@@ -112,14 +112,14 @@ public class ViewLevelRepository(DataAccessAdapter adapter, IStringLocalizer<Glo
     }
 
 
-    public async Task<Result<ViewLevelEntity?>> UpdateViewLevelAsync(ViewLevelUpdateInput input, IByUser by)
+    public async Task<Result<ViewLevelEntity?>> UpdateViewLevelAsync(ViewLevelUpdateInput input)
     {
         try
         {
             ArgumentNullException.ThrowIfNull(input);
-            ArgumentNullException.ThrowIfNull(by);
+            //ArgumentNullException.ThrowIfNull(by);
 
-            var e = input.ToEntity(by);
+            var e = input.ToEntity();
 
             using (var memoryStream = new MemoryStream())
             {

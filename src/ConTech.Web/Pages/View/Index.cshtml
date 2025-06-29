@@ -310,7 +310,7 @@
                             <input type="file" class="form-control"
                                    id="upload-dxf-file"
                                    name="dxfFile"
-                                   @@change="addFiles($event)"
+                                   @@change="addDxfFile($event)"
                                    :disabled="isUploading"
                                    accept=".dxf">
                         </div>
@@ -319,7 +319,7 @@
                             <input type="file" class="form-control"
                                    id="upload-excel-file"
                                    name="excelFile"
-                                   @@change="addFiles($event)"
+                                   @@change="addExcelFile($event)"
                                    :disabled="isUploading"
                                    accept=".xls,.xlsx,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
                         </div>
