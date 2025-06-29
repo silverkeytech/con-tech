@@ -8,6 +8,9 @@
     let currentScale = 1.0;
     const scaleIncrement = 0.25;
     const container = document.getElementById('svg_client_2_container');
+    const modalElement = document.getElementById('uploadLevelModal');
+    //const modal = bootstrap.Modal.getInstance(modalElement);
+
     let canvas = null;
     let ctx = null;
 
@@ -34,6 +37,7 @@
         error: null,
         dxfFile: null,
         excelFile: null,
+        modal: new bootstrap.Modal(modalElement),
         uploading: false,
         progress: 10,
         authorName: '',
@@ -279,7 +283,17 @@
                 console.error('Upload error:', error);
             } finally {
                 this.uploading = false;
+
+                //this.addLevelModal.hide();
+                this.modal.hide(); this.removeBackdrop();
             }
+        },
+        removeBackdrop() {
+            const backdrops = document.querySelectorAll('.modal-backdrop');
+            backdrops.forEach(backdrop => backdrop.remove());
+
+            // Reset body class
+            document.body.classList.remove('modal-open');
         },
 
         //handleFileSelect(event) {

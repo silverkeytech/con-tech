@@ -154,7 +154,7 @@
 }
 @foreach (var view in Model.ProjectViewList)
 {
-    <div x-data="viewComponent(@view.Id)">
+    <div x-data="viewComponent(@view.Id)" >
         <div class="row">
             <nav class="col-md-4 col-lg-2 d-md-block sidebar">
                 <div class="d-flex align-items-center">
@@ -267,7 +267,7 @@
         </div>
 
         <!-- Modal -->
-        <div class="modal fade" id="uploadLevelModal" tabindex="-1" aria-labelledby="uploadLevelModalLabel" aria-hidden="true">
+        <div class="modal fade" id="uploadLevelModal" x-ref="uploadLevelModal" tabindex="-1" aria-labelledby="uploadLevelModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
