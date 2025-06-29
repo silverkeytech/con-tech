@@ -109,91 +109,91 @@
 }
 
 @*/////////////////////////////////////////////*@
-<div x-data="viewComponent()">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-        <div class="container-fluid">
-            <img class="navbar-brand" src="~/images/projecs.png" height="40" width="170" />
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-4 mt-3 nav nav-tabs" id="myTab" role="tablist">
-                    <li class="nav-item me-4"><a class="nav-link" href="#">Project 01</a></li>
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+    <div class="container-fluid">
+        <img class="navbar-brand" src="~/images/projecs.png" height="40" width="170" />
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-4 mt-3 nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item me-4"><a class="nav-link" href="#">Project 01</a></li>
 
-                    @{
-                        var firstTab = true;
-                    }
-                    @foreach (var view in Model.ProjectViewList)
-                    {
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link d-inline-block @(firstTab ? "active" : "")" x-on:click="fetchViewDetails(@view.Id)" id="@view.Id-tab" data-bs-toggle="tab" data-bs-target="#@view.Id" role="tab" aria-controls="@view.Id">
-                                @view.Name <span>
-                                    <a asp-page="./Update" asp-route-id="@view.Id" class="btn btn-sm btn-outline-primary edit-tab actions">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
-                                    <a asp-page="./Delete" asp-route-id="@view.Id" class="btn btn-sm btn-outline-danger delete-tab actions">
-                                        <i class="bi bi-trash"></i>
-                                    </a>
-                                </span>
-                            </a>
-                        </li>
-                        firstTab = false;
-                    }
-                </ul>
-            </div>
-
-            <div class="">
-                <a asp-page="Create" asp-route-projectId="@Model.ProjectId" class="btn btn-primary">
-                    <i class="bi bi-plus-circle"></i> Create New
-                </a>
-            </div>
-        </div>
-    </nav>
-
-    <div class="row">
-        <nav class="col-md-4 col-lg-2 d-md-block sidebar">
-            <div class="d-flex align-items-center">
-                <img src="~/images/back.png" id="backImg" class="ms-3 mt-2">
-                <h5 class="mt-3">Levels</h5>
-            </div>
-            <ul class="nav flex-column">
-
-                <li class=" nav-item mt-3">
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked">
-                        <label class="form-check-label" for="flexSwitchCheckChecked">Display Progress</label>
-                    </div>
-                </li>
-                <!--
-                <li class="nav-item my-1">
-                  <div class="input-group">
-                    <input class="form-control border" type="search" placeholder="search" id="search-input">
-                  </div>
-                </li> -->
-                <!-- Button trigger modal -->
-
-                <li class="nav-item mt-2">
-                    <button type="button" id="openUploadLevelButton" class="btn btn-primary mt-2" data-bs-toggle="modal"
-                            data-bs-target="#uploadLevelModal">
-                        Add Level
-                        <span class="ms-2"> &#43;</span>
-                    </button>
-                </li>
-                <li class="nav-item mt-2">
-                    <div id="layer-controls" class="mt-3">
-                        <h6>Manage Layers</h6>
-                        <ul class="list-group list-group-flush" id="layerList"></ul>
-                    </div>
-                </li>
+                @{
+                    var firstTab = true;
+                }
+                @foreach (var view in Model.ProjectViewList)
+                {
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link d-inline-block @(firstTab ? "active" : "")" x-on:click="fetchViewDetails(@view.Id)" id="@view.Id-tab" data-bs-toggle="tab" data-bs-target="#@view.Id" role="tab" aria-controls="@view.Id">
+                            @view.Name <span>
+                                <a asp-page="./Update" asp-route-id="@view.Id" class="btn btn-sm btn-outline-primary edit-tab actions">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a asp-page="./Delete" asp-route-id="@view.Id" class="btn btn-sm btn-outline-danger delete-tab actions">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </span>
+                        </a>
+                    </li>
+                    firstTab = false;
+                }
             </ul>
-        </nav>
-        <div class="tab-content col-md-7 col-lg-9  mt-4 px-md-4" id="myTabContent">
-            @{
-                var firstContent = true;
-            }
-            @foreach (var view in Model.ProjectViewList)
-            {
+        </div>
+
+        <div class="">
+            <a asp-page="Create" asp-route-projectId="@Model.ProjectId" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Create New
+            </a>
+        </div>
+    </div>
+</nav>
+@{
+    var firstContent = true;
+}
+@foreach (var view in Model.ProjectViewList)
+{
+    <div x-data="viewComponent(@view.Id)">
+        <div class="row">
+            <nav class="col-md-4 col-lg-2 d-md-block sidebar">
+                <div class="d-flex align-items-center">
+                    <img src="~/images/back.png" id="backImg" class="ms-3 mt-2">
+                    <h5 class="mt-3">Levels</h5>
+                </div>
+                <ul class="nav flex-column">
+
+                    <li class=" nav-item mt-3">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked">
+                            <label class="form-check-label" for="flexSwitchCheckChecked">Display Progress</label>
+                        </div>
+                    </li>
+                    <!--
+                    <li class="nav-item my-1">
+                      <div class="input-group">
+                        <input class="form-control border" type="search" placeholder="search" id="search-input">
+                      </div>
+                    </li> -->
+                    <!-- Button trigger modal -->
+
+                    <li class="nav-item mt-2">
+                        <button type="button" id="openUploadLevelButton" class="btn btn-primary mt-2" data-bs-toggle="modal"
+                                data-bs-target="#uploadLevelModal">
+                            Add Level
+                            <span class="ms-2"> &#43;</span>
+                        </button>
+                    </li>
+                    <li class="nav-item mt-2">
+                        <div id="layer-controls" class="mt-3">
+                            <h6>Manage Layers</h6>
+                            <ul class="list-group list-group-flush" id="layerList"></ul>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+            <div class="tab-content col-md-7 col-lg-9  mt-4 px-md-4" id="myTabContent">
+
                 <div class="tab-pane fade  @(firstContent ? "show active" : "")" id="@view.Id" role="tabpanel" aria-labelledby="@view.Id-tab">
                     <main x-init="@(JsonSerializer.Serialize<bool>(firstContent)) && fetchViewDetails(@view.Id)">
                         <!-- <div class="w-75 mx-auto">
@@ -260,24 +260,23 @@
                         </div>
                     </main>
                 </div>
-                firstContent = false;
-            }
+                
+            </div>
+            <!-- Main Content -->
+
         </div>
-        <!-- Main Content -->
 
-    </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="uploadLevelModal" tabindex="-1" aria-labelledby="uploadLevelModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="uploadLevelModalLabel">Modal title</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form enctype="multipart/form-data" x-init="console.log('Component state:', $data)">
-                    <div class="modal-body">
-                        @*                     <form @@submit.prevent="uploadFiles">
+        <!-- Modal -->
+        <div class="modal fade" id="uploadLevelModal" tabindex="-1" aria-labelledby="uploadLevelModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="uploadLevelModalLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form enctype="multipart/form-data" x-init="console.log('Component state:', $data)">
+                        <div class="modal-body">
+                            @*                     <form @@submit.prevent="uploadFiles">
                         <!-- Author field -->
                         <input type="text" x-model="formData.author" placeholder="Your name">
 
@@ -295,50 +294,50 @@
                     </form> *@
 
 
-                        <input type="hidden" id="levelId" name="levelId" x-model="levelData.levelId" value="">
-                        <div class="mb-3">
-                            <label for="levelName" class="form-label">Level name</label>
-                            <input type="text" class="form-control"
-                                   id="levelName"
-                                   name="levelName"
-                                   x-model="levelData.levelName"
-                                   required
-                                   :disabled="isUploading">
-                        </div>
-                        <div class="mb-3">
-                            <label for="upload-dxf-file" class="form-label">Dxf file</label>
-                            <input type="file" class="form-control"
-                                   id="upload-dxf-file"
-                                   name="dxfFile"
-                                   @@change="addDxfFile($event)"
-                                   :disabled="isUploading"
-                                   accept=".dxf">
-                        </div>
-                        <div class="mb-3">
-                            <label for="upload-excel-file" class="form-label">Progress excel file</label>
-                            <input type="file" class="form-control"
-                                   id="upload-excel-file"
-                                   name="excelFile"
-                                   @@change="addExcelFile($event)"
-                                   :disabled="isUploading"
-                                   accept=".xls,.xlsx,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
-                        </div>
-                        <div class="mb-3">
-                            <label for="levelScale" class="form-label">Level Scale</label>
-                            <input type="number" class="form-control" id="levelScale"
-                                   name="levelScale"
-                                   :disabled="isUploading"
-                                   x-model="levelData.levelScale"
-                                   placeholder="Enter scale (default is 1)"
-                                   step="0.1" value="1">
-                        </div>
-                        <div class="mb-3">
-                            <label for="levelScale" class="form-label">Progress</label>
-                            <div class="progress-bar" x-show="!isUploading">
-                                <div class="progress" :style="'width: ' + progress + '%'"></div>
+                            <input type="hidden" id="viewId" name="viewId" x-model="levelData.viewId" value="">
+                            <div class="mb-3">
+                                <label for="levelName" class="form-label">Level name</label>
+                                <input type="text" class="form-control"
+                                       id="levelName"
+                                       name="levelName"
+                                       x-model="levelData.levelName"
+                                       required
+                                       :disabled="isUploading">
                             </div>
-                        </div>
-                        @* 
+                            <div class="mb-3">
+                                <label for="upload-dxf-file" class="form-label">Dxf file</label>
+                                <input type="file" class="form-control"
+                                       id="upload-dxf-file"
+                                       name="dxfFile"
+                                       @@change="addDxfFile($event)"
+                                       :disabled="isUploading"
+                                       accept=".dxf">
+                            </div>
+                            <div class="mb-3">
+                                <label for="upload-excel-file" class="form-label">Progress excel file</label>
+                                <input type="file" class="form-control"
+                                       id="upload-excel-file"
+                                       name="excelFile"
+                                       @@change="addExcelFile($event)"
+                                       :disabled="isUploading"
+                                       accept=".xls,.xlsx,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                            </div>
+                            <div class="mb-3">
+                                <label for="levelScale" class="form-label">Level Scale</label>
+                                <input type="number" class="form-control" id="levelScale"
+                                       name="levelScale"
+                                       :disabled="isUploading"
+                                       x-model="levelData.levelScale"
+                                       placeholder="Enter scale (default is 1)"
+                                       step="0.1" value="1">
+                            </div>
+                            <div class="mb-3">
+                                <label for="levelScale" class="form-label">Progress</label>
+                                <div class="progress-bar" x-show="!isUploading">
+                                    <div class="progress" :style="'width: ' + progress + '%'"></div>
+                                </div>
+                            </div>
+                            @* 
                         <div class="dropzone"
                              @@dragover.prevent="isDragging = true"
                              @@dragleave.prevent="isDragging = false"
@@ -355,7 +354,7 @@
                             </button>
                         </div> *@
 
-                        @*    <div class="file-list" x-show="files.length > 0">
+                            @*    <div class="file-list" x-show="files.length > 0">
                             <h3>Selected Files:</h3>
                             <div x-data="{ showAll: false }">
                                 <template x-for="(file, index) in showAll ? files : files.slice(0, 5)">
@@ -376,59 +375,61 @@
                                         class="text-button"></button>
                             </div>
                         </div> *@
-                        @* 
+                            @* 
 
                         <button type="submit" :disabled="isUploading || files.length === 0">
                             <span x-show="!isUploading">Upload Files</span>
                             <span x-show="isUploading">Uploading...</span>
                         </button> *@
-                        @* 
+                            @* 
                         <div x-show="successMessage" x-text="successMessage" class="success"></div>
                         <div x-show="errorMessage" x-text="errorMessage" class="error"></div> *@
-                    </div>
-                </form>
+                        </div>
+                    </form>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" id="closeModalButton" data-bs-dismiss="modal">Close</button>
                         <input type="button" class="btn btn-success" id="saveButton" value="Save">
-                    <input type="button" @@click="uploadFilesXhrWay()" class="btn btn-success" id="saveLevel" value="Save Api">
+                        <input type="button" @@click="uploadFilesXhrWay()" class="btn btn-success" id="saveLevel" value="Save Api">
                     </div>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- Modal -->
-    <div class="modal fade" id="addChildLevel" tabindex="-1" aria-labelledby="addChildLevelLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="addChildLevelLabel">Add Child level</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" id="childLevelId" name="childLevelId" value="">
-                    <input type="hidden" id="parentLevelId" name="parentLevelId" value="">
-                    <input type="hidden" id="mainLayerId" name="mainLayerId" value="">
-
-                    <div class="mb-3">
-                        <label for="childLevelName" class="form-label">level name</label>
-                        <input type="text" class="form-control" id="childLevelName" placeholder="Please enter level name">
-                    </div>
-
-                    <ul id="addChildLevelList"></ul>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" id="closeChildLevelModalButton"
-                            data-bs-dismiss="modal">
-                        Close
-                    </button>
-                    <input type="button" class="btn btn-success" id="saveChildLevelButton" value="Save">
                 </div>
             </div>
         </div>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="addChildLevel" tabindex="-1" aria-labelledby="addChildLevelLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="addChildLevelLabel">Add Child level</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="childLevelId" name="childLevelId" value="">
+                        <input type="hidden" id="parentLevelId" name="parentLevelId" value="">
+                        <input type="hidden" id="mainLayerId" name="mainLayerId" value="">
+
+                        <div class="mb-3">
+                            <label for="childLevelName" class="form-label">level name</label>
+                            <input type="text" class="form-control" id="childLevelName" placeholder="Please enter level name">
+                        </div>
+
+                        <ul id="addChildLevelList"></ul>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" id="closeChildLevelModalButton"
+                                data-bs-dismiss="modal">
+                            Close
+                        </button>
+                        <input type="button" class="btn btn-success" id="saveChildLevelButton" value="Save">
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+    firstContent = false;
+}
 
 @*/////////////////////////////////////////////*@
 

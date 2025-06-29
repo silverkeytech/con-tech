@@ -96,6 +96,22 @@ public class ViewLevelRepository(DataAccessAdapter adapter, IStringLocalizer<Glo
                 //};
             }
 
+            using (var memoryStream = new MemoryStream())
+            {
+                await input.ExcelFile.CopyToAsync(memoryStream);
+
+                e.ExcelFile = memoryStream.ToArray();
+
+
+                //var document = new PdfDocument
+                //{
+                //    FileContent = memoryStream.ToArray(),
+                //    FileName = PdfDocument.PdfFile.FileName,
+                //    ContentType = PdfDocument.PdfFile.ContentType,
+                //    FileSize = PdfDocument.PdfFile.Length,
+                //};
+            }
+
             bool isOK = await _adapter.SaveEntityAsync(e, refetchAfterSave: true);
 
             if (isOK is false)

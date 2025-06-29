@@ -1,4 +1,4 @@
-﻿function viewComponent() {
+﻿function viewComponent(viewId = 0) {
 
     // Initialize PDF.js
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
@@ -47,7 +47,7 @@
             attachments: []
         },
         levelData: {
-            levelId: 0,
+            viewId: viewId,
             levelName: '',
             levelScale: 1,
         },
@@ -221,7 +221,7 @@
 
             // Add JSON metadata as a part
             const metadata = {
-                levelId: this.levelData.levelId,
+                viewId: this.levelData.viewId,
                 levelName: this.levelData.levelName,
                 levelScale: this.levelData.levelScale,
                 fileInfo: [],

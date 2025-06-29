@@ -71,6 +71,9 @@ public class ViewEndpoints
             var dxfFile = form.Files.GetFiles("dxfFile");
             var excelFile = form.Files.GetFiles("excelFile");
 
+            metadata.DxfFile = dxfFile[0];
+            metadata.ExcelFile = excelFile[0];
+
             var result = await repo.CreateViewLevelAsync(metadata);
             //// Process files and metadata
             //var results = new List<FileUploadResult>();

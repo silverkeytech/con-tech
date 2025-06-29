@@ -10,10 +10,9 @@ namespace ConTech.Core.Features.Level;
 
 public class ViewLevelNewInput
 {
-    public string? Name { get; set; }
     public string? Description { get; set; }
     public int ViewId { get; set; }
-    public string? LevelId { get; set; }
+    //public string? LevelId { get; set; }
     public string? LevelName { get; set; }
     public int LevelScale { get; set; }
     public List<FileInfo> FileInfo { get; set; } = new();
@@ -32,9 +31,10 @@ public class ViewLevelNewInput
     {
         var e = new ViewLevelEntity
         {
-            Name = Name,
+            Id = Guid.NewGuid(),
+            Name = LevelName,
             Description = Description,
-            //ProjectId = ProjectId,
+            ViewId = ViewId,
             ObjectStatus = ObjectStatus.Active,
             //CreatedByUserId = by.UserId,
             DateCreatedUtc = DateTime.UtcNow,
@@ -49,7 +49,7 @@ public class ViewLevelNewInput
     {
         public Validator(IStringLocalizer<Global> local)
         {
-            RuleFor(x => x.Name).NotNull().WithMessage(local["validate-project-name-required"]);
+            RuleFor(x => x.LevelName).NotNull().WithMessage(local["validate-project-name-required"]);
         }
     }
 }
