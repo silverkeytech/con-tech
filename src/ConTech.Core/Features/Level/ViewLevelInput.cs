@@ -28,7 +28,7 @@ public class ViewLevelNewInput
     //public string ContentType { get; set; }
     //public DateTime UploadDate { get; set; }
     //public long FileSize { get; set; }
-    public ViewLevelEntity ToEntity(IByUser by)
+    public ViewLevelEntity ToEntity()
     {
         var e = new ViewLevelEntity
         {
@@ -84,7 +84,7 @@ public class ViewLevelUpdateInput
         ViewId = v.ViewId;
     }
 
-    public ViewLevelEntity ToEntity()
+    public ViewLevelEntity ToEntity(IByUser by)
     {
         var e = new ViewLevelEntity
         {
