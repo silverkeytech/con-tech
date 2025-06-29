@@ -11,16 +11,23 @@ namespace ConTech.Core.Features.Level;
 public class ViewLevelNewInput
 {
     public string? Description { get; set; }
+
+    [JsonPropertyName("viewId")]
     public int ViewId { get; set; }
     //public string? LevelId { get; set; }
+    [JsonPropertyName("levelName")]
     public string? LevelName { get; set; }
+
+    [JsonPropertyName("levelScale")]
     public int LevelScale { get; set; }
+
+    [JsonPropertyName("fileInfo")]
     public List<FileInfo> FileInfo { get; set; } = new();
 
-    public IFormFile DxfFile { get; set; }
+    public IFormFile? DxfFile { get; set; }
     public byte[]? DxfContent { get; set; }
 
-    public IFormFile ExcelFile { get; set; }
+    public IFormFile? ExcelFile { get; set; }
     public byte[]? ExcelContent { get; set; }
 
     //public string FileName { get; set; }
@@ -91,6 +98,7 @@ public class ViewLevelUpdateInput
             Id = new Guid(Id),
             Name = Name,
             Description = Description,
+            Scale = LevelScale,
             //LastModifiedByUserId = by.UserId,
             LastModifiedUtc = Stamp.DateTimeUtc(),
             IsNew = false
@@ -125,7 +133,13 @@ public class ViewLevelFilter : IFilter<ViewLevelEntity>
 public class FileInfo
 {
 
+
+    [JsonPropertyName("originalName")]
     public string? OriginalName { get; set; }
+
+    [JsonPropertyName("size")]
     public long Size { get; set; }
+
+    [JsonPropertyName("type")]
     public string? Type { get; set; }
 }
