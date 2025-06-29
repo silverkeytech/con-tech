@@ -13,6 +13,7 @@
     let canvas = null;
     let ctx = null;
 
+
     // Keyboard shortcuts
     document.addEventListener('keydown', function (e) {
         if (e.ctrlKey) {
@@ -40,11 +41,148 @@
         successMessage: '',
         errorMessage: '',
         levelData: {
+            id:'',
             viewId: 0,
             levelName: '',
+            description: '',
             levelScale: '1',
-        },
+            dxfFile: '',
+            excelFile: '',
+            transitionX: null,
+            transitionY: null,
 
+        },
+        addLevelLocalStorage() {
+
+            const layerName = this.levelData.levelName;
+
+            if (layerName === '' || this.dxfFile === '' || this.excelFile === '' || this.levelData.levelScale === '') {
+                alert('Please enter the valid data');
+                return;
+            }
+
+            var storedLevels = localStorage.getItem("storedLevels");
+            var currentLevels = [];
+            if (storedLevels)
+                currentLevels = JSON.parse(storedLevels)
+
+            var updatedLevel = {};
+
+            if (window.isEditMode) {
+                currentLevels = currentLevels.map((item) => {
+                    if (item.levelId === levelIdInput.value) {
+
+                        item.levelName = layerName;
+                        item.excelData = window.lastExcelData;
+                        item.dxfData = window.lastDxfData;
+                        item.scale = this.levelData.levelScale;
+                        updatedLevel = item;
+                        return item;
+                    }
+                    return item;
+                });
+            }
+            else {
+                const uuid = crypto.randomUUID();
+
+                var newLevel =
+                {
+                    levelId: "_" + uuid, // sometime the generated uuid starts with a number and this make a problem with selectors
+                    levelName: layerName,
+                    excelData: window.lastExcelData,
+                    dxfData: window.lastDxfData,
+                    scale: this.levelData.levelScale,
+                    transitionX: 0,
+                    transitionY: 0,
+                    levelList: []
+                };
+                currentLevels.push(newLevel);
+
+                // Create list item
+                const li = document.createElement('li');
+                li.classList.add('d-flex', 'align-items-center', 'mb-2');
+                li.setAttribute('name', newLevel.levelId);
+
+                // Create checkbox
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.classList.add('form-check-input', 'me-2');
+                checkbox.checked = true;
+                checkbox.setAttribute('name', newLevel.levelId);
+
+                // Create layer name text
+                const span = document.createElement('span');
+                span.textContent = layerName;
+                span.classList.add('me-auto');
+                span.setAttribute('name', newLevel.levelId);
+
+                // Create trash icon
+                const trash = document.createElement('i');
+                trash.classList.add('bi', 'bi-trash', 'text-danger', 'ms-2');
+                trash.style.cursor = 'pointer';
+                trash.setAttribute('name', newLevel.levelId);
+
+                // Trash click removes the layer
+                trash.addEventListener('click', () => {
+                    let updatedLevels = currentLevels.filter(a => a.levelId !== newLevel.levelId);
+                    localStorage.setItem("storedLevels", JSON.stringify(updatedLevels))
+                    //let le
+                    d3.select("svg").selectAll("#" + newLevel.levelId).remove();  // Remove old DXF group
+                    li.remove();
+                });
+
+                // Create trash icon
+                const edit = document.createElement('i');
+                edit.classList.add('bi', 'bi-pencil-square', 'text-primary', 'ms-2');
+                edit.style.cursor = 'pointer';
+                edit.setAttribute('name', newLevel.levelId);
+
+                // Trash click removes the layer
+                edit.addEventListener('click', () => {
+                    this.levelData.levelName = newLevel.levelName;
+                    this.levelData.levelId = newLevel.levelId;
+                    this.levelData.levelScale = newLevel.scale;
+                    window.isEditMode = true;
+                    window.lastExcelData = newLevel.excelData;
+                    window.lastDxfData = newLevel.dxfData;
+                    openModalButton.click();
+                    // let updatedLevels = currentLevels.filter(a => a.levelId !== newLevel.levelId);
+                    // localStorage.setItem("storedLevels", JSON.stringify(updatedLevels))
+                    // //let le
+                    // d3.select("svg").selectAll("#" + newLevel.levelId).remove();  // Remove old DXF group
+                    // li.remove();
+                });
+
+                checkbox.addEventListener('change', (e) => {
+                    const isChecked = e.target.checked;
+                    const layerGroup = d3.select("svg").selectAll("#" + newLevel.levelId);
+                    layerGroup.style('display', isChecked ? null : 'none');
+
+                });
+
+                // Append all elements
+                li.appendChild(checkbox);
+                li.appendChild(span);
+                li.appendChild(edit);
+                li.appendChild(trash);
+                layerList.appendChild(li);
+                updatedLevel = newLevel;
+
+            }
+
+            localStorage.setItem("storedLevels", JSON.stringify(currentLevels));
+
+
+            // Clear input
+            this.levelData.levelName = '';
+            this.levelData.levelId = '';
+            this.levelData.levelScale = 1;
+            window.lastExcelData = '';
+            window.lastDxfData = '';
+            window.isEditMode = false;
+            closeModalButton.click();
+            //window.location.reload();
+        },
         async fetchViewDetails(id) {
             this.levelData.viewId = id;
             canvas = document.getElementById('pdf-canvas-' + id);
@@ -61,6 +199,16 @@
                     view = await response.json();
 
                     this.viewList.push(view);
+
+                    this.levelData.description = view.description;
+                    this.levelData.id = view.id;
+                    this.levelData.dxfFile = view.dxfFile;
+                    this.levelData.excelFile = view.excelFile;
+                    this.levelData.levelName = view.name;
+                    this.levelData.levelScale = view.scale;
+                    this.levelData.transitionX = view.transitionX;
+                    this.levelData.transitionY = view.transitionY;
+
                     console.log(view);
                     /*
                     {
@@ -150,25 +298,25 @@
         updateZoomDisplay() {
             document.getElementById('zoom-level').textContent = `${Math.round(currentScale * 100)}%`;
         },
-        /* add business */
-        async addLevel() {
-            try {
-                const response = await fetch('/admin/view/add-view-level/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(this.newProduct)
-                });
+        ///* add business */
+        //async addLevel() {
+        //    try {
+        //        const response = await fetch('/admin/view/add-view-level/', {
+        //            method: 'POST',
+        //            headers: {
+        //                'Content-Type': 'application/json'
+        //            },
+        //            body: JSON.stringify(this.newProduct)
+        //        });
 
-                if (response.ok) {
-                    await this.fetchProducts();
-                    this.newProduct = { name: '', price: 0, inStock: false };
-                }
-            } catch (err) {
-                console.error('Failed to add product:', err);
-            }
-        },
+        //        if (response.ok) {
+        //            await this.fetchProducts();
+        //            this.newProduct = { name: '', price: 0, inStock: false };
+        //        }
+        //    } catch (err) {
+        //        console.error('Failed to add product:', err);
+        //    }
+        //},
         async uploadFilesFetchWay() {
 
             this.uploading = true;
@@ -300,10 +448,46 @@
 
         addDxfFile(e) {
             this.dxfFile = e.target.files[0];
+
+            if (!this.dxfFile)
+                return console.log("No file selected");
+
+            const reader = new FileReader();
+            reader.onload = function (file) {
+                const parser = new DxfParser();
+                let dxfData;
+                try {
+                    dxfData = parser.parseSync(file.target.result);
+                    window.lastDxfData = dxfData; // Store dxfData globally
+                    // const scaleInput = parseFloat(document.getElementById("levelScale").value) || 1;
+                    // drawUploadedDXF(dxfData, scaleInput);
+
+                } catch (error) {
+                    console.error("Error parsing DXF:", error);
+                    return;
+                }
+                console.log("DXF Parsed Data:", dxfData);
+            };
+            reader.readAsText(this.dxfFile);
         },
 
         addExcelFile(e) {
             this.excelFile = e.target.files[0];
+
+            if (!this.excelFile)
+                return console.log("No Excel selected");
+
+            const reader = new FileReader();
+            reader.onload = function (file) {
+                const data = new Uint8Array(file.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+                const sheetName = workbook.SheetNames[0];
+                const sheet = workbook.Sheets[sheetName];
+                excelData = XLSX.utils.sheet_to_json(sheet);
+                console.log("Excel Parsed Data:", excelData);
+                window.lastExcelData = excelData;
+            };
+            reader.readAsArrayBuffer(this.excelFile);
         },
 
         addFiles(e) {
