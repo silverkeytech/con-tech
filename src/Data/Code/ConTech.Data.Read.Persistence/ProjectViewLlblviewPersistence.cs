@@ -13,6 +13,31 @@ using SD.LLBLGen.Pro.ORMSupportClasses;
 
 namespace ConTech.Data.Read.Persistence
 {
+	///<summary>class to define custom where/orderby clauses to be used in the linq / query spec query projection</summary>
+	public partial class ProjectViewLlblViewProjectionParams
+	{
+		///<summary>class to define custom where/orderby clauses to be used in the linq / query spec query projection</summary>
+		public partial class P_ViewLevelsProjectionParams_Clauses
+		{
+			/// <summary>QuerySpec specific. Appends a new OrderBy clause for the ViewLevels embedded set.</summary>
+			/// <param name="clauseToAdd">the clause to add</param>
+			public void AppendQSOrderBy(ISortClause clauseToAdd) => this.QSOrderByClauses.Add(clauseToAdd);
+			/// <summary>Linq specific. Appends a new OrderBy clause for the ViewLevels embedded set.</summary>
+			/// <param name="orderByClause">The order by clause to use</param>
+			/// <param name="descending">if true, the order by will be descending, otherwise ascending (default)</param>
+			/// <typeparam name="TField">The type of the field to sort by</typeparam>
+			public void AppendLinqOrderBy<TField>(System.Linq.Expressions.Expression<Func<ConTech.Data.EntityClasses.ViewLevelEntity, TField>> orderByClause, bool descending = false) => this.LinqOrderByClauses.Add(new SD.LLBLGen.Pro.ORMSupportClasses.ValuePair<System.Linq.Expressions.Expression, bool>((System.Linq.Expressions.Expression)orderByClause, descending));
+			internal List<SD.LLBLGen.Pro.ORMSupportClasses.ValuePair<System.Linq.Expressions.Expression, bool>> LinqOrderByClauses { get; } = new List<SD.LLBLGen.Pro.ORMSupportClasses.ValuePair<System.Linq.Expressions.Expression, bool>>();
+			internal List<ISortClause> QSOrderByClauses { get; set; } = new List<ISortClause>();
+			/// <summary>Linq specific. Custom where clause to be used for when the ViewLevels embedded set is fetched</summary>
+			public System.Linq.Expressions.Expression<Func<ConTech.Data.EntityClasses.ViewLevelEntity, bool>> LinqWhereClause { get; set; }
+			/// <summary>QuerySpec specific. Custom where clause to be used for when the ViewLevels embedded set is fetched</summary>
+			public IPredicate QSWhereClause { get; set; }
+		}
+
+		/// <summary>Projection parameters to configure where / orderby clauses for the nested member 'ViewLevels'</summary>
+		public P_ViewLevelsProjectionParams_Clauses ViewLevelsProjectionParams { get; } = new P_ViewLevelsProjectionParams_Clauses();
+	}
 
 	/// <summary>Static class for (extension) methods for fetching and projecting instances of ConTech.Data.Read.DtoClasses.ProjectViewLlblView from the entity model.</summary>
 	public static partial class ProjectViewLlblViewPersistence
@@ -34,16 +59,31 @@ namespace ConTech.Data.Read.Persistence
 		/// <summary>Extension method which produces a projection to ConTech.Data.Read.DtoClasses.ProjectViewLlblView which instances are projected from the results of the specified baseQuery, which returns ConTech.Data.EntityClasses.ProjectViewEntity instances, the root entity of the derived element returned by this query.</summary>
 		/// <param name="baseQuery">The base query to project the derived element instances from.</param>
 		/// <returns>IQueryable to retrieve ConTech.Data.Read.DtoClasses.ProjectViewLlblView instances</returns>
-		public static IQueryable<ConTech.Data.Read.DtoClasses.ProjectViewLlblView> ProjectToProjectViewLlblView(this IQueryable<ConTech.Data.EntityClasses.ProjectViewEntity> baseQuery)
+		public static IQueryable<ConTech.Data.Read.DtoClasses.ProjectViewLlblView> ProjectToProjectViewLlblView(this IQueryable<ConTech.Data.EntityClasses.ProjectViewEntity> baseQuery) => ProjectToProjectViewLlblView(baseQuery, null);
+		/// <summary>Extension method which produces a projection to ConTech.Data.Read.DtoClasses.ProjectViewLlblView which instances are projected from the results of the specified baseQuery, which returns ConTech.Data.EntityClasses.ProjectViewEntity instances, the root entity of the derived element returned by this query.</summary>
+		/// <param name="baseQuery">The base query to project the derived element instances from.</param>
+		/// <param name="projectionParams">The optional projection parameters with optional where/orderby clauses for nested sets in the projection</param>
+		/// <returns>IQueryable to retrieve ConTech.Data.Read.DtoClasses.ProjectViewLlblView instances</returns>
+		public static IQueryable<ConTech.Data.Read.DtoClasses.ProjectViewLlblView> ProjectToProjectViewLlblView(this IQueryable<ConTech.Data.EntityClasses.ProjectViewEntity> baseQuery, ProjectViewLlblViewProjectionParams projectionParams)
 		{
-			return baseQuery.Select(_projectorExpression);
+			if(projectionParams == null)
+			{
+				return baseQuery.Select(_projectorExpression);
+			}
+			return baseQuery.Select(CreateProjectionFunc(projectionParams));
 		}
 
 		/// <summary>Extension method which produces a projection to ConTech.Data.Read.DtoClasses.ProjectViewLlblView which instances are projected from the results of the specified baseQuery using QuerySpec, which returns ConTech.Data.EntityClasses.ProjectViewEntity instances, the root entity of the derived element returned by this query.</summary>
 		/// <param name="baseQuery">The base query to project the derived element instances from.</param>
 		/// <param name="qf">The query factory used to create baseQuery.</param>
 		/// <returns>DynamicQuery to retrieve ConTech.Data.Read.DtoClasses.ProjectViewLlblView instances</returns>
-		public static DynamicQuery<ConTech.Data.Read.DtoClasses.ProjectViewLlblView> ProjectToProjectViewLlblView(this EntityQuery<ConTech.Data.EntityClasses.ProjectViewEntity> baseQuery, ConTech.Data.FactoryClasses.QueryFactory qf)
+		public static DynamicQuery<ConTech.Data.Read.DtoClasses.ProjectViewLlblView> ProjectToProjectViewLlblView(this EntityQuery<ConTech.Data.EntityClasses.ProjectViewEntity> baseQuery, ConTech.Data.FactoryClasses.QueryFactory qf) => ProjectToProjectViewLlblView(baseQuery, qf, null);
+		/// <summary>Extension method which produces a projection to ConTech.Data.Read.DtoClasses.ProjectViewLlblView which instances are projected from the results of the specified baseQuery using QuerySpec, which returns ConTech.Data.EntityClasses.ProjectViewEntity instances, the root entity of the derived element returned by this query.</summary>
+		/// <param name="baseQuery">The base query to project the derived element instances from.</param>
+		/// <param name="qf">The query factory used to create baseQuery.</param>
+		/// <param name="projectionParams">The optional projection parameters with optional where/orderby clauses for nested sets in the projection</param>
+		/// <returns>DynamicQuery to retrieve ConTech.Data.Read.DtoClasses.ProjectViewLlblView instances</returns>
+		public static DynamicQuery<ConTech.Data.Read.DtoClasses.ProjectViewLlblView> ProjectToProjectViewLlblView(this EntityQuery<ConTech.Data.EntityClasses.ProjectViewEntity> baseQuery, ConTech.Data.FactoryClasses.QueryFactory qf, ProjectViewLlblViewProjectionParams projectionParams=null)
 		{
 			System.Linq.Expressions.Expression<Func<ConTech.Data.Read.DtoClasses.ProjectViewLlblView>> projectionAdjustments = null;
 			GetAdjustmentsForProjectToProjectViewLlblViewQs(ref projectionAdjustments);
@@ -61,6 +101,29 @@ namespace ConTech.Data.Read.Persistence
 					Name = ProjectViewFields.Name.Source("__BQ").ToValue<System.String>(),
 					ObjectStatus = ProjectViewFields.ObjectStatus.Source("__BQ").ToValue<System.Int32>(),
 					ProjectId = ProjectViewFields.ProjectId.Source("__BQ").ToValue<System.Int32>(),
+					ViewLevels = (List<ConTech.Data.Read.DtoClasses.ProjectViewLlblViewTypes.ViewLevel>)qf.ViewLevel.TargetAs("__L1_0")
+						.CorrelatedOver(ProjectViewFields.Id.Source("__BQ").Equal(ViewLevelFields.ViewId.Source("__L1_0")))
+						.Where(projectionParams==null ? null : GeneralUtils.SetAliasOnPredicate(projectionParams.ViewLevelsProjectionParams.QSWhereClause, "__L1_0"))
+						.OrderBy(projectionParams==null ? null : GeneralUtils.SetAliasOnSortClauses(projectionParams.ViewLevelsProjectionParams.QSOrderByClauses, "__L1_0"))
+						.Select(() => new ConTech.Data.Read.DtoClasses.ProjectViewLlblViewTypes.ViewLevel()
+						{
+							CreatedByUserId = ViewLevelFields.CreatedByUserId.Source("__L1_0").ToValue<Nullable<System.Int32>>(),
+							DateCreatedUtc = ViewLevelFields.DateCreatedUtc.Source("__L1_0").ToValue<System.DateTime>(),
+							Description = ViewLevelFields.Description.Source("__L1_0").ToValue<System.String>(),
+							DxfData = ViewLevelFields.DxfData.Source("__L1_0").ToValue<System.String>(),
+							DxfFile = ViewLevelFields.DxfFile.Source("__L1_0").ToValue<System.Byte[]>(),
+							EntityData = ViewLevelFields.EntityData.Source("__L1_0").ToValue<System.String>(),
+							ExcelFile = ViewLevelFields.ExcelFile.Source("__L1_0").ToValue<System.Byte[]>(),
+							Id = ViewLevelFields.Id.Source("__L1_0").ToValue<System.Guid>(),
+							LastModifiedByUserId = ViewLevelFields.LastModifiedByUserId.Source("__L1_0").ToValue<Nullable<System.Int32>>(),
+							LastModifiedUtc = ViewLevelFields.LastModifiedUtc.Source("__L1_0").ToValue<Nullable<System.DateTime>>(),
+							Name = ViewLevelFields.Name.Source("__L1_0").ToValue<System.String>(),
+							ObjectStatus = ViewLevelFields.ObjectStatus.Source("__L1_0").ToValue<System.Int32>(),
+							Scale = ViewLevelFields.Scale.Source("__L1_0").ToValue<Nullable<System.Single>>(),
+							TransitionX = ViewLevelFields.TransitionX.Source("__L1_0").ToValue<Nullable<System.Single>>(),
+							TransitionY = ViewLevelFields.TransitionY.Source("__L1_0").ToValue<Nullable<System.Single>>(),
+							ViewId = ViewLevelFields.ViewId.Source("__L1_0").ToValue<System.Int32>(),
+						}).ToResultset(),
 	// __LLBLGENPRO_USER_CODE_REGION_START ProjectionRegionQS_ProjectViewLlblView 
 	// __LLBLGENPRO_USER_CODE_REGION_END 
 				}, projectionAdjustments, false));
@@ -74,7 +137,7 @@ namespace ConTech.Data.Read.Persistence
 			return _compiledProjector(entity);
 		}
 
-		private static System.Linq.Expressions.Expression<Func<ConTech.Data.EntityClasses.ProjectViewEntity, ConTech.Data.Read.DtoClasses.ProjectViewLlblView>> CreateProjectionFunc()
+		private static System.Linq.Expressions.Expression<Func<ConTech.Data.EntityClasses.ProjectViewEntity, ConTech.Data.Read.DtoClasses.ProjectViewLlblView>> CreateProjectionFunc(ProjectViewLlblViewProjectionParams projectionParams=null)
 		{
 			System.Linq.Expressions.Expression<Func<ConTech.Data.EntityClasses.ProjectViewEntity, ConTech.Data.Read.DtoClasses.ProjectViewLlblView>> mainProjection = p__0 => new ConTech.Data.Read.DtoClasses.ProjectViewLlblView()
 			{
@@ -88,6 +151,25 @@ namespace ConTech.Data.Read.Persistence
 				Name = p__0.Name,
 				ObjectStatus = p__0.ObjectStatus,
 				ProjectId = p__0.ProjectId,
+				ViewLevels = p__0.ViewLevels.AsQueryable().OptionalWhere(projectionParams.ViewLevelsProjectionParams.LinqWhereClause).OptionalOrderBy(projectionParams.ViewLevelsProjectionParams.LinqOrderByClauses).Select(p__1 => new ConTech.Data.Read.DtoClasses.ProjectViewLlblViewTypes.ViewLevel()
+				{
+					CreatedByUserId = p__1.CreatedByUserId,
+					DateCreatedUtc = p__1.DateCreatedUtc,
+					Description = p__1.Description,
+					DxfData = p__1.DxfData,
+					DxfFile = p__1.DxfFile,
+					EntityData = p__1.EntityData,
+					ExcelFile = p__1.ExcelFile,
+					Id = p__1.Id,
+					LastModifiedByUserId = p__1.LastModifiedByUserId,
+					LastModifiedUtc = p__1.LastModifiedUtc,
+					Name = p__1.Name,
+					ObjectStatus = p__1.ObjectStatus,
+					Scale = p__1.Scale,
+					TransitionX = p__1.TransitionX,
+					TransitionY = p__1.TransitionY,
+					ViewId = p__1.ViewId,
+				}).ToList(),
 	// __LLBLGENPRO_USER_CODE_REGION_START ProjectionRegion_ProjectViewLlblView 
 	// __LLBLGENPRO_USER_CODE_REGION_END 
 			};

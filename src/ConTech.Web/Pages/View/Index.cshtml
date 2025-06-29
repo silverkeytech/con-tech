@@ -109,6 +109,8 @@
 }
 
 @*/////////////////////////////////////////////*@
+
+    <div x-data="viewComponent()" >
 <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
     <div class="container-fluid">
         <img class="navbar-brand" src="~/images/projecs.png" height="40" width="170" />
@@ -154,7 +156,6 @@
 }
 @foreach (var view in Model.ProjectViewList)
 {
-    <div x-data="viewComponent(@view.Id)" >
         <div class="row">
             <nav class="col-md-4 col-lg-2 d-md-block sidebar">
                 <div class="d-flex align-items-center">
@@ -178,7 +179,7 @@
                     <!-- Button trigger modal -->
 
                     <li class="nav-item mt-2">
-                        <button type="button" id="openUploadLevelButton" class="btn btn-primary mt-2" data-bs-toggle="modal"
+                        <button type="button" id="openUploadLevelButton" @@click="levelData.viewId = @view.Id" class="btn btn-primary mt-2" data-bs-toggle="modal"
                                 data-bs-target="#uploadLevelModal">
                             Add Level
                             <span class="ms-2"> &#43;</span>
@@ -276,24 +277,7 @@
                     </div>
                     <form enctype="multipart/form-data" x-init="console.log('Component state:', $data)">
                         <div class="modal-body">
-                            @*                     <form @@submit.prevent="uploadFiles">
-                        <!-- Author field -->
-                        <input type="text" x-model="formData.author" placeholder="Your name">
-
-                        <!-- File selection -->
-                        <input type="file" @@change="addFiles" multiple>
-
-                        <!-- Progress tracking -->
-                        <div x-show="uploading">
-                            <progress max="100" :value="progress"></progress>
-                            <span x-text="`${progress}%`"></span>
-                        </div>
-
-                        <!-- Submit button -->
-                        <button type="submit" :disabled="uploading">Upload</button>
-                    </form> *@
-
-
+                                
                             <input type="hidden" id="viewId" name="viewId" x-model="levelData.viewId" value="">
                             <div class="mb-3">
                                 <label for="levelName" class="form-label">Level name</label>
@@ -337,50 +321,6 @@
                                     <div class="progress" :style="'width: ' + progress + '%'"></div>
                                 </div>
                             </div>
-                            @* 
-                        <div class="dropzone"
-                             @@dragover.prevent="isDragging = true"
-                             @@dragleave.prevent="isDragging = false"
-                             @@drop.prevent="handleDrop"
-                             :class="{ 'active': isDragging }">
-                            <p>Drag & drop files here or click to browse</p>
-                            <input type="file"
-                                   id="fileInput"
-                                   @@change="handleFileSelect"
-                                   multiple
-                                   style="display: none;">
-                            <button type="button" @@click="$refs.fileInput.click()" :disabled="isUploading">
-                                Select Files
-                            </button>
-                        </div> *@
-
-                            @*    <div class="file-list" x-show="files.length > 0">
-                            <h3>Selected Files:</h3>
-                            <div x-data="{ showAll: false }">
-                                <template x-for="(file, index) in showAll ? files : files.slice(0, 5)">
-                                    <div class="file-item">
-                                        <span x-text="file.name"></span>
-                                        <span x-text="formatFileSize(file.size)"></span>
-                                        <button type="button"
-                                                @@click="removeFile(index)"
-                                                :disabled="isUploading">
-                                            ×
-                                        </button>
-                                    </div>
-                                </template>
-                                <button type="button"
-                                        @@click="showAll = !showAll"
-                                        x-show="files.length > 5"
-                                        x-text="showAll ? 'Show Less' : 'Show All'"
-                                        class="text-button"></button>
-                            </div>
-                        </div> *@
-                            @* 
-
-                        <button type="submit" :disabled="isUploading || files.length === 0">
-                            <span x-show="!isUploading">Upload Files</span>
-                            <span x-show="isUploading">Uploading...</span>
-                        </button> *@
                             @* 
                         <div x-show="successMessage" x-text="successMessage" class="success"></div>
                         <div x-show="errorMessage" x-text="errorMessage" class="error"></div> *@
@@ -427,9 +367,9 @@
                 </div>
             </div>
         </div>
-    </div>
     firstContent = false;
 }
+    </div>
 
 @*/////////////////////////////////////////////*@
 

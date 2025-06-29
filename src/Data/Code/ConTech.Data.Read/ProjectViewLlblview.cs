@@ -43,6 +43,67 @@ namespace ConTech.Data.Read.DtoClasses
 		/// <summary>Gets or sets the ProjectId field. Derived from Entity Model Field 'ProjectView.ProjectId (FK)'</summary>
 		[DataMember]
 		public System.Int32 ProjectId { get; set; }
+		/// <summary>Gets or sets the ViewLevels field. </summary>
+		[DataMember]
+		public List<ProjectViewLlblViewTypes.ViewLevel> ViewLevels { get; set; }
+	}
+
+	namespace ProjectViewLlblViewTypes
+	{
+		/// <summary> DTO class which is derived from the entity 'ViewLevel (ViewLevels)'.</summary>
+		[Serializable]
+		[DataContract]
+		public partial class ViewLevel
+		{
+			/// <summary>Gets or sets the CreatedByUserId field. Derived from Entity Model Field 'ViewLevel.CreatedByUserId (FK)'</summary>
+			[DataMember]
+			public Nullable<System.Int32> CreatedByUserId { get; set; }
+			/// <summary>Gets or sets the DateCreatedUtc field. Derived from Entity Model Field 'ViewLevel.DateCreatedUtc'</summary>
+			[DataMember]
+			public System.DateTime DateCreatedUtc { get; set; }
+			/// <summary>Gets or sets the Description field. Derived from Entity Model Field 'ViewLevel.Description'</summary>
+			[DataMember]
+			public System.String Description { get; set; }
+			/// <summary>Gets or sets the DxfData field. Derived from Entity Model Field 'ViewLevel.DxfData'</summary>
+			[DataMember]
+			public System.String DxfData { get; set; }
+			/// <summary>Gets or sets the DxfFile field. Derived from Entity Model Field 'ViewLevel.DxfFile'</summary>
+			[DataMember]
+			public System.Byte[] DxfFile { get; set; }
+			/// <summary>Gets or sets the EntityData field. Derived from Entity Model Field 'ViewLevel.EntityData'</summary>
+			[DataMember]
+			public System.String EntityData { get; set; }
+			/// <summary>Gets or sets the ExcelFile field. Derived from Entity Model Field 'ViewLevel.ExcelFile'</summary>
+			[DataMember]
+			public System.Byte[] ExcelFile { get; set; }
+			/// <summary>Gets or sets the Id field. Derived from Entity Model Field 'ViewLevel.Id'</summary>
+			[DataMember]
+			public System.Guid Id { get; set; }
+			/// <summary>Gets or sets the LastModifiedByUserId field. Derived from Entity Model Field 'ViewLevel.LastModifiedByUserId (FK)'</summary>
+			[DataMember]
+			public Nullable<System.Int32> LastModifiedByUserId { get; set; }
+			/// <summary>Gets or sets the LastModifiedUtc field. Derived from Entity Model Field 'ViewLevel.LastModifiedUtc'</summary>
+			[DataMember]
+			public Nullable<System.DateTime> LastModifiedUtc { get; set; }
+			/// <summary>Gets or sets the Name field. Derived from Entity Model Field 'ViewLevel.Name'</summary>
+			[DataMember]
+			public System.String Name { get; set; }
+			/// <summary>Gets or sets the ObjectStatus field. Derived from Entity Model Field 'ViewLevel.ObjectStatus'</summary>
+			[DataMember]
+			public System.Int32 ObjectStatus { get; set; }
+			/// <summary>Gets or sets the Scale field. Derived from Entity Model Field 'ViewLevel.Scale'</summary>
+			[DataMember]
+			public Nullable<System.Single> Scale { get; set; }
+			/// <summary>Gets or sets the TransitionX field. Derived from Entity Model Field 'ViewLevel.TransitionX'</summary>
+			[DataMember]
+			public Nullable<System.Single> TransitionX { get; set; }
+			/// <summary>Gets or sets the TransitionY field. Derived from Entity Model Field 'ViewLevel.TransitionY'</summary>
+			[DataMember]
+			public Nullable<System.Single> TransitionY { get; set; }
+			/// <summary>Gets or sets the ViewId field. Derived from Entity Model Field 'ViewLevel.ViewId (FK)'</summary>
+			[DataMember]
+			public System.Int32 ViewId { get; set; }
+		}
 	}
 
 }
