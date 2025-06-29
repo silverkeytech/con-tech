@@ -11,6 +11,10 @@
     const closemodalElement = document.getElementById('btn-close');
     const openModalButton = document.getElementById('openUploadLevelButton');
 
+    const tooltip2 = d3.select("#tooltip")
+        .style("opacity", 0)
+        .attr("class", "tooltip");
+
     let canvas = null;
     let ctx = null;
 
@@ -135,15 +139,18 @@
                     view.viewLevels.forEach(level => {
                         var newLevel = {
                             description: level.description,
-                            id: level.id,
+                            id: '_'+level.id,
                             dxfFile: level.dxfFile,
+                            dxfData: this.parseDxfFromBase64(level.dxfFile),
                             excelFile: level.excelFile,
+                            excelData: this.parseExcelFromBase64(level.excelFile),
                             levelName: level.name,
                             levelScale: level.scale,
                             transitionX: level.transitionX,
                             transitionY: level.transitionY
                         };
                         this.currentLevels.push(newLevel);
+                        this.drawUploadedDXF(newLevel);
                     });
 
                     console.log(this.currentLevels);
@@ -382,6 +389,41 @@
                 closemodalElement.click();
             }
         },
+        parseDxfFromBase64(base64String) {
+            // Convert Base64 to text (DXF content)
+            const dxfText = atob(base64String);
+            const parser = new DxfParser();
+
+            try {
+                const dxfData = parser.parseSync(dxfText);
+                window.lastDxfData = dxfData; // Store dxfData globally
+                console.log("DXF Parsed Data:", dxfData);
+                return dxfData;
+            } catch (error) {
+                console.error("Error parsing DXF:", error);
+                throw error; // Re-throw if you want calling code to handle it
+            }
+        }, parseDxfFromBase64_2(base64String) {
+            // More robust Base64 to text conversion for UTF-8
+            const binaryString = atob(base64String);
+            const bytes = new Uint8Array(binaryString.length);
+            for (let i = 0; i < binaryString.length; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            const dxfText = new TextDecoder().decode(bytes);
+
+            // Rest of the parsing remains the same
+            const parser = new DxfParser();
+            try {
+                const dxfData = parser.parseSync(dxfText);
+                window.lastDxfData = dxfData;
+                console.log("DXF Parsed Data:", dxfData);
+                return dxfData;
+            } catch (error) {
+                console.error("Error parsing DXF:", error);
+                throw error;
+            }
+        },
 
         addDxfFile(e) {
             this.dxfFile = e.target.files[0];
@@ -426,6 +468,28 @@
             };
             reader.readAsArrayBuffer(this.excelFile);
         },
+        parseExcelFromBase64(base64String) {
+            try {
+                const base64WithoutPrefix = base64String.split(',')[1] || base64String;
+                const binaryString = atob(base64WithoutPrefix);
+
+                const bytes = new Uint8Array(binaryString.length);
+                for (let i = 0; i < binaryString.length; i++) {
+                    bytes[i] = binaryString.charCodeAt(i);
+                }
+
+                const workbook = XLSX.read(bytes, { type: 'array' });
+                const sheetName = workbook.SheetNames[0];
+                const sheet = workbook.Sheets[sheetName];
+                const excelData = XLSX.utils.sheet_to_json(sheet);
+
+                window.lastExcelData = excelData;
+                return excelData;
+            } catch (error) {
+                console.error("Error parsing Excel:", error);
+                throw error; // Or handle it as needed
+            }
+        },
 
         addFiles(e) {
             var newFiles = Array.from(e.target.files);
@@ -443,6 +507,292 @@
         init() {
             this.getViewLevels();
         },
+        drawUploadedDXF(levelData) {
+            
+            let dxfData = levelData.dxfData;
+            let layersDetails = new Map(Object.entries(dxfData.tables.layer.layers).map(([key, value]) => [key.toLowerCase(), value])
+            );
+            let excelData = levelData.excelData;
+            let levelId = levelData.id;
+            let userScale = levelData.levelScale;
+            let levelName = levelData.levelName;
+            const progressChecked = document.getElementById("flexSwitchCheckChecked").checked;
+
+            const svgWidth = 1300;
+            const svgHeight = 1300;
+
+            const svg = d3.select("svg");
+            svg.selectAll(`#${levelId}`).remove();  // Remove old DXF group
+            const uploadGroup = svg.append("g")
+                .attr("id", levelId)
+                .attr("transform", "translate(0,0)")
+                .style("cursor", "move");
+            let currentX = 0, currentY = 0;
+            // Make the group draggable
+            uploadGroup.call(
+                d3.drag()
+                    .on("drag", function (event) {
+                        currentX += event.dx;
+                        currentY += event.dy;
+                        d3.select(this).attr("transform", `translate(${currentX},${currentY})`);
+
+                        var storedLevels = localStorage.getItem("storedLevels");
+                        var currentLevels = null;
+                        if (storedLevels)
+                            currentLevels = JSON.parse(storedLevels)
+
+                        if (currentLevels) {
+                            let updatedLevels = currentLevels.map((item) => {
+                                if (item.levelId === levelId) {
+                                    item.transitionX = currentX;
+                                    item.transitionY = currentY;
+                                    return item;
+                                }
+                                return item;
+                            });
+
+                            localStorage.setItem("storedLevels", JSON.stringify(updatedLevels))
+                        }
+                    })
+            );
+
+            const bounds = this.getBounds(dxfData.entities);
+            if (bounds.maxX === bounds.minX || bounds.maxY === bounds.minY) {
+                console.error("Invalid bounds – DXF data may be empty or invalid");
+                return;
+            }
+
+            const tooltip = d3.select("#tooltip");
+            const baseScale = ((svgWidth + svgHeight) / 4) / (bounds.maxX - bounds.minX);
+            const scale = baseScale * userScale;
+            const offsetX = -bounds.minX * scale + (svgWidth - (bounds.maxX - bounds.minX) * scale) / 2;
+            const offsetY = -bounds.minY * scale + (svgHeight - (bounds.maxY - bounds.minY) * scale) / 2;
+
+            dxfData.entities.forEach(entity => {
+
+                let entityColor = layersDetails.get(entity.layer.toLowerCase());
+                const hexColor = `#${entityColor.color.toString(16).padStart(6, '0')}`;
+
+
+                switch (entity.type) {
+                    case "LINE":
+                        uploadGroup.append("line")
+                            .attr("x1", entity.vertices[0].x * scale + offsetX)
+                            .attr("y1", svgHeight - (entity.vertices[0].y * scale + offsetY))
+                            .attr("x2", entity.vertices[1].x * scale + offsetX)
+                            .attr("y2", svgHeight - (entity.vertices[1].y * scale + offsetY))
+                            .attr("stroke", "black")
+                            .attr("stroke-width", 2)
+                            .on("mouseover", function (event) {
+                                d3.select("#tooltip")
+                                    .style("display", "block")
+                                    .style("opacity", 1)
+                                    .style("left", (event.pageX + 10) + "px")
+                                    .style("top", (event.pageY + 10) + "px")
+                                    .html(getTooltipContent(entity) + "<br>Tooltip working");
+                            })
+                            .on("mousemove", function (event) {
+                                d3.select("#tooltip")
+                                    .style("left", (event.pageX + 10) + "px")
+                                    .style("top", (event.pageY + 10) + "px");
+                            })
+                            .on("mouseout", function (d) {
+                                tooltip.transition()
+                                    .duration(500)
+                                    .style("display", "none")
+                                    .style("opacity", 0);
+                            });
+                        break;
+
+                    case "CIRCLE":
+                        uploadGroup.append("circle")
+                            .attr("cx", entity.center.x * scale + offsetX)
+                            .attr("cy", svgHeight - (entity.center.y * scale + offsetY))
+                            .attr("r", entity.radius * scale)
+                            .attr("stroke", "black")
+                            .attr("fill", "none")
+                            .attr("stroke-width", 2)
+                            .on("mouseover", function (event) {
+                                d3.select("#tooltip")
+                                    .style("display", "block")
+                                    .style("opacity", 1)
+                                    .style("left", (event.pageX + 10) + "px")
+                                    .style("top", (event.pageY + 10) + "px")
+                                    .html(getTooltipContent(entity) + "<br>Tooltip working");
+                            })
+                            .on("mousemove", function (event) {
+                                d3.select("#tooltip")
+                                    .style("left", (event.pageX + 10) + "px")
+                                    .style("top", (event.pageY + 10) + "px");
+                            })
+                            .on("mouseout", function (d) {
+                                tooltip.transition()
+                                    .duration(500)
+                                    .style("display", "none")
+                                    .style("opacity", 0);
+                            });
+                        break;
+
+                    case "POLYLINE":
+                    case "LWPOLYLINE":
+                        const points = entity.vertices.map(v => [
+                            v.x * scale + offsetX,
+                            svgHeight - (v.y * scale + offsetY)
+                        ]);
+                        // const points = entity.vertices.map(v => [
+                        //   v.x * 30,
+                        //   (v.y * 30)
+                        // ]);
+                        uploadGroup.append("polyline")
+                            .attr("points", points.join(" "))
+                            .attr("stroke", "black")
+                            .attr("stroke-width", 2)
+                            .attr("name", `${levelId}`)
+                            .attr("class", `area`)
+                            .attr("data-level", levelId)
+                            .attr("data-layer", entity.layer)
+                            .attr("id", entity.layer)
+                            .attr("fill", progressChecked ? getColorByCompleteness(parseFloat(excelData.find((e) => e.UniqueID == entity.layer)?.complete)) : `${hexColor}`)
+                            .style("fill-opacity", 0.3)
+                            .attr("stroke-width", 2)
+                            //.call(getArea)
+                            .on("mouseover", function (d) {
+                                tooltip2
+                                    .style("opacity", 1)
+                                    .style("display", "block")
+                                    .html(`
+            <h3 class="layerName">${levelName}</h3>
+            <div class="row">
+              <div class="label">Complete:</div>
+           <div class="value d-flex align-items-center">
+            <span class="precentage">${Math.floor((excelData.find((e) => e.UniqueID == entity.layer)?.complete) * 100)}%</span>
+            <div class="progress ml-3" id="smallProgress">
+              <div class="progress-bar bg-success" role="progressbar" style="width: ${Math.floor((excelData.find((e) => e.UniqueID == entity.layer)?.complete) * 100)}%;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+              <div class="progress-bar bg-secondary" role="progressbar" style="width: ${100 - Math.floor((excelData.find((e) => e.UniqueID == entity.layer)?.complete) * 100)}%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+             </div>
+            <div class="row">
+              <div class="label">Level:</div>
+              <div class="value">${excelData.find((e) => e.UniqueID == entity.layer)?.Level}</div>
+            </div>
+            <div class="row">
+              <div class="label">Finish:</div>
+              <div class="value">${excelData.find((e) => e.UniqueID == entity.layer)?.Finish}</div>
+            </div>
+            <div class="row description-row">
+              <div class="label">Description:</div>
+              <div class="value" style="max-width: 400px;">${excelData.find((e) => e.UniqueID == entity.layer)?.Description}</div>
+            </div>
+            <div class="row">
+              <div class="alert alert-warning" role="alert">
+                 <i class="fas fa-exclamation-triangle"></i> Notes : Discoloration on the north wall
+            </div>
+            </div>
+          `)
+                                    .style("left", (event.pageX + 20) + "px")
+                                    .style("top", (event.pageY - 30) + "px");
+                            })
+                            .on("mouseout", function () {
+                                tooltip2
+                                    .style("display", "none")
+                                    .style("opacity", 0);
+                            })
+                            // .on("mouseover", function (event) {
+                            //   d3.select("#tooltip")
+                            //     .style("display", "block")
+                            //     .style("opacity", 1)
+                            //     .style("left", (event.pageX + 10) + "px")
+                            //     .style("top", (event.pageY + 10) + "px")
+                            //     .html(getTooltipContent(entity) + "<br>Tooltip working");
+                            // })
+                            .on("mousemove", function (event) {
+                                d3.select("#tooltip")
+                                    .style("left", (event.pageX + 10) + "px")
+                                    .style("top", (event.pageY + 10) + "px");
+                            });
+                        break;
+
+                    case "POINT":
+                        uploadGroup.append("circle")
+                            .attr("cx", entity.position.x * scale + offsetX)
+                            .attr("cy", svgHeight - (entity.position.y * scale + offsetY))
+                            .attr("r", 3)
+                            .attr("fill", "red")
+                            .on("mouseover", function (event) {
+                                d3.select("#tooltip")
+                                    .style("display", "block")
+                                    .style("opacity", 1)
+                                    .style("left", (event.pageX + 10) + "px")
+                                    .style("top", (event.pageY + 10) + "px")
+                                    .html(getTooltipContent(entity) + "<br>Tooltip working");
+                            })
+                            .on("mousemove", function (event) {
+                                d3.select("#tooltip")
+                                    .style("left", (event.pageX + 10) + "px")
+                                    .style("top", (event.pageY + 10) + "px");
+                            })
+                            .on("mouseout", function (d) {
+                                tooltip.transition()
+                                    .duration(500)
+                                    .style("display", "none")
+                                    .style("opacity", 0);
+                            });
+                        break;
+
+                    case "MTEXT":
+                        uploadGroup.append("text")
+                            .attr("x", entity.position.x * scale + offsetX)
+                            .attr("y", svgHeight - (entity.position.y * scale + offsetY))
+                            .attr("font-size", 12)
+                            .attr("fill", "blue")
+                            .text(entity.text || "")
+                            .on("mouseover", function (event) {
+                                d3.select("#tooltip")
+                                    .style("display", "block")
+                                    .style("opacity", 1)
+                                    .style("left", (event.pageX + 10) + "px")
+                                    .style("top", (event.pageY + 10) + "px")
+                                    .html(getTooltipContent(entity) + "<br>Tooltip working");
+                            })
+                            .on("mousemove", function (event) {
+                                d3.select("#tooltip")
+                                    .style("left", (event.pageX + 10) + "px")
+                                    .style("top", (event.pageY + 10) + "px");
+                            })
+                            .on("mouseout", function (d) {
+                                tooltip.transition()
+                                    .duration(500)
+                                    .style("display", "none")
+                                    .style("opacity", 0);
+                            });
+                        break;
+
+                    default:
+                        console.log("Unsupported uploaded entity type:", entity.type);
+                }
+            });
+        },
+        getBounds(entities) {
+            let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+            entities.forEach(entity => {
+                if (entity.vertices) {
+                    entity.vertices.forEach(vertex => {
+                        minX = Math.min(minX, vertex.x);
+                        minY = Math.min(minY, vertex.y);
+                        maxX = Math.max(maxX, vertex.x);
+                        maxY = Math.max(maxY, vertex.y);
+                    });
+                } else if (entity.center) {
+                    minX = Math.min(minX, entity.center.x - entity.radius);
+                    minY = Math.min(minY, entity.center.y - entity.radius);
+                    maxX = Math.max(maxX, entity.center.x + entity.radius);
+                    maxY = Math.max(maxY, entity.center.y + entity.radius);
+                }
+            });
+            return { minX, minY, maxX, maxY };
+        },
+
 
         //handleFileSelect(event) {
         //    this.addFiles(Array.from(event.target.files));
