@@ -9,6 +9,7 @@
     const scaleIncrement = 0.25;
     const container = document.getElementById('svg_client_2_container');
     const closemodalElement = document.getElementById('btn-close');
+    const openModalButton = document.getElementById('openUploadLevelButton');
 
     let canvas = null;
     let ctx = null;
@@ -40,8 +41,9 @@
         isDragging: false,
         successMessage: '',
         errorMessage: '',
+        currentLevels: [],
         levelData: {
-            id:'',
+            id: '',
             viewId: 0,
             levelName: '',
             description: '',
@@ -82,106 +84,37 @@
                     return item;
                 });
             }
-            else {
-                const uuid = crypto.randomUUID();
-
-                var newLevel =
-                {
-                    levelId: "_" + uuid, // sometime the generated uuid starts with a number and this make a problem with selectors
-                    levelName: layerName,
-                    excelData: window.lastExcelData,
-                    dxfData: window.lastDxfData,
-                    scale: this.levelData.levelScale,
-                    transitionX: 0,
-                    transitionY: 0,
-                    levelList: []
-                };
-                currentLevels.push(newLevel);
-
-                // Create list item
-                const li = document.createElement('li');
-                li.classList.add('d-flex', 'align-items-center', 'mb-2');
-                li.setAttribute('name', newLevel.levelId);
-
-                // Create checkbox
-                const checkbox = document.createElement('input');
-                checkbox.type = 'checkbox';
-                checkbox.classList.add('form-check-input', 'me-2');
-                checkbox.checked = true;
-                checkbox.setAttribute('name', newLevel.levelId);
-
-                // Create layer name text
-                const span = document.createElement('span');
-                span.textContent = layerName;
-                span.classList.add('me-auto');
-                span.setAttribute('name', newLevel.levelId);
-
-                // Create trash icon
-                const trash = document.createElement('i');
-                trash.classList.add('bi', 'bi-trash', 'text-danger', 'ms-2');
-                trash.style.cursor = 'pointer';
-                trash.setAttribute('name', newLevel.levelId);
-
-                // Trash click removes the layer
-                trash.addEventListener('click', () => {
-                    let updatedLevels = currentLevels.filter(a => a.levelId !== newLevel.levelId);
-                    localStorage.setItem("storedLevels", JSON.stringify(updatedLevels))
-                    //let le
-                    d3.select("svg").selectAll("#" + newLevel.levelId).remove();  // Remove old DXF group
-                    li.remove();
-                });
-
-                // Create trash icon
-                const edit = document.createElement('i');
-                edit.classList.add('bi', 'bi-pencil-square', 'text-primary', 'ms-2');
-                edit.style.cursor = 'pointer';
-                edit.setAttribute('name', newLevel.levelId);
-
-                // Trash click removes the layer
-                edit.addEventListener('click', () => {
-                    this.levelData.levelName = newLevel.levelName;
-                    this.levelData.levelId = newLevel.levelId;
-                    this.levelData.levelScale = newLevel.scale;
-                    window.isEditMode = true;
-                    window.lastExcelData = newLevel.excelData;
-                    window.lastDxfData = newLevel.dxfData;
-                    openModalButton.click();
-                    // let updatedLevels = currentLevels.filter(a => a.levelId !== newLevel.levelId);
-                    // localStorage.setItem("storedLevels", JSON.stringify(updatedLevels))
-                    // //let le
-                    // d3.select("svg").selectAll("#" + newLevel.levelId).remove();  // Remove old DXF group
-                    // li.remove();
-                });
-
-                checkbox.addEventListener('change', (e) => {
-                    const isChecked = e.target.checked;
-                    const layerGroup = d3.select("svg").selectAll("#" + newLevel.levelId);
-                    layerGroup.style('display', isChecked ? null : 'none');
-
-                });
-
-                // Append all elements
-                li.appendChild(checkbox);
-                li.appendChild(span);
-                li.appendChild(edit);
-                li.appendChild(trash);
-                layerList.appendChild(li);
-                updatedLevel = newLevel;
-
-            }
 
             localStorage.setItem("storedLevels", JSON.stringify(currentLevels));
 
-
-            // Clear input
-            this.levelData.levelName = '';
-            this.levelData.levelId = '';
-            this.levelData.levelScale = 1;
-            window.lastExcelData = '';
-            window.lastDxfData = '';
             window.isEditMode = false;
             closeModalButton.click();
-            //window.location.reload();
+        },
+        removeLevel(levelId) {
+            debugger
+            var storedLevels = localStorage.getItem("storedLevels");
+            var currentLevels = [];
+            if (storedLevels)
+                currentLevels = JSON.parse(storedLevels)
+
+            let updatedLevels = currentLevels.filter(a => a.levelId !== levelId);
+            localStorage.setItem("storedLevels", JSON.stringify(updatedLevels))
+            //let le
+            d3.select("svg").selectAll("#_" + levelId).remove();  // Remove old DXF group
+        },
+        editLevel() {
+            //this.levelData.levelName = newLevel.levelName;
+            //this.levelData.levelId = newLevel.levelId;
+            //this.levelData.levelScale = newLevel.scale;
+            window.isEditMode = true;
+            //window.lastExcelData = newLevel.excelData;
+            //window.lastDxfData = newLevel.dxfData;
+            openModalButton.click();
+        },
+        showHideLevel(e, levelId) {
+            const isChecked = e.target.checked;
+            const layerGroup = d3.select("svg").selectAll("#_" + levelId);
+            layerGroup.style('display', isChecked ? null : 'none');
         },
         async fetchViewDetails(id) {
             this.levelData.viewId = id;
@@ -199,17 +132,21 @@
                     view = await response.json();
 
                     this.viewList.push(view);
+                    view.viewLevels.forEach(level => {
+                        var newLevel = {
+                            description: level.description,
+                            id: level.id,
+                            dxfFile: level.dxfFile,
+                            excelFile: level.excelFile,
+                            levelName: level.name,
+                            levelScale: level.scale,
+                            transitionX: level.transitionX,
+                            transitionY: level.transitionY
+                        };
+                        this.currentLevels.push(newLevel);
+                    });
 
-                    this.levelData.description = view.description;
-                    this.levelData.id = view.id;
-                    this.levelData.dxfFile = view.dxfFile;
-                    this.levelData.excelFile = view.excelFile;
-                    this.levelData.levelName = view.name;
-                    this.levelData.levelScale = view.scale;
-                    this.levelData.transitionX = view.transitionX;
-                    this.levelData.transitionY = view.transitionY;
-
-                    console.log(view);
+                    console.log(this.currentLevels);
                     /*
                     {
     "createdByUserId": null,
