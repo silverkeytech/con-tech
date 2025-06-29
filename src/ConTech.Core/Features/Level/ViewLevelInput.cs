@@ -19,7 +19,7 @@ public class ViewLevelNewInput
     public string? LevelName { get; set; }
 
     [JsonPropertyName("levelScale")]
-    public int LevelScale { get; set; }
+    public string? LevelScale { get; set; }
 
     [JsonPropertyName("fileInfo")]
     public List<FileInfo> FileInfo { get; set; } = new();
@@ -42,6 +42,7 @@ public class ViewLevelNewInput
             Name = LevelName,
             Description = Description,
             ViewId = ViewId,
+            Scale = Convert.ToSingle(LevelScale),
             ObjectStatus = ObjectStatus.Active,
             //CreatedByUserId = by.UserId,
             DateCreatedUtc = DateTime.UtcNow,
@@ -69,7 +70,7 @@ public class ViewLevelUpdateInput
     public int ViewId { get; set; }
     public string? LevelId { get; set; }
     public string? LevelName { get; set; }
-    public int LevelScale { get; set; }
+    public string? LevelScale { get; set; }
     public List<FileInfo> FileInfo { get; set; } = new();
 
     public IFormFile DxfFile { get; set; }
@@ -98,7 +99,7 @@ public class ViewLevelUpdateInput
             Id = new Guid(Id),
             Name = Name,
             Description = Description,
-            Scale = LevelScale,
+            Scale = Convert.ToSingle(LevelScale),
             //LastModifiedByUserId = by.UserId,
             LastModifiedUtc = Stamp.DateTimeUtc(),
             IsNew = false
