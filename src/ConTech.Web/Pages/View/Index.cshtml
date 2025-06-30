@@ -192,6 +192,7 @@
                             <ul class="list-group list-group-flush">
   <template x-for="(level, index) in currentLevels" :key="index">
     <li class="d-flex align-items-center mb-2">
+        <i class="bi bi-plus-circle-fill text-primary ms-2" data-bs-toggle="modal" data-bs-target="#addChildLevel" @@click="bindLevelChilds(level.realLevelId)" style="cursor: pointer;" :name="level.id"></i>
         <i class="bi bi-pencil-square text-primary ms-2" @@click="bindLevelForEdit(level.realLevelId)" style="cursor: pointer;" :name="level.id"></i>
         <i class="bi bi-trash text-danger ms-2" @@click="await removeLevel(level.realLevelId)" style="cursor: pointer;" :name="level.id"></i>
         <input type="checkbox" @@change="showHideLevel($event, level.id)" class="form-check-input me-2" checked :name="level.id"  />
@@ -365,7 +366,15 @@
                             <input type="text" class="form-control" id="childLevelName" placeholder="Please enter level name">
                         </div>
 
-                        <ul id="addChildLevelList"></ul>
+                        <ul class="list-group list-group-flush">
+                            
+  <template x-for="(entity, index) in selectedEntities" :key="index">
+    <li class="d-flex align-items-center mb-2">
+        <input type="checkbox" @@change="showHideLevel($event, entity.layer)" class="form-check-input me-2" :name="entity.layer"  />
+        <span x-text="entity.layer" class="me-auto" :name="entity.layer"></span>
+    </li>
+  </template>
+                        </ul>
 
                     </div>
                     <div class="modal-footer">
@@ -1001,116 +1010,117 @@
 
                   var nestedLevels = getChildLevel(level.levelList, level.levelId, level.levelId);
 
-                  // Create checkbox
-                  const checkbox = document.createElement('input');
-                  checkbox.type = 'checkbox';
-                  checkbox.classList.add('form-check-input', 'me-2');
-                  checkbox.checked = true;
-                  checkbox.setAttribute('name', level.levelId);
+                  // // Create checkbox
+                  // const checkbox = document.createElement('input');
+                  // checkbox.type = 'checkbox';
+                  // checkbox.classList.add('form-check-input', 'me-2');
+                  // checkbox.checked = true;
+                  // checkbox.setAttribute('name', level.levelId);
 
-                  checkbox.addEventListener('change', (e) => {
-                    const isChecked = e.target.checked;
+                  // checkbox.addEventListener('change', (e) => {
+                  //   const isChecked = e.target.checked;
 
-                    document.getElementById(level.levelId).style.display = isChecked ? null : 'none';
-                    //const layerGroup = d3.select("svg").selectAll("#" + level.levelId);
-                    //layerGroup.style('display', isChecked ? null : 'none')
+                  //   document.getElementById(level.levelId).style.display = isChecked ? null : 'none';
+                  //   //const layerGroup = d3.select("svg").selectAll("#" + level.levelId);
+                  //   //layerGroup.style('display', isChecked ? null : 'none')
 
-                  });
+                  // });
 
-                  // Create layer name text
-                  const span = document.createElement('span');
-                  span.textContent = level.levelName; //:"asd"
-                  span.classList.add('me-auto');
-                  span.setAttribute('name', level.levelId);
+                  // // Create layer name text
+                  // const span = document.createElement('span');
+                  // span.textContent = level.levelName; //:"asd"
+                  // span.classList.add('me-auto');
+                  // span.setAttribute('name', level.levelId);
 
-                  // Create trash icon
-                  const trash = document.createElement('i');
-                  trash.classList.add('bi', 'bi-trash', 'text-danger', 'ms-2');
-                  trash.style.cursor = 'pointer';
-                  trash.setAttribute('name', level.levelId);
+                  // // Create trash icon
+                  // const trash = document.createElement('i');
+                  // trash.classList.add('bi', 'bi-trash', 'text-danger', 'ms-2');
+                  // trash.style.cursor = 'pointer';
+                  // trash.setAttribute('name', level.levelId);
 
-                  // Trash click removes the layer
-                  trash.addEventListener('click', () => {
-                    let updatedLevels = currentLevels.filter(a => a.levelId !== level.levelId);
-                    localStorage.setItem("storedLevels", JSON.stringify(updatedLevels))
+                  // // Trash click removes the layer
+                  // trash.addEventListener('click', () => {
+                  //   let updatedLevels = currentLevels.filter(a => a.levelId !== level.levelId);
+                  //   localStorage.setItem("storedLevels", JSON.stringify(updatedLevels))
 
-                    d3.select("svg").selectAll("#" + level.levelId).remove();  // Remove old DXF group
-                    li.remove();
+                  //   d3.select("svg").selectAll("#" + level.levelId).remove();  // Remove old DXF group
+                  //   li.remove();
 
-                  });
+                  // });
 
-                  // Create edit icon
-                  const edit = document.createElement('i');
-                  edit.classList.add('bi', 'bi-pencil-square', 'text-primary', 'ms-2');
-                  edit.style.cursor = 'pointer';
-                  edit.setAttribute('name', level.levelId);
+                  // // Create edit icon
+                  // const edit = document.createElement('i');
+                  // edit.classList.add('bi', 'bi-pencil-square', 'text-primary', 'ms-2');
+                  // edit.style.cursor = 'pointer';
+                  // edit.setAttribute('name', level.levelId);
 
-                  // Edit click removes the layer
-                  edit.addEventListener('click', () => {
-                    layerInput.value = level.levelName;
-                    scaleInput.value = level.scale;
-                    levelIdInput.value = level.levelId;
-                    window.isEditMode = true;
-                    window.lastExcelData = level.excelData;
-                    window.lastDxfData = level.dxfData;
-                    openModalButton.click();
-                  });
+                  // // Edit click removes the layer
+                  // edit.addEventListener('click', () => {
+                  //   layerInput.value = level.levelName;
+                  //   scaleInput.value = level.scale;
+                  //   levelIdInput.value = level.levelId;
+                  //   window.isEditMode = true;
+                  //   window.lastExcelData = level.excelData;
+                  //   window.lastDxfData = level.dxfData;
+                  //   openModalButton.click();
+                  // });
 
-                  // Create add icon
-                  const add = document.createElement('i');
-                  add.classList.add('bi', 'bi-plus-circle-fill', 'text-primary', 'ms-2');
-                  add.style.cursor = 'pointer';
-                  add.setAttribute('name', level.levelId);
-                  add.setAttribute('data-bs-toggle', "modal");
-                  add.setAttribute('data-bs-target', "#addChildLevel");
+                  // // Create add icon
+                  // const add = document.createElement('i');
+                  // add.classList.add('bi', 'bi-plus-circle-fill', 'text-primary', 'ms-2');
+                  // add.style.cursor = 'pointer';
+                  // add.setAttribute('name', level.levelId);
+
+                  // add.setAttribute('data-bs-toggle', "modal");
+                  // add.setAttribute('data-bs-target', "#addChildLevel");
 
                   // add click removes the layer
                   add.addEventListener('click', () => {
-                    const modalList = document.getElementById("addChildLevelList");
+                    //const modalList = document.getElementById("addChildLevelList");
                     const childLevel_uuid = "_" + crypto.randomUUID();
                     document.getElementById("childLevelId").value = childLevel_uuid;
                     document.getElementById("mainLayerId").value = level.levelId;
                     document.getElementById("parentLevelId").value = level.levelId;
 
-                    var selectedEntities = [];
-                    var filteredLevels = level.levelList.filter(l => l.parentLevelId == level.levelId);
-                    if (filteredLevels) {
-                      filteredLevels.forEach(item => {
-                        selectedEntities.push.apply(selectedEntities, item.entityList);
-                      });
-                    }
-                    modalList.innerHTML = ''
+                    // var selectedEntities = [];
+                    // var filteredLevels = level.levelList.filter(l => l.parentLevelId == level.levelId);
+                    // if (filteredLevels) {
+                    //   filteredLevels.forEach(item => {
+                    //     selectedEntities.push.apply(selectedEntities, item.entityList);
+                    //   });
+                    // }
+                    //modalList.innerHTML = ''
 
-                    Object.entries(level.dxfData.entities).forEach(([index, entity]) => {
+                    // Object.entries(level.dxfData.entities).forEach(([index, entity]) => {
 
-                      //if (selectedEntities.includes(entity.layer))
-                      //return;
+                    //   //if (selectedEntities.includes(entity.layer))
+                    //   //return;
 
-                      const li = document.createElement('li');
-                      li.classList.add('d-flex', 'align-items-center', 'mb-2');
-                      li.setAttribute('name', childLevel_uuid);
+                    //   const li = document.createElement('li');
+                    //   li.classList.add('d-flex', 'align-items-center', 'mb-2');
+                    //   li.setAttribute('name', childLevel_uuid);
 
-                      // Create checkbox
-                      const checkbox = document.createElement('input');
-                      checkbox.type = 'checkbox';
-                      checkbox.classList.add('form-check-input', 'me-2');
-                      checkbox.checked = false;
-                      checkbox.setAttribute('name', childLevel_uuid);
-                      checkbox.setAttribute('data-areaId', entity.layer);
-
-
-                      // Create layer name text
-                      const span = document.createElement('span');
-                      span.textContent = entity.layer;
-                      span.classList.add('me-auto');
-                      span.setAttribute('name', childLevel_uuid);
+                    //   // Create checkbox
+                    //   const checkbox = document.createElement('input');
+                    //   checkbox.type = 'checkbox';
+                    //   checkbox.classList.add('form-check-input', 'me-2');
+                    //   checkbox.checked = false;
+                    //   checkbox.setAttribute('name', childLevel_uuid);
+                    //   checkbox.setAttribute('data-areaId', entity.layer);
 
 
-                      li.appendChild(checkbox);
-                      li.appendChild(span);
-                      modalList.append(li);
+                    //   // Create layer name text
+                    //   const span = document.createElement('span');
+                    //   span.textContent = entity.layer;
+                    //   span.classList.add('me-auto');
+                    //   span.setAttribute('name', childLevel_uuid);
 
-                    });
+
+                    //   li.appendChild(checkbox);
+                    //   li.appendChild(span);
+                    //   //modalList.append(li);
+
+                    // });
                   });
 
                   // Append all elements

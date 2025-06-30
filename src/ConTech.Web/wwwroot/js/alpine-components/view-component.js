@@ -60,8 +60,8 @@
             transitionY: 0,
 
         },
-         async updateViewLevelTransition(levelId) {
-             
+        async updateViewLevelTransition(levelId) {
+
             var targetLevel = this.currentLevels.find(item => item.realLevelId == levelId);
 
             const metadata = {
@@ -71,11 +71,11 @@
             };
 
             await fetch('/admin/view/update-view-level-transition', {
-                method: 'POST', 
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(metadata), 
+                body: JSON.stringify(metadata),
             })
                 .then(response => {
                     if (!response.ok) {
@@ -189,7 +189,7 @@
 
             var targetLevel = this.currentLevels.find(item => item.realLevelId == levelId);
             if (targetLevel) {
-                
+
                 this.levelData.levelName = targetLevel.levelName;
                 this.levelData.realLevelId = targetLevel.realLevelId;
                 this.levelData.levelScale = targetLevel.levelScale;
@@ -596,7 +596,7 @@
                         }
                     })
                     .on("end", async function () {
-                         await viewComponent.updateViewLevelTransition(realLevelId);
+                        await viewComponent.updateViewLevelTransition(realLevelId);
                     })
             );
 
@@ -828,7 +828,48 @@
             });
             return { minX, minY, maxX, maxY };
         },
+        getColorByCompleteness(percentage) {
+            //console.log("the precentage ",percentage);
+            if (percentage <= 0.29) return "#DB4E41";      // Red
+            if (percentage <= 0.70) return "#ECCB28";      // Yellow
+            return "#97CA58";                            // Green
+        },
+        selectedEntities: [],
+        bindLevelChilds(levelId) {
 
+            var targetLevel = this.currentLevels.find(item => item.realLevelId == levelId);
+
+            if (targetLevel) {
+                this.selectedEntities = targetLevel.dxfData.entities;
+                //Object.entries(targetLevel.dxfData.entities).forEach(([index, entity]) => {
+
+                //    const li = document.createElement('li');
+                //    li.classList.add('d-flex', 'align-items-center', 'mb-2');
+                //    li.setAttribute('name', childLevel_uuid);
+
+                //    // Create checkbox
+                //    const checkbox = document.createElement('input');
+                //    checkbox.type = 'checkbox';
+                //    checkbox.classList.add('form-check-input', 'me-2');
+                //    checkbox.checked = false;
+                //    checkbox.setAttribute('name', childLevel_uuid);
+                //    checkbox.setAttribute('data-areaId', entity.layer);
+
+
+                //    // Create layer name text
+                //    const span = document.createElement('span');
+                //    span.textContent = entity.layer;
+                //    span.classList.add('me-auto');
+                //    span.setAttribute('name', childLevel_uuid);
+
+
+                //    li.appendChild(checkbox);
+                //    li.appendChild(span);
+                //    //modalList.append(li);
+
+                //});
+            }
+        },
     };
     return viewComponent;
 }
