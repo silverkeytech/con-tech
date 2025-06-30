@@ -44,6 +44,8 @@ public class ViewLevelNewInput
             ViewId = ViewId,
             Scale = Convert.ToSingle(LevelScale),
             ObjectStatus = ObjectStatus.Active,
+            TransitionX = Convert.ToSingle(0),
+            TransitionY = Convert.ToSingle(0),
             //CreatedByUserId = by.UserId,
             DateCreatedUtc = DateTime.UtcNow,
             IsNew = true
@@ -77,6 +79,12 @@ public class ViewLevelUpdateInput
     [JsonPropertyName("levelScale")]
     public string? LevelScale { get; set; }
 
+    [JsonPropertyName("transitionX")]
+    public string? TransitionX { get; set; }
+
+    [JsonPropertyName("transitionY")]
+    public string? TransitionY { get; set; }
+
     [JsonPropertyName("fileInfo")]
     public List<FileInfo> FileInfo { get; set; } = new();
 
@@ -106,6 +114,8 @@ public class ViewLevelUpdateInput
             Name = Name,
             Description = Description,
             Scale = Convert.ToSingle(LevelScale),
+            TransitionX = Convert.ToSingle(TransitionX),
+            TransitionY = Convert.ToSingle(TransitionY),
             //LastModifiedByUserId = by.UserId,
             LastModifiedUtc = Stamp.DateTimeUtc(),
             IsNew = false

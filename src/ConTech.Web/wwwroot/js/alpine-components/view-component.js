@@ -57,8 +57,8 @@
             levelScale: '1',
             dxfFile: '',
             excelFile: '',
-            transitionX: null,
-            transitionY: null,
+            transitionX: 0,
+            transitionY: 0,
 
         },
         async updateViewLevelXhrWay() {
@@ -72,6 +72,8 @@
                 id: this.levelData.realLevelId,
                 levelName: this.levelData.levelName,
                 levelScale: this.levelData.levelScale,
+                transitionX: this.levelData.transitionX,
+                transitionY: this.levelData.transitionY,
                 fileInfo: [],
             };
             formData.append('metadata', JSON.stringify(metadata));
@@ -152,15 +154,18 @@
                 this.loading = false;
             }
 
-            d3.select("svg").selectAll("#" + levelId).remove();  // Remove old DXF group
+            d3.select("svg").selectAll("#_" + levelId).remove();  // Remove old DXF group
         },
         bindLevelForEdit(levelId) {
 
             var targetLevel = this.currentLevels.find(item => item.realLevelId == levelId);
             if (targetLevel) {
+                debugger
                 this.levelData.levelName = targetLevel.levelName;
                 this.levelData.realLevelId = targetLevel.realLevelId;
                 this.levelData.levelScale = targetLevel.levelScale;
+                this.levelData.transitionX = targetLevel.transitionX;
+                this.levelData.transitionY = targetLevel.transitionY;
                 this.isEditMode = true;
                 openModalButton.click();
             }
@@ -203,6 +208,8 @@
                         };
                         this.currentLevels.push(newLevel);
                         this.drawUploadedDXF(newLevel);
+
+                        d3.select("svg").selectAll("#" + newLevel.id).attr("transform", `translate(${newLevel.transitionX},${newLevel.transitionY})`);
                     });
 
                     console.log(this.currentLevels);
@@ -450,9 +457,7 @@
                 let dxfData;
                 try {
                     dxfData = parser.parseSync(file.target.result);
-                    window.lastDxfData = dxfData; // Store dxfData globally
-                    // const scaleInput = parseFloat(document.getElementById("levelScale").value) || 1;
-                    // drawUploadedDXF(dxfData, scaleInput);
+                    window.lastDxfData = dxfData;
 
                 } catch (error) {
                     console.error("Error parsing DXF:", error);
@@ -527,6 +532,7 @@
             );
             let excelData = levelData.excelData;
             let levelId = levelData.id;
+            let realLevelId = levelData.realLevelId;
             let userScale = levelData.levelScale;
             let levelName = levelData.levelName;
             const progressChecked = document.getElementById("flexSwitchCheckChecked").checked;
@@ -548,23 +554,16 @@
                         currentX += event.dx;
                         currentY += event.dy;
                         d3.select(this).attr("transform", `translate(${currentX},${currentY})`);
-
-                        var storedLevels = localStorage.getItem("storedLevels");
-                        var currentLevels = null;
-                        if (storedLevels)
-                            currentLevels = JSON.parse(storedLevels)
-
-                        if (currentLevels) {
-                            let updatedLevels = currentLevels.map((item) => {
-                                if (item.levelId === levelId) {
-                                    item.transitionX = currentX;
-                                    item.transitionY = currentY;
+                        
+                        if (this.currentLevels) {
+                            this.currentLevels = this.currentLevels.map((level) => {
+                                if (level.realLevelId === realLevelId) {
+                                    level.transitionX = currentX;
+                                    level.transitionY = currentY;
                                     return item;
                                 }
                                 return item;
                             });
-
-                            localStorage.setItem("storedLevels", JSON.stringify(updatedLevels))
                         }
                     })
             );
