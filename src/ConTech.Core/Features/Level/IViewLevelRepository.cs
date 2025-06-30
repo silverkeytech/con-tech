@@ -14,5 +14,5 @@ public interface IViewLevelRepository
 
     Task<Result<ViewLevelEntity?>> UpdateViewLevelAsync(ViewLevelUpdateInput input, IByUser by);
 
-    Task<Result<ViewLevelEntity?>> DisableViewLevelByIdAsync(string id, IByUser by);
+    Task<Result<ViewLevelEntity?>> DisableViewLevelByIdAsync(Guid id);
 }

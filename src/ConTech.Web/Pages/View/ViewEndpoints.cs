@@ -21,6 +21,7 @@ public class ViewEndpoints
 
         view.MapGet("/get-view-details-by-id/{id}", GetViewDetailsByIdAsync);
         view.MapPost("/add-view-level", AddViewLevelAsync);
+        view.MapPost("/disable-view-level/{id}", DisableViewLevelAsync);
     }
 
     public static async Task<IResult> GetViewDetailsByIdAsync(string id, IProjectViewRepository repo)
@@ -73,6 +74,25 @@ public class ViewEndpoints
                 //TotalSize = results.Sum(f => f.Size)
             });
 
+        }
+        catch (Exception ex)
+        {
+            return Results.Problem();
+        }
+    }
+
+
+    public static async Task<IResult> DisableViewLevelAsync(string id, IViewLevelRepository repo)
+    {
+        try
+        {
+            var realId = new Guid(id);
+            var result = await repo.DisableViewLevelByIdAsync(realId);
+
+            if (result.IsFalse)
+                return Results.Problem();
+
+            return Results.Ok(result.Value);
         }
         catch (Exception ex)
         {

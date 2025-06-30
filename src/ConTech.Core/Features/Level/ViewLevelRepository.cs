@@ -167,18 +167,18 @@ public class ViewLevelRepository(DataAccessAdapter adapter, IStringLocalizer<Glo
         }
     }
 
-    public async Task<Result<ViewLevelEntity?>> DisableViewLevelByIdAsync(string id, IByUser by)
+    public async Task<Result<ViewLevelEntity?>> DisableViewLevelByIdAsync(Guid id)
     {
         try
         {
-            ArgumentNullException.ThrowIfNull(by);
+           // ArgumentNullException.ThrowIfNull(by);
 
             var e = new ViewLevelEntity
             {
-                Id = new Guid(id),
+                Id = id,
                 ObjectStatus = ObjectStatus.Disabled,
                 LastModifiedUtc = DateTime.UtcNow,
-                LastModifiedByUserId = by.UserId,
+                //LastModifiedByUserId = by.UserId,
                 IsNew = false
             };
 

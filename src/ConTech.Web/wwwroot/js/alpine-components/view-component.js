@@ -47,6 +47,7 @@
         errorMessage: '',
         currentLevels: [],
         levelData: {
+            realLevelId: '',
             id: '',
             viewId: 0,
             levelName: '',
@@ -96,6 +97,20 @@
         },
         removeLevel(levelId) {
             debugger
+
+            try {
+                if (levelId) {
+                    const response = await fetch('/admin/view/disable-view-level/' + levelId);
+                    view = await response.json();
+                    this.error = null;
+                }
+            } catch (err) {
+                this.error = 'Failed to load view';
+                console.error(err);
+            } finally {
+                this.loading = false;
+            }
+
             var storedLevels = localStorage.getItem("storedLevels");
             var currentLevels = [];
             if (storedLevels)
@@ -139,7 +154,8 @@
                     view.viewLevels.forEach(level => {
                         var newLevel = {
                             description: level.description,
-                            id: '_'+level.id,
+                            id: '_' + level.id,
+                            realLevelId: level.id,
                             dxfFile: level.dxfFile,
                             dxfData: this.parseDxfFromBase64(level.dxfFile),
                             excelFile: level.excelFile,
@@ -508,7 +524,7 @@
             this.getViewLevels();
         },
         drawUploadedDXF(levelData) {
-            
+
             let dxfData = levelData.dxfData;
             let layersDetails = new Map(Object.entries(dxfData.tables.layer.layers).map(([key, value]) => [key.toLowerCase(), value])
             );
