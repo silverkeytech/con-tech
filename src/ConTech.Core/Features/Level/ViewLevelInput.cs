@@ -71,9 +71,6 @@ public class ViewLevelUpdateInput
     [JsonPropertyName("description")]
     public string? Description { get; set; }
 
-    [JsonPropertyName("viewId")]
-    public int ViewId { get; set; }
-    //public string? LevelId { get; set; }
     [JsonPropertyName("levelName")]
     public string? Name { get; set; }
 
@@ -99,7 +96,6 @@ public class ViewLevelUpdateInput
         Name = v.Name;
         Description = v.Description;
         Id = v.Id.ToString();
-        ViewId = v.ViewId;
     }
 
     public ViewLevelEntity ToEntity()
@@ -109,7 +105,6 @@ public class ViewLevelUpdateInput
             Id = new Guid(Id),
             Name = Name,
             Description = Description,
-            ViewId = ViewId,
             Scale = Convert.ToSingle(LevelScale),
             //LastModifiedByUserId = by.UserId,
             LastModifiedUtc = Stamp.DateTimeUtc(),

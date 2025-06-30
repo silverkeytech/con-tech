@@ -118,7 +118,7 @@
                         }
                     };
 
-                    xhr.open('POST', '/admin/view/add-view-level', true);
+                    xhr.open('POST', '/admin/view/update-view-level', true);
                     xhr.send(formData);
                 });
                 await this.fetchViewDetails(this.viewId);
