@@ -1,13 +1,6 @@
 using ConTech.Core.Features.Identity;
 using ConTech.Core.Features.Level;
 using ConTech.Core.Features.View;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using SD.LLBLGen.Pro.ORMSupportClasses;
-
-//using Newtonsoft.Json;
-using System.IO.Compression;
-using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -21,6 +14,7 @@ public class ViewEndpoints
 
         view.MapGet("/get-view-details-by-id/{id}", GetViewDetailsByIdAsync);
         view.MapPost("/add-view-level", AddViewLevelAsync);
+        view.MapPost("/update-view-level", UpdateViewLevelAsync);
         view.MapPost("/disable-view-level/{id}", DisableViewLevelAsync);
     }
 
@@ -43,6 +37,45 @@ public class ViewEndpoints
     }
 
     public static async Task<IResult> AddViewLevelAsync(HttpRequest request, IViewLevelRepository repo)
+    {
+        try
+        {
+
+            if (!request.HasFormContentType)
+                return Results.BadRequest("Expected multipart form data");
+
+            var form = await request.ReadFormAsync();
+            var metadataJson = form["metadata"];
+
+            if (string.IsNullOrEmpty(metadataJson))
+                return Results.BadRequest("Metadata is required");
+
+            var metadata = JsonSerializer.Deserialize<ViewLevelNewInput>(metadataJson!);
+
+
+            var dxfFile = form.Files.GetFiles("dxfFile");
+            var excelFile = form.Files.GetFiles("excelFile");
+
+            metadata.DxfFile = dxfFile[0];
+            metadata.ExcelFile = excelFile[0];
+
+            var result = await repo.CreateViewLevelAsync(metadata);
+
+            return Results.Ok(new
+            {
+                LevelName = metadata.LevelName,
+                //Files = results,
+                //TotalSize = results.Sum(f => f.Size)
+            });
+
+        }
+        catch (Exception ex)
+        {
+            return Results.Problem();
+        }
+    }
+
+    public static async Task<IResult> UpdateViewLevelAsync(HttpRequest request, IViewLevelRepository repo)
     {
         try
         {

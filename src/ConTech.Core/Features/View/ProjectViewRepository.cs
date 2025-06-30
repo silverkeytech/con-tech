@@ -60,7 +60,9 @@ public class ProjectViewRepository(DataAccessAdapter adapter, IStringLocalizer<G
     {
         try
         {
-            var query = await _meta.ProjectView.Where(x => x.Id == id).ProjectToProjectViewLlblView().FirstOrDefaultAsync();
+            var viewLevelParams = new ProjectViewLlblViewProjectionParams();
+            viewLevelParams.ViewLevelsProjectionParams.LinqWhereClause = e =>  e.ObjectStatus == ObjectStatus.Active;
+            var query = await _meta.ProjectView.Where(x => x.Id == id).ProjectToProjectViewLlblView(viewLevelParams).FirstOrDefaultAsync();
             return QuerySet.One(query);
         }
         catch (Exception ex)
