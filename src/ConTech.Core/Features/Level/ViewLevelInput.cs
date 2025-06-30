@@ -64,19 +64,29 @@ public class ViewLevelNewInput
 
 public class ViewLevelUpdateInput
 {
+
+    [JsonPropertyName("id")]
     public string Id { get; set; }
-    public string? Name { get; set; }
+
+    [JsonPropertyName("description")]
     public string? Description { get; set; }
+
+    [JsonPropertyName("viewId")]
     public int ViewId { get; set; }
-    public string? LevelId { get; set; }
-    public string? LevelName { get; set; }
+    //public string? LevelId { get; set; }
+    [JsonPropertyName("levelName")]
+    public string? Name { get; set; }
+
+    [JsonPropertyName("levelScale")]
     public string? LevelScale { get; set; }
+
+    [JsonPropertyName("fileInfo")]
     public List<FileInfo> FileInfo { get; set; } = new();
 
-    public IFormFile DxfFile { get; set; }
+    public IFormFile? DxfFile { get; set; }
     public byte[]? DxfContent { get; set; }
 
-    public IFormFile ExcelFile { get; set; }
+    public IFormFile? ExcelFile { get; set; }
     public byte[]? ExcelContent { get; set; }
 
     public ViewLevelUpdateInput()
@@ -92,13 +102,14 @@ public class ViewLevelUpdateInput
         ViewId = v.ViewId;
     }
 
-    public ViewLevelEntity ToEntity(IByUser by)
+    public ViewLevelEntity ToEntity()
     {
         var e = new ViewLevelEntity
         {
             Id = new Guid(Id),
             Name = Name,
             Description = Description,
+            ViewId = ViewId,
             Scale = Convert.ToSingle(LevelScale),
             //LastModifiedByUserId = by.UserId,
             LastModifiedUtc = Stamp.DateTimeUtc(),

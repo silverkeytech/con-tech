@@ -192,7 +192,7 @@
                             <ul class="list-group list-group-flush">
   <template x-for="(level, index) in currentLevels" :key="index">
     <li class="d-flex align-items-center mb-2">
-        <i class="bi bi-pencil-square text-primary ms-2" @@click="editLevel()" style="cursor: pointer;" :name="level.id"></i>
+        <i class="bi bi-pencil-square text-primary ms-2" @@click="bindLevelForEdit(level.realLevelId)" style="cursor: pointer;" :name="level.id"></i>
         <i class="bi bi-trash text-danger ms-2" @@click="await removeLevel(level.realLevelId)" style="cursor: pointer;" :name="level.id"></i>
         <input type="checkbox" @@change="showHideLevel($event, level.id)" class="form-check-input me-2" checked :name="level.id"  />
         <span x-text="level.levelName" class="me-auto" :name="level.id"></span>
@@ -339,7 +339,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" id="closeModalButton" data-bs-dismiss="modal">Close</button>
                         @* <input type="button" class="btn btn-success" id="saveButton" value="Save"> *@
-                        <input type="button" class="btn btn-success" @@click="addLevelLocalStorage()" value="Save Local">
+                        <input type="button" class="btn btn-success" @@click="updateViewLevelXhrWay()" value="update Api">
                         <input type="button" @@click="uploadFilesXhrWay()" class="btn btn-success" id="saveLevel" value="Save Api">
                     </div>
                 </div>

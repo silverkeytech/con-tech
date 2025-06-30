@@ -12,7 +12,7 @@ public interface IViewLevelRepository
 
     Task<Result<ViewLevelEntity?>> CreateViewLevelAsync(ViewLevelNewInput input);
 
-    Task<Result<ViewLevelEntity?>> UpdateViewLevelAsync(ViewLevelUpdateInput input, IByUser by);
+    Task<Result<ViewLevelEntity?>> UpdateViewLevelAsync(ViewLevelUpdateInput input);
 
     Task<Result<ViewLevelEntity?>> DisableViewLevelByIdAsync(Guid id);
 }

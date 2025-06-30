@@ -47,6 +47,7 @@
         successMessage: '',
         errorMessage: '',
         currentLevels: [],
+        viewId: 0,
         levelData: {
             realLevelId: '',
             id: '',
@@ -60,41 +61,76 @@
             transitionY: null,
 
         },
-        updateViewLevel() {
+        async updateViewLevelXhrWay() {
+            this.uploading = true;
+            this.progress = 0;
 
-            //const layerName = this.levelData.levelName;
+            const formData = new FormData();
 
-            //if (layerName === '' || this.dxfFile === '' || this.excelFile === '' || this.levelData.levelScale === '') {
-            //    alert('Please enter the valid data');
-            //    return;
-            //}
+            // Add JSON metadata as a part
+            const metadata = {
+                id: this.levelData.realLevelId,
+                levelName: this.levelData.levelName,
+                levelScale: this.levelData.levelScale,
+                fileInfo: [],
+            };
+            formData.append('metadata', JSON.stringify(metadata));
 
-            //var storedLevels = localStorage.getItem("storedLevels");
-            //var currentLevels = [];
-            //if (storedLevels)
-            //    currentLevels = JSON.parse(storedLevels)
+            //// Add files as separate parts
+            //this.files.forEach(file => {
+            //    formData.append('files', file, file.name);
+            //});
 
-            //var updatedLevel = {};
+            formData.append('dxfFile', this.dxfFile);
+            let dxfFileInfo = {
+                originalName: this.dxfFile.name,
+                size: this.dxfFile.size,
+                type: this.dxfFile.type
+            }
+            metadata.fileInfo.push(dxfFileInfo);
 
-            //if (window.isEditMode) {
-            //    currentLevels = currentLevels.map((item) => {
-            //        if (item.levelId === levelIdInput.value) {
+            formData.append('excelFile', this.excelFile);
+            let excelFileInfo = {
+                originalName: this.excelFile.name,
+                size: this.excelFile.size,
+                type: this.excelFile.type
+            }
+            metadata.fileInfo.push(excelFileInfo);
 
-            //            item.levelName = layerName;
-            //            item.excelData = window.lastExcelData;
-            //            item.dxfData = window.lastDxfData;
-            //            item.scale = this.levelData.levelScale;
-            //            updatedLevel = item;
-            //            return item;
-            //        }
-            //        return item;
-            //    });
-            //}
 
-            //localStorage.setItem("storedLevels", JSON.stringify(currentLevels));
+            try {
+                const xhr = new XMLHttpRequest();
 
-            this.isEditMode = false;
-            closeModalButton.click();
+                xhr.upload.addEventListener('progress', (e) => {
+                    if (e.lengthComputable) {
+                        this.progress = Math.round((e.loaded / e.total) * 100);
+                    }
+                });
+
+                const response = await new Promise((resolve, reject) => {
+                    xhr.onreadystatechange = () => {
+                        if (xhr.readyState === 4) {
+                            if (xhr.status === 200) {
+                                resolve(JSON.parse(xhr.responseText));
+                            } else {
+                                reject(new Error('Upload failed'));
+                            }
+                        }
+                    };
+
+                    xhr.open('POST', '/admin/view/add-view-level', true);
+                    xhr.send(formData);
+                });
+                await this.fetchViewDetails(this.viewId);
+                console.log('Upload successful:', response);
+            } catch (error) {
+                console.error('Upload error:', error);
+            } finally {
+                this.uploading = false;
+
+                this.isEditMode = false;
+                closeModalButton.click();
+            }
         },
         async removeLevel(levelId) {
             try {
@@ -117,14 +153,16 @@
 
             d3.select("svg").selectAll("#" + levelId).remove();  // Remove old DXF group
         },
-        editLevel(levelId) {
-            //this.levelData.levelName = newLevel.levelName;
-            //this.levelData.levelId = newLevel.levelId;
-            //this.levelData.levelScale = newLevel.scale;
-            this.isEditMode = true;
-            //window.lastExcelData = newLevel.excelData;
-            //window.lastDxfData = newLevel.dxfData;
-            openModalButton.click();
+        bindLevelForEdit(levelId) {
+
+            var targetLevel = this.currentLevels.find(item => item.realLevelId == levelId);
+            if (targetLevel) {
+                this.levelData.levelName = targetLevel.levelName;
+                this.levelData.realLevelId = targetLevel.realLevelId;
+                this.levelData.levelScale = targetLevel.levelScale;
+                this.isEditMode = true;
+                openModalButton.click();
+            }
         },
         showHideLevel(e, levelId) {
             const isChecked = e.target.checked;
@@ -132,7 +170,7 @@
             layerGroup.style('display', isChecked ? null : 'none');
         },
         async fetchViewDetails(id) {
-            this.levelData.viewId = id;
+            this.viewId = id;
             canvas = document.getElementById('pdf-canvas-' + id);
             ctx = canvas.getContext('2d');
 
@@ -159,7 +197,8 @@
                             levelName: level.name,
                             levelScale: level.scale,
                             transitionX: level.transitionX,
-                            transitionY: level.transitionY
+                            transitionY: level.transitionY,
+                            viewId: id,
                         };
                         this.currentLevels.push(newLevel);
                         this.drawUploadedDXF(newLevel);
@@ -352,7 +391,7 @@
                     xhr.open('POST', '/admin/view/add-view-level', true);
                     xhr.send(formData);
                 });
-                await this.fetchViewDetails(this.levelData.viewId);
+                await this.fetchViewDetails(this.viewId);
                 console.log('Upload successful:', response);
             } catch (error) {
                 console.error('Upload error:', error);

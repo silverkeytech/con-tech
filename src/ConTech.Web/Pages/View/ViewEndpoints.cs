@@ -89,7 +89,7 @@ public class ViewEndpoints
             if (string.IsNullOrEmpty(metadataJson))
                 return Results.BadRequest("Metadata is required");
 
-            var metadata = JsonSerializer.Deserialize<ViewLevelNewInput>(metadataJson!);
+            var metadata = JsonSerializer.Deserialize<ViewLevelUpdateInput>(metadataJson!);
 
 
             var dxfFile = form.Files.GetFiles("dxfFile");
@@ -98,11 +98,11 @@ public class ViewEndpoints
             metadata.DxfFile = dxfFile[0];
             metadata.ExcelFile = excelFile[0];
 
-            var result = await repo.CreateViewLevelAsync(metadata);
+            var result = await repo.UpdateViewLevelAsync(metadata);
 
             return Results.Ok(new
             {
-                LevelName = metadata.LevelName,
+                LevelName = metadata.Name,
                 //Files = results,
                 //TotalSize = results.Sum(f => f.Size)
             });

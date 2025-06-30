@@ -128,14 +128,14 @@ public class ViewLevelRepository(DataAccessAdapter adapter, IStringLocalizer<Glo
     }
 
 
-    public async Task<Result<ViewLevelEntity?>> UpdateViewLevelAsync(ViewLevelUpdateInput input, IByUser by)
+    public async Task<Result<ViewLevelEntity?>> UpdateViewLevelAsync(ViewLevelUpdateInput input)
     {
         try
         {
             ArgumentNullException.ThrowIfNull(input);
-            ArgumentNullException.ThrowIfNull(by);
+            //ArgumentNullException.ThrowIfNull(by);
 
-            var e = input.ToEntity(by);
+            var e = input.ToEntity();
 
             using (var memoryStream = new MemoryStream())
             {
@@ -152,6 +152,23 @@ public class ViewLevelRepository(DataAccessAdapter adapter, IStringLocalizer<Glo
                 //    FileSize = PdfDocument.PdfFile.Length,
                 //};
             }
+
+            using (var memoryStream = new MemoryStream())
+            {
+                await input.ExcelFile.CopyToAsync(memoryStream);
+
+                e.ExcelFile = memoryStream.ToArray();
+
+
+                //var document = new PdfDocument
+                //{
+                //    FileContent = memoryStream.ToArray(),
+                //    FileName = PdfDocument.PdfFile.FileName,
+                //    ContentType = PdfDocument.PdfFile.ContentType,
+                //    FileSize = PdfDocument.PdfFile.Length,
+                //};
+            }
+
 
             bool isOK = await _adapter.SaveEntityAsync(e, refetchAfterSave: true);
 
