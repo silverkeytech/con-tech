@@ -128,6 +128,7 @@
             } finally {
                 this.uploading = false;
 
+                await this.fetchViewDetails(this.viewId);
                 this.isEditMode = false;
                 closeModalButton.click();
             }
@@ -391,12 +392,12 @@
                     xhr.open('POST', '/admin/view/add-view-level', true);
                     xhr.send(formData);
                 });
-                await this.fetchViewDetails(this.viewId);
                 console.log('Upload successful:', response);
             } catch (error) {
                 console.error('Upload error:', error);
             } finally {
                 this.uploading = false;
+                await this.fetchViewDetails(this.viewId);
 
                 closeModalButton.click();
             }
