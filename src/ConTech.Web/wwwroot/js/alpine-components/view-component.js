@@ -60,6 +60,36 @@
             transitionY: 0,
 
         },
+         async updateViewLevelTransition(levelId) {
+             
+            var targetLevel = this.currentLevels.find(item => item.realLevelId == levelId);
+
+            const metadata = {
+                id: targetLevel.realLevelId,
+                transitionX: String(targetLevel.transitionX),
+                transitionY: String(targetLevel.transitionY),
+            };
+
+            await fetch('/admin/view/update-view-level-transition', {
+                method: 'POST', 
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(metadata), 
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Success:', data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        },
         async updateViewLevelXhrWay() {
             this.uploading = true;
             this.progress = 0;
@@ -564,21 +594,9 @@
                                 return level;
                             });
                         }
-                        /*//const currentLevels = Alpine.store("currentLevels");
-                        currentX += event.dx;
-                        currentY += event.dy;
-                        d3.select(this).attr("transform", `translate(${currentX},${currentY})`);
-
-                        if (currentLevels) {
-                            Alpine.store("currentLevels", currentLevels.map((level) => {
-                                if (level.realLevelId === realLevelId) {
-                                    level.transitionX = currentX;
-                                    level.transitionY = currentY;
-                                    return level; // Fixed: Should return `level`, not `item`
-                                }
-                                return level;
-                            }));
-                        } */
+                    })
+                    .on("end", async function () {
+                         await viewComponent.updateViewLevelTransition(realLevelId);
                     })
             );
 

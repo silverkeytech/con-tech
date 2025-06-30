@@ -160,3 +160,35 @@ public class FileInfo
     [JsonPropertyName("type")]
     public string? Type { get; set; }
 }
+
+
+
+public class ViewLevelUpdateTransitionInput
+{
+
+    [JsonPropertyName("id")]
+    public string? Id { get; set; }
+
+    [JsonPropertyName("transitionX")]
+    public string? TransitionX { get; set; }
+
+    [JsonPropertyName("transitionY")]
+    public string? TransitionY { get; set; }
+
+
+    public ViewLevelEntity ToEntity()
+    {
+        var e = new ViewLevelEntity
+        {
+            Id = new Guid(Id),
+            TransitionX = Convert.ToSingle(TransitionX),
+            TransitionY = Convert.ToSingle(TransitionY),
+            //LastModifiedByUserId = by.UserId,
+            LastModifiedUtc = Stamp.DateTimeUtc(),
+            IsNew = false
+        };
+
+        return e;
+    }
+
+}

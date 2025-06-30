@@ -15,6 +15,7 @@ public class ViewEndpoints
         view.MapGet("/get-view-details-by-id/{id}", GetViewDetailsByIdAsync);
         view.MapPost("/add-view-level", AddViewLevelAsync);
         view.MapPost("/update-view-level", UpdateViewLevelAsync);
+        view.MapPost("/update-view-level-transition", UpdateViewLevelTransitionAsync);
         view.MapPost("/disable-view-level/{id}", DisableViewLevelAsync);
     }
 
@@ -106,6 +107,23 @@ public class ViewEndpoints
                 //Files = results,
                 //TotalSize = results.Sum(f => f.Size)
             });
+
+        }
+        catch (Exception ex)
+        {
+            return Results.Problem();
+        }
+    }
+    
+
+    public static async Task<IResult> UpdateViewLevelTransitionAsync(ViewLevelUpdateTransitionInput input, HttpRequest request, IViewLevelRepository repo)
+    {
+        try
+        {
+
+            var result = await repo.UpdateViewLevelTransitionAsync(input);
+
+            return Results.Ok(new { success = "cool" });
 
         }
         catch (Exception ex)

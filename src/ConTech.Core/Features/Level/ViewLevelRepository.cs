@@ -184,6 +184,29 @@ public class ViewLevelRepository(DataAccessAdapter adapter, IStringLocalizer<Glo
         }
     }
 
+    public async Task<Result<ViewLevelEntity?>> UpdateViewLevelTransitionAsync(ViewLevelUpdateTransitionInput input)
+    {
+        try
+        {
+            ArgumentNullException.ThrowIfNull(input);
+            //ArgumentNullException.ThrowIfNull(by);
+
+            var e = input.ToEntity();
+
+            bool isOK = await _adapter.SaveEntityAsync(e, refetchAfterSave: true);
+
+            if (isOK is false)
+                throw new SaveOperationException(_local["exception-update-view-level-cannot-be-saved"], e.SaveOperationType());
+
+            return Result<ViewLevelEntity?>.True(e);
+        }
+        catch (Exception ex)
+        {
+            CodeTemplate.HandleException(ex);
+            return Result<ViewLevelEntity?>.False(ex);
+        }
+    }
+
     public async Task<Result<ViewLevelEntity?>> DisableViewLevelByIdAsync(Guid id)
     {
         try
