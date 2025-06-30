@@ -554,6 +554,15 @@
         init() {
             this.getViewLevels();
         },
+        progressChecked: false,
+        displayLevelsProgress(e) {
+            this.progressChecked = e.target.checked;
+
+            this.currentLevels.forEach(level => {
+                this.drawUploadedDXF(level);
+                d3.select("svg").selectAll("#" + level.id).attr("transform", `translate(${level.transitionX},${level.transitionY})`);
+            });
+        },
         drawUploadedDXF(levelData) {
 
             let dxfData = levelData.dxfData;
@@ -564,7 +573,7 @@
             let realLevelId = levelData.realLevelId;
             let userScale = levelData.levelScale;
             let levelName = levelData.levelName;
-            const progressChecked = document.getElementById("flexSwitchCheckChecked").checked;
+            //const progressChecked = document.getElementById("flexSwitchCheckChecked").checked;
 
             const svgWidth = 1300;
             const svgHeight = 1300;
@@ -696,7 +705,7 @@
                             .attr("data-level", levelId)
                             .attr("data-layer", entity.layer)
                             .attr("id", entity.layer)
-                            .attr("fill", progressChecked ? getColorByCompleteness(parseFloat(excelData.find((e) => e.UniqueID == entity.layer)?.complete)) : `${hexColor}`)
+                            .attr("fill", this.progressChecked ? this.getColorByCompleteness(parseFloat(excelData.find((e) => e.UniqueID == entity.layer)?.complete)) : `${hexColor}`)
                             .style("fill-opacity", 0.3)
                             .attr("stroke-width", 2)
                             //.call(getArea)

@@ -166,8 +166,8 @@
 
                     <li class=" nav-item mt-3">
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked">
-                            <label class="form-check-label" for="flexSwitchCheckChecked">Display Progress</label>
+                            <input class="form-check-input" type="checkbox" @@change="displayLevelsProgress($event)" id="progressCheckbox">
+                            <label class="form-check-label" for="progressCheckbox">Display Progress</label>
                         </div>
                     </li>
                     <!--
@@ -1336,29 +1336,29 @@
             //   // });
             // }
 
-            document.getElementById('flexSwitchCheckChecked').addEventListener("change", function () {
-              appendLayers();
-            });
+            // document.getElementById('flexSwitchCheckChecked').addEventListener("change", function () {
+            //   appendLayers();
+            // });
 
-            function getColorByCompleteness(percentage) {
-              //console.log("the precentage ",percentage);
-              if (percentage <= 0.29) return "#DB4E41";      // Red
-              if (percentage <= 0.70) return "#ECCB28";      // Yellow
-              return "#97CA58";                            // Green
-            }
+            // function getColorByCompleteness(percentage) {
+            //   //console.log("the precentage ",percentage);
+            //   if (percentage <= 0.29) return "#DB4E41";      // Red
+            //   if (percentage <= 0.70) return "#ECCB28";      // Yellow
+            //   return "#97CA58";                            // Green
+            // }
 
-            function getStoredLevels(levelId) {
+            // function getStoredLevels(levelId) {
 
-              var storedLevels = localStorage.getItem("storedLevels");
-              var currentLevels = null;
-              if (storedLevels)
-                currentLevels = JSON.parse(storedLevels)
+            //   var storedLevels = localStorage.getItem("storedLevels");
+            //   var currentLevels = null;
+            //   if (storedLevels)
+            //     currentLevels = JSON.parse(storedLevels)
 
-              if (levelId && currentLevels)
-                currentLevels = currentLevels.find(x => x.levelId == levelId);
+            //   if (levelId && currentLevels)
+            //     currentLevels = currentLevels.find(x => x.levelId == levelId);
 
-              return currentLevels;
-            }
+            //   return currentLevels;
+            // }
     </script>
 
 }
