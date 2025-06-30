@@ -121,7 +121,7 @@
                     xhr.open('POST', '/admin/view/update-view-level', true);
                     xhr.send(formData);
                 });
-                await this.fetchViewDetails(this.viewId);
+                //await this.fetchViewDetails(this.viewId);
                 console.log('Upload successful:', response);
             } catch (error) {
                 console.error('Upload error:', error);
