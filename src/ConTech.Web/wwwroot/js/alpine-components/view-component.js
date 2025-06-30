@@ -34,8 +34,7 @@
             }
         }
     });
-
-    return {
+    const viewComponent = {
         viewList: [],
         isUploading: false,
         error: null,
@@ -71,9 +70,9 @@
             const metadata = {
                 id: this.levelData.realLevelId,
                 levelName: this.levelData.levelName,
-                levelScale: this.levelData.levelScale,
-                transitionX: this.levelData.transitionX,
-                transitionY: this.levelData.transitionY,
+                levelScale: String(this.levelData.levelScale),
+                transitionX: String(this.levelData.transitionX),
+                transitionY: String(this.levelData.transitionY),
                 fileInfo: [],
             };
             formData.append('metadata', JSON.stringify(metadata));
@@ -160,7 +159,7 @@
 
             var targetLevel = this.currentLevels.find(item => item.realLevelId == levelId);
             if (targetLevel) {
-                debugger
+                
                 this.levelData.levelName = targetLevel.levelName;
                 this.levelData.realLevelId = targetLevel.realLevelId;
                 this.levelData.levelScale = targetLevel.levelScale;
@@ -554,17 +553,32 @@
                         currentX += event.dx;
                         currentY += event.dy;
                         d3.select(this).attr("transform", `translate(${currentX},${currentY})`);
-                        
-                        if (this.currentLevels) {
-                            this.currentLevels = this.currentLevels.map((level) => {
+
+                        if (viewComponent.currentLevels) {
+                            viewComponent.currentLevels = viewComponent.currentLevels.map((level) => {
                                 if (level.realLevelId === realLevelId) {
                                     level.transitionX = currentX;
                                     level.transitionY = currentY;
-                                    return item;
+                                    return level;
                                 }
-                                return item;
+                                return level;
                             });
                         }
+                        /*//const currentLevels = Alpine.store("currentLevels");
+                        currentX += event.dx;
+                        currentY += event.dy;
+                        d3.select(this).attr("transform", `translate(${currentX},${currentY})`);
+
+                        if (currentLevels) {
+                            Alpine.store("currentLevels", currentLevels.map((level) => {
+                                if (level.realLevelId === realLevelId) {
+                                    level.transitionX = currentX;
+                                    level.transitionY = currentY;
+                                    return level; // Fixed: Should return `level`, not `item`
+                                }
+                                return level;
+                            }));
+                        } */
                     })
             );
 
@@ -798,5 +812,5 @@
         },
 
     };
-
+    return viewComponent;
 }
