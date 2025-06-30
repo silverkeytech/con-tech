@@ -117,7 +117,7 @@
         },
         showHideLevel(e, levelId) {
             const isChecked = e.target.checked;
-            const layerGroup = d3.select("svg").selectAll("#_" + levelId);
+            const layerGroup = d3.select("svg").selectAll("#" + levelId);
             layerGroup.style('display', isChecked ? null : 'none');
         },
         async fetchViewDetails(id) {
@@ -379,7 +379,7 @@
                     xhr.open('POST', '/admin/view/add-view-level', true);
                     xhr.send(formData);
                 });
-
+                await this.fetchViewDetails(this.levelData.viewId);
                 console.log('Upload successful:', response);
             } catch (error) {
                 console.error('Upload error:', error);
