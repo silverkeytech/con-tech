@@ -80,7 +80,7 @@ namespace ConTech.Data.HelperClasses
 			this.AddElementFieldInfo("LevelChildEntity", "LevelId", typeof(System.Guid), false, true, false, false,  (int)LevelChildFieldIndex.LevelId, 0, 0, 0);
 			this.AddElementFieldInfo("LevelChildEntity", "Name", typeof(System.String), false, false, false, false,  (int)LevelChildFieldIndex.Name, 200, 0, 0);
 			this.AddElementFieldInfo("LevelChildEntity", "ObjectStatus", typeof(System.Int32), false, false, false, false,  (int)LevelChildFieldIndex.ObjectStatus, 0, 0, 10);
-			this.AddElementFieldInfo("LevelChildEntity", "ParentId", typeof(Nullable<System.Guid>), false, true, false, true,  (int)LevelChildFieldIndex.ParentId, 0, 0, 0);
+			this.AddElementFieldInfo("LevelChildEntity", "ParentId", typeof(Nullable<System.Guid>), false, false, false, true,  (int)LevelChildFieldIndex.ParentId, 0, 0, 0);
 		}
 
 		/// <summary>Inits LevelEntityEntity's info objects</summary>

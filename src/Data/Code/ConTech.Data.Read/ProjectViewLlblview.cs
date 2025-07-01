@@ -145,7 +145,7 @@ namespace ConTech.Data.Read.DtoClasses
 				/// <summary>Gets or sets the ObjectStatus field. Derived from Entity Model Field 'LevelChild.ObjectStatus'</summary>
 				[DataMember]
 				public System.Int32 ObjectStatus { get; set; }
-				/// <summary>Gets or sets the ParentId field. Derived from Entity Model Field 'LevelChild.ParentId (FK)'</summary>
+				/// <summary>Gets or sets the ParentId field. Derived from Entity Model Field 'LevelChild.ParentId'</summary>
 				[DataMember]
 				public Nullable<System.Guid> ParentId { get; set; }
 			}

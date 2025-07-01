@@ -43,9 +43,6 @@ namespace ConTech.Data.Read.DtoClasses
 		/// <summary>Gets or sets the LastModifiedUtc field. Derived from Entity Model Field 'ViewLevel.LastModifiedUtc'</summary>
 		[DataMember]
 		public Nullable<System.DateTime> LastModifiedUtc { get; set; }
-		/// <summary>Gets or sets the LevelChildren field. </summary>
-		[DataMember]
-		public List<ViewLevelViewTypes.LevelChild> LevelChildren { get; set; }
 		/// <summary>Gets or sets the Name field. Derived from Entity Model Field 'ViewLevel.Name'</summary>
 		[DataMember]
 		public System.String Name { get; set; }
@@ -64,49 +61,6 @@ namespace ConTech.Data.Read.DtoClasses
 		/// <summary>Gets or sets the ViewId field. Derived from Entity Model Field 'ViewLevel.ViewId (FK)'</summary>
 		[DataMember]
 		public System.Int32 ViewId { get; set; }
-	}
-
-	namespace ViewLevelViewTypes
-	{
-		/// <summary> DTO class which is derived from the entity 'LevelChild (LevelChildren)'.</summary>
-		[Serializable]
-		[DataContract]
-		public partial class LevelChild
-		{
-			/// <summary>Gets or sets the CreatedByUserId field. Derived from Entity Model Field 'LevelChild.CreatedByUserId (FK)'</summary>
-			[DataMember]
-			public Nullable<System.Int32> CreatedByUserId { get; set; }
-			/// <summary>Gets or sets the DateCreatedUtc field. Derived from Entity Model Field 'LevelChild.DateCreatedUtc'</summary>
-			[DataMember]
-			public System.DateTime DateCreatedUtc { get; set; }
-			/// <summary>Gets or sets the Description field. Derived from Entity Model Field 'LevelChild.Description'</summary>
-			[DataMember]
-			public System.String Description { get; set; }
-			/// <summary>Gets or sets the EntityList field. Derived from Entity Model Field 'LevelChild.EntityList'</summary>
-			[DataMember]
-			public System.String EntityList { get; set; }
-			/// <summary>Gets or sets the Id field. Derived from Entity Model Field 'LevelChild.Id'</summary>
-			[DataMember]
-			public System.Guid Id { get; set; }
-			/// <summary>Gets or sets the LastModifiedByUserId field. Derived from Entity Model Field 'LevelChild.LastModifiedByUserId (FK)'</summary>
-			[DataMember]
-			public Nullable<System.Int32> LastModifiedByUserId { get; set; }
-			/// <summary>Gets or sets the LastModifiedUtc field. Derived from Entity Model Field 'LevelChild.LastModifiedUtc'</summary>
-			[DataMember]
-			public Nullable<System.DateTime> LastModifiedUtc { get; set; }
-			/// <summary>Gets or sets the LevelId field. Derived from Entity Model Field 'LevelChild.LevelId (FK)'</summary>
-			[DataMember]
-			public System.Guid LevelId { get; set; }
-			/// <summary>Gets or sets the Name field. Derived from Entity Model Field 'LevelChild.Name'</summary>
-			[DataMember]
-			public System.String Name { get; set; }
-			/// <summary>Gets or sets the ObjectStatus field. Derived from Entity Model Field 'LevelChild.ObjectStatus'</summary>
-			[DataMember]
-			public System.Int32 ObjectStatus { get; set; }
-			/// <summary>Gets or sets the ParentId field. Derived from Entity Model Field 'LevelChild.ParentId (FK)'</summary>
-			[DataMember]
-			public Nullable<System.Guid> ParentId { get; set; }
-		}
 	}
 
 }

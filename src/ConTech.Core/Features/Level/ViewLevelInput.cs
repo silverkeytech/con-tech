@@ -217,7 +217,7 @@ public class LevelChildNewInput
         {
             Id = Guid.NewGuid(),
             LevelId = new Guid(LevelId),
-            //ParentId = new Guid(ParentId),
+            ParentId = new Guid(ParentId),
             Name = Name,
             EntityList = EntityList,
             //CreatedByUserId = by.UserId,

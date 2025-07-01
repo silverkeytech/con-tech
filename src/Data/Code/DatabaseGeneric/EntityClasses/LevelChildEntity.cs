@@ -26,8 +26,6 @@ namespace ConTech.Data.EntityClasses
 		// __LLBLGENPRO_USER_CODE_REGION_START AdditionalInterfaces
 		// __LLBLGENPRO_USER_CODE_REGION_END	
 	{
-		private EntityCollection<LevelChildEntity> _levelChildren;
-		private LevelChildEntity _levelChild;
 		private UserEntity _user;
 		private UserEntity _user1;
 		private ViewLevelEntity _viewLevel;
@@ -40,16 +38,12 @@ namespace ConTech.Data.EntityClasses
 		/// <summary>All names of fields mapped onto a relation. Usable for in-memory filtering</summary>
 		public static partial class MemberNames
 		{
-			/// <summary>Member name LevelChild</summary>
-			public static readonly string LevelChild = "LevelChild";
 			/// <summary>Member name User</summary>
 			public static readonly string User = "User";
 			/// <summary>Member name User1</summary>
 			public static readonly string User1 = "User1";
 			/// <summary>Member name ViewLevel</summary>
 			public static readonly string ViewLevel = "ViewLevel";
-			/// <summary>Member name LevelChildren</summary>
-			public static readonly string LevelChildren = "LevelChildren";
 		}
 
 		/// <summary>Static meta-data storage for navigator related information</summary>
@@ -58,8 +52,6 @@ namespace ConTech.Data.EntityClasses
 			public LevelChildEntityStaticMetaData()
 			{
 				SetEntityCoreInfo("LevelChildEntity", InheritanceHierarchyType.None, false, (int)ConTech.Data.EntityType.LevelChildEntity, typeof(LevelChildEntity), typeof(LevelChildEntityFactory), false);
-				AddNavigatorMetaData<LevelChildEntity, EntityCollection<LevelChildEntity>>("LevelChildren", a => a._levelChildren, (a, b) => a._levelChildren = b, a => a.LevelChildren, () => new LevelChildRelations().LevelChildEntityUsingParentId, typeof(LevelChildEntity), (int)ConTech.Data.EntityType.LevelChildEntity);
-				AddNavigatorMetaData<LevelChildEntity, LevelChildEntity>("LevelChild", "LevelChildren", (a, b) => a._levelChild = b, a => a._levelChild, (a, b) => a.LevelChild = b, ConTech.Data.RelationClasses.StaticLevelChildRelations.LevelChildEntityUsingIdParentIdStatic, ()=>new LevelChildRelations().LevelChildEntityUsingIdParentId, null, new int[] { (int)LevelChildFieldIndex.ParentId }, null, true, (int)ConTech.Data.EntityType.LevelChildEntity);
 				AddNavigatorMetaData<LevelChildEntity, UserEntity>("User", "LevelChildren", (a, b) => a._user = b, a => a._user, (a, b) => a.User = b, ConTech.Data.RelationClasses.StaticLevelChildRelations.UserEntityUsingCreatedByUserIdStatic, ()=>new LevelChildRelations().UserEntityUsingCreatedByUserId, null, new int[] { (int)LevelChildFieldIndex.CreatedByUserId }, null, true, (int)ConTech.Data.EntityType.UserEntity);
 				AddNavigatorMetaData<LevelChildEntity, UserEntity>("User1", "LevelChildren1", (a, b) => a._user1 = b, a => a._user1, (a, b) => a.User1 = b, ConTech.Data.RelationClasses.StaticLevelChildRelations.UserEntityUsingLastModifiedByUserIdStatic, ()=>new LevelChildRelations().UserEntityUsingLastModifiedByUserId, null, new int[] { (int)LevelChildFieldIndex.LastModifiedByUserId }, null, true, (int)ConTech.Data.EntityType.UserEntity);
 				AddNavigatorMetaData<LevelChildEntity, ViewLevelEntity>("ViewLevel", "LevelChildren", (a, b) => a._viewLevel = b, a => a._viewLevel, (a, b) => a.ViewLevel = b, ConTech.Data.RelationClasses.StaticLevelChildRelations.ViewLevelEntityUsingLevelIdStatic, ()=>new LevelChildRelations().ViewLevelEntityUsingLevelId, null, new int[] { (int)LevelChildFieldIndex.LevelId }, null, true, (int)ConTech.Data.EntityType.ViewLevelEntity);
@@ -115,14 +107,6 @@ namespace ConTech.Data.EntityClasses
 			// __LLBLGENPRO_USER_CODE_REGION_END
 		}
 
-		/// <summary>Creates a new IRelationPredicateBucket object which contains the predicate expression and relation collection to fetch the related entities of type 'LevelChild' to this entity.</summary>
-		/// <returns></returns>
-		public virtual IRelationPredicateBucket GetRelationInfoLevelChildren() { return CreateRelationInfoForNavigator("LevelChildren"); }
-
-		/// <summary>Creates a new IRelationPredicateBucket object which contains the predicate expression and relation collection to fetch the related entity of type 'LevelChild' to this entity.</summary>
-		/// <returns></returns>
-		public virtual IRelationPredicateBucket GetRelationInfoLevelChild() { return CreateRelationInfoForNavigator("LevelChild"); }
-
 		/// <summary>Creates a new IRelationPredicateBucket object which contains the predicate expression and relation collection to fetch the related entity of type 'User' to this entity.</summary>
 		/// <returns></returns>
 		public virtual IRelationPredicateBucket GetRelationInfoUser() { return CreateRelationInfoForNavigator("User"); }
@@ -164,14 +148,6 @@ namespace ConTech.Data.EntityClasses
 
 		/// <summary>The relations object holding all relations of this entity with other entity classes.</summary>
 		public static LevelChildRelations Relations { get { return _relationsFactory; } }
-
-		/// <summary>Creates a new PrefetchPathElement2 object which contains all the information to prefetch the related entities of type 'LevelChild' for this entity.</summary>
-		/// <returns>Ready to use IPrefetchPathElement2 implementation.</returns>
-		public static IPrefetchPathElement2 PrefetchPathLevelChildren { get { return _staticMetaData.GetPrefetchPathElement("LevelChildren", CommonEntityBase.CreateEntityCollection<LevelChildEntity>()); } }
-
-		/// <summary>Creates a new PrefetchPathElement2 object which contains all the information to prefetch the related entities of type 'LevelChild' for this entity.</summary>
-		/// <returns>Ready to use IPrefetchPathElement2 implementation.</returns>
-		public static IPrefetchPathElement2 PrefetchPathLevelChild { get { return _staticMetaData.GetPrefetchPathElement("LevelChild", CommonEntityBase.CreateEntityCollection<LevelChildEntity>()); } }
 
 		/// <summary>Creates a new PrefetchPathElement2 object which contains all the information to prefetch the related entities of type 'User' for this entity.</summary>
 		/// <returns>Ready to use IPrefetchPathElement2 implementation.</returns>
@@ -273,18 +249,6 @@ namespace ConTech.Data.EntityClasses
 			set	{ SetValue((int)LevelChildFieldIndex.ParentId, value); }
 		}
 
-		/// <summary>Gets the EntityCollection with the related entities of type 'LevelChildEntity' which are related to this entity via a relation of type '1:n'. If the EntityCollection hasn't been fetched yet, the collection returned will be empty.<br/><br/></summary>
-		[TypeContainedAttribute(typeof(LevelChildEntity))]
-		public virtual EntityCollection<LevelChildEntity> LevelChildren { get { return GetOrCreateEntityCollection<LevelChildEntity, LevelChildEntityFactory>("LevelChild", true, false, ref _levelChildren); } }
-
-		/// <summary>Gets / sets related entity of type 'LevelChildEntity' which has to be set using a fetch action earlier. If no related entity is set for this property, null is returned..<br/><br/></summary>
-		[Browsable(false)]
-		public virtual LevelChildEntity LevelChild
-		{
-			get { return _levelChild; }
-			set { SetSingleRelatedEntityNavigator(value, "LevelChild"); }
-		}
-
 		/// <summary>Gets / sets related entity of type 'UserEntity' which has to be set using a fetch action earlier. If no related entity is set for this property, null is returned..<br/><br/></summary>
 		[Browsable(false)]
 		public virtual UserEntity User
@@ -351,17 +315,6 @@ namespace ConTech.Data.RelationClasses
 	/// <summary>Implements the relations factory for the entity: LevelChild. </summary>
 	public partial class LevelChildRelations: RelationFactory
 	{
-		/// <summary>Returns a new IEntityRelation object, between LevelChildEntity and LevelChildEntity over the 1:n relation they have, using the relation between the fields: LevelChild.Id - LevelChild.ParentId</summary>
-		public virtual IEntityRelation LevelChildEntityUsingParentId
-		{
-			get { return ModelInfoProviderSingleton.GetInstance().CreateRelation(RelationType.OneToMany, "LevelChildren", true, new[] { LevelChildFields.Id, LevelChildFields.ParentId }); }
-		}
-
-		/// <summary>Returns a new IEntityRelation object, between LevelChildEntity and LevelChildEntity over the m:1 relation they have, using the relation between the fields: LevelChild.ParentId - LevelChild.Id</summary>
-		public virtual IEntityRelation LevelChildEntityUsingIdParentId
-		{
-			get	{ return ModelInfoProviderSingleton.GetInstance().CreateRelation(RelationType.ManyToOne, "LevelChild", false, new[] { LevelChildFields.Id, LevelChildFields.ParentId }); }
-		}
 
 		/// <summary>Returns a new IEntityRelation object, between LevelChildEntity and UserEntity over the m:1 relation they have, using the relation between the fields: LevelChild.CreatedByUserId - User.Id</summary>
 		public virtual IEntityRelation UserEntityUsingCreatedByUserId
@@ -386,8 +339,6 @@ namespace ConTech.Data.RelationClasses
 	/// <summary>Static class which is used for providing relationship instances which are re-used internally for syncing</summary>
 	internal static class StaticLevelChildRelations
 	{
-		internal static readonly IEntityRelation LevelChildEntityUsingParentIdStatic = new LevelChildRelations().LevelChildEntityUsingParentId;
-		internal static readonly IEntityRelation LevelChildEntityUsingIdParentIdStatic = new LevelChildRelations().LevelChildEntityUsingIdParentId;
 		internal static readonly IEntityRelation UserEntityUsingCreatedByUserIdStatic = new LevelChildRelations().UserEntityUsingCreatedByUserId;
 		internal static readonly IEntityRelation UserEntityUsingLastModifiedByUserIdStatic = new LevelChildRelations().UserEntityUsingLastModifiedByUserId;
 		internal static readonly IEntityRelation ViewLevelEntityUsingLevelIdStatic = new LevelChildRelations().ViewLevelEntityUsingLevelId;

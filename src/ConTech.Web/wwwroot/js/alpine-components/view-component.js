@@ -322,6 +322,7 @@
                             transitionX: level.transitionX,
                             transitionY: level.transitionY,
                             viewId: id,
+                            levelChildren: level.levelChildren,
                         };
                         this.currentLevels.push(newLevel);
                         this.drawUploadedDXF(newLevel);
@@ -998,6 +999,181 @@
             if (percentage <= 0.70) return "#ECCB28";      // Yellow
             return "#97CA58";                            // Green
         },
+        getChildLevel(levelList, mainLevelId, parentLevelId, elementId) {
+            var result = this.getChildLevel_2(levelList, mainLevelId, parentLevelId);
+            if (result) {
+                const element = document.getElementById("levelChildren" + elementId);
+                console.log(element);
+                element.append(result);
+            }
+        },
+        getChildLevel_2(levelList, mainLevelId, parentLevelId) {
+
+            // Create list item
+            const ul = document.createElement('ul');
+            ul.classList.add('list-group', 'list-group-flush');
+            ul.setAttribute('name', parentLevelId);
+            
+            levelList.filter(l => l.parentId == parentLevelId).forEach(level => {
+
+                const childLevel_uuid = "_" + level.id;
+                const li = document.createElement('li');
+                li.classList.add('list-group-item', 'mb-2');
+                li.setAttribute('name', childLevel_uuid);
+                li.setAttribute('data-levelId', childLevel_uuid);
+                li.setAttribute('data-mainLayerId', mainLevelId);
+                li.setAttribute('data-parentLevelId', parentLevelId);
+
+
+                // Create list item
+                const nested_ul = document.createElement('ul');
+                var checkChildExist = levelList.filter(l => l.parentId == level.id);
+                if (checkChildExist) {
+                    nested_ul.classList.add('list-group', 'list-group-flush');
+                    nested_ul.setAttribute('name', childLevel_uuid);
+
+                    var nestedLevels = this.getChildLevel_2(levelList, mainLevelId, level.id);
+                    if (nestedLevels)
+                        nested_ul.appendChild(nestedLevels);
+
+                }
+                /*
+                    var childLevel = {
+                      levelName: levelName,
+                      entityList: []
+                    };*/
+                // Create checkbox
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.classList.add('form-check-input', 'me-2');
+                checkbox.checked = true;
+                checkbox.setAttribute('name', childLevel_uuid);
+
+                checkbox.addEventListener('change', (e) => {
+                    const isChecked = e.target.checked;
+
+                    level.entityList.forEach(entity => {
+
+                        document.getElementById(entity).style.display = isChecked ? null : 'none';
+
+                    });
+                    // const layerGroup = d3.select("svg").selectAll("#" + level.levelId);
+                    // layerGroup.style('display', isChecked ? null : 'none');
+
+                });
+
+                // Create layer name text
+                const span = document.createElement('span');
+                span.textContent = level.name; //:"asd"
+                span.classList.add('me-auto');
+                span.setAttribute('name', childLevel_uuid);
+
+                // Create trash icon
+                const trash = document.createElement('i');
+                trash.classList.add('bi', 'bi-trash', 'text-danger', 'ms-2');
+                trash.style.cursor = 'pointer';
+                trash.setAttribute('name', childLevel_uuid);
+
+                // Trash click removes the layer
+                trash.addEventListener('click', () => {
+
+                    //var storedLevels = localStorage.getItem("storedLevels");
+                    //var currentLevels = [];
+                    //if (storedLevels)
+                    //    currentLevels = JSON.parse(storedLevels)
+
+                    //if (currentLevels) {
+                    //    let updatedLevels = currentLevels.map((item) => {
+                    //        if (item.levelId === mainLevelId) {
+                    //            item.levelList = item.levelList.filter(a => a.levelId !== level.levelId)
+                    //            return item;
+                    //        }
+                    //        return item;
+                    //    });
+
+                    //    localStorage.setItem("storedLevels", JSON.stringify(updatedLevels))
+                    //}
+
+                    //d3.select("svg").selectAll("#" + level.levelId).remove();  // Remove old DXF group
+                    li.remove();
+
+                });
+                // Create add icon
+                const add = document.createElement('i');
+                add.classList.add('bi', 'bi-plus-circle-fill', 'text-primary', 'ms-2');
+                add.style.cursor = 'pointer';
+                add.setAttribute('name', childLevel_uuid);
+                add.setAttribute('data-parentId', level.parentId);
+                add.setAttribute('data-bs-toggle', "modal");
+                add.setAttribute('data-bs-target', "#addChildLevel");
+
+                // add click removes the layer
+                add.addEventListener('click', () => {
+
+                    const modalList = document.getElementById("addChildLevelList");
+                    const childLevel_uuid = "_" + crypto.randomUUID();
+                    document.getElementById("childLevelId").value = childLevel_uuid;
+                    document.getElementById("mainLayerId").value = level.mainLayerId;
+                    document.getElementById("parentLevelId").value = level.levelId;
+
+
+                    var mainLevel = getStoredLevels(level.mainLayerId);
+
+                    var selectedEntities = [];
+                    var filteredLevels = mainLevel.levelList.filter(l => l.parentId == level.parentId);
+                    if (filteredLevels) {
+                        filteredLevels.forEach(item => {
+                            selectedEntities.push.apply(selectedEntities, item.entityList);
+                        });
+                    }
+
+                    //modalList.innerHTML = ''
+
+                    //Object.entries(level.entityList).forEach(([index, entity]) => {
+
+                    //    //if (selectedEntities.includes(entity))
+                    //    //return;
+
+                    //    const li = document.createElement('li');
+                    //    li.classList.add('d-flex', 'align-items-center', 'mb-2');
+                    //    li.setAttribute('name', childLevel_uuid);
+
+                    //    // Create checkbox
+                    //    const checkbox = document.createElement('input');
+                    //    checkbox.type = 'checkbox';
+                    //    checkbox.classList.add('form-check-input', 'me-2');
+                    //    checkbox.checked = false;
+                    //    checkbox.setAttribute('name', childLevel_uuid);
+                    //    checkbox.setAttribute('data-areaId', entity);
+
+
+                    //    // Create layer name text
+                    //    const span = document.createElement('span');
+                    //    span.textContent = entity;
+                    //    span.classList.add('me-auto');
+                    //    span.setAttribute('name', childLevel_uuid);
+
+                    //    li.appendChild(checkbox);
+                    //    li.appendChild(span);
+                    //    modalList.append(li);
+
+                    //});
+                });
+
+
+                // Append all elements
+                li.appendChild(checkbox);
+                li.appendChild(span);
+                li.appendChild(add);
+                li.appendChild(trash);
+                li.appendChild(nested_ul);
+                ul.appendChild(li);
+
+            });
+            console.log("ul element", ul);
+            return ul;
+        }
+        ,
     };
     return viewComponent;
 }

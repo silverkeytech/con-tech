@@ -281,6 +281,11 @@
           <FieldFieldRelationship FkField="LastModifiedByUserId" PkField="Id" />
         </FieldRelationships>
       </NormalRelationship>
+      <NormalRelationship Name="LevelChild.LevelChild-LevelChild.LevelChildren" Start=":LevelChild" End=":LevelChild" StartNavigator="LevelChild" EndNavigator="LevelChildren" Type="4" EndIsOptional="true">
+        <FieldRelationships>
+          <FieldFieldRelationship FkField="ParentId" PkField="Id" />
+        </FieldRelationships>
+      </NormalRelationship>
       <NormalRelationship Name="LevelChild.User-User.LevelChildren" Start=":LevelChild" End=":User" StartNavigator="User" EndNavigator="LevelChildren" Type="4" EndIsOptional="true">
         <FieldRelationships>
           <FieldFieldRelationship FkField="CreatedByUserId" PkField="Id" />
@@ -289,11 +294,6 @@
       <NormalRelationship Name="LevelChild.User1-User.LevelChildren1" Start=":LevelChild" End=":User" StartNavigator="User1" EndNavigator="LevelChildren1" Type="4" EndIsOptional="true">
         <FieldRelationships>
           <FieldFieldRelationship FkField="LastModifiedByUserId" PkField="Id" />
-        </FieldRelationships>
-      </NormalRelationship>
-      <NormalRelationship Name="LevelChild.ViewLevel-ViewLevel.LevelChildren" Start=":LevelChild" End=":ViewLevel" StartNavigator="ViewLevel" EndNavigator="LevelChildren" Type="4">
-        <FieldRelationships>
-          <FieldFieldRelationship FkField="LevelId" PkField="Id" />
         </FieldRelationships>
       </NormalRelationship>
       <NormalRelationship Name="LevelEntity.EntityType-EntityType.LevelEntities" Start=":LevelEntity" End=":EntityType" StartNavigator="EntityType" EndNavigator="LevelEntities" Type="4">
@@ -400,7 +400,7 @@
       <Catalogs>
         <Catalog Name="ConTech">
           <Schemas>
-            <Schema Name="dbo" SyncSource="2" LastSyncWithDatabase="2025-07-01T16:08:28.522498Z">
+            <Schema Name="dbo" SyncSource="2" LastSyncWithDatabase="2025-07-01T14:34:33.2187178Z">
               <Tables>
                 <Table Name="EntityType">
                   <PkConstraintName Name="PK_EntityType" />
@@ -560,6 +560,11 @@
             <ForeignKeyConstraint Name="dbo:LevelChild:FK_LevelChild_LevelId_ViewLevel_Id">
               <FieldPairs>
                 <FieldPair PkField="dbo:ViewLevel:Id" FkField="dbo:LevelChild:LevelId" />
+              </FieldPairs>
+            </ForeignKeyConstraint>
+            <ForeignKeyConstraint Name="dbo:LevelChild:FK_LevelChild_ParentId_LevelChild_Id">
+              <FieldPairs>
+                <FieldPair PkField="dbo:LevelChild:Id" FkField="dbo:LevelChild:ParentId" />
               </FieldPairs>
             </ForeignKeyConstraint>
             <ForeignKeyConstraint Name="dbo:LevelEntity:FK_LevelEntity_CreatedByUserId_User_Id">
@@ -977,46 +982,6 @@
                   </Field>
                   <Field Name="LastModifiedUtc">
                     <EntityField Name="LastModifiedUtc" />
-                  </Field>
-                  <Field Name="LevelChildren">
-                    <Document Name="LevelChild">
-                      <RootEntity Entity=":LevelChild" NavigatorPath="ViewLevels,LevelChildren" />
-                      <Fields>
-                        <Field Name="CreatedByUserId">
-                          <EntityField Name="CreatedByUserId" />
-                        </Field>
-                        <Field Name="DateCreatedUtc">
-                          <EntityField Name="DateCreatedUtc" />
-                        </Field>
-                        <Field Name="Description">
-                          <EntityField Name="Description" />
-                        </Field>
-                        <Field Name="EntityList">
-                          <EntityField Name="EntityList" />
-                        </Field>
-                        <Field Name="Id">
-                          <EntityField Name="Id" />
-                        </Field>
-                        <Field Name="LastModifiedByUserId">
-                          <EntityField Name="LastModifiedByUserId" />
-                        </Field>
-                        <Field Name="LastModifiedUtc">
-                          <EntityField Name="LastModifiedUtc" />
-                        </Field>
-                        <Field Name="LevelId">
-                          <EntityField Name="LevelId" />
-                        </Field>
-                        <Field Name="Name">
-                          <EntityField Name="Name" />
-                        </Field>
-                        <Field Name="ObjectStatus">
-                          <EntityField Name="ObjectStatus" />
-                        </Field>
-                        <Field Name="ParentId">
-                          <EntityField Name="ParentId" />
-                        </Field>
-                      </Fields>
-                    </Document>
                   </Field>
                   <Field Name="Name">
                     <EntityField Name="Name" />
