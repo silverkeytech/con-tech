@@ -154,10 +154,10 @@
     @{
         var firstContent = true;
     }
-    <div x-data="viewComponent()" x-init="$watch('selectedViewId', value=> fetchViewDetails(value))">
+    <div>
         @foreach (var view in Model.ProjectViewList)
         {
-            <div class="tab-content p-0" id="myTabContent">
+            <div class="tab-content p-0" id="myTabContent" x-data="viewComponent()" x-init="$watch('selectedViewId', value=> fetchViewDetails(value))">
 
                 <div class="tab-pane fade  @(firstContent ? "show active" : "")" id="@view.Id" role="tabpanel" aria-labelledby="@view.Id-tab">
 
@@ -239,7 +239,7 @@
 
 
                                                 <canvas id="pdf-canvas-@view.Id" class="position-absolute" style="width:1500px; height:1100px;"></canvas>
-                                                <svg class="position-absolute" width="1500" height="1100" style="border:1px solid black;"></svg>
+                                                <svg id="levels-svg-@view.Id" class="position-absolute" width="1500" height="1100" style="border:1px solid black;"></svg>
 
                                             </div>
                                             <div class="zoom-controls">
@@ -279,121 +279,119 @@
 
                 </div>
                 <!-- Main Content -->
+                <!-- Modal -->
+                <div class="modal fade" id="uploadLevelModal" x-ref="uploadLevelModal" tabindex="-1" aria-labelledby="uploadLevelModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="uploadLevelModalLabel">Modal title</h1>
+                                <button type="button" id="btn-close" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form enctype="multipart/form-data" x-init="console.log('Component state:', $data)">
+                                <div class="modal-body">
 
+                                    <input type="hidden" id="viewId" name="viewId" x-model="levelData.viewId" value="">
+                                    <div class="mb-3">
+                                        <label for="levelName" class="form-label">Level name</label>
+                                        <input type="text" class="form-control"
+                                               id="levelName"
+                                               name="levelName"
+                                               x-model="levelData.levelName"
+                                               required
+                                               :disabled="isUploading">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="upload-dxf-file" class="form-label">Dxf file</label>
+                                        <input type="file" class="form-control"
+                                               id="upload-dxf-file"
+                                               name="dxfFile"
+                                               @@change="addDxfFile($event)"
+                                               :disabled="isUploading"
+                                               accept=".dxf">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="upload-excel-file" class="form-label">Progress excel file</label>
+                                        <input type="file" class="form-control"
+                                               id="upload-excel-file"
+                                               name="excelFile"
+                                               @@change="addExcelFile($event)"
+                                               :disabled="isUploading"
+                                               accept=".xls,.xlsx,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="levelScale" class="form-label">Level Scale</label>
+                                        <input type="number" class="form-control" id="levelScale"
+                                               name="levelScale"
+                                               :disabled="isUploading"
+                                               x-model="levelData.levelScale"
+                                               placeholder="Enter scale (default is 1)"
+                                               step="0.1" value="1">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="levelScale" class="form-label">Progress</label>
+                                        <div class="progress-bar" x-show="!isUploading">
+                                            <div class="progress" :style="'width: ' + progress + '%'"></div>
+                                        </div>
+                                    </div>
+                                    @* 
+                        <div x-show="successMessage" x-text="successMessage" class="success"></div>
+                        <div x-show="errorMessage" x-text="errorMessage" class="error"></div> *@
+                                </div>
+                            </form>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" id="closeModalButton" data-bs-dismiss="modal">Close</button>
+                                @* <input type="button" class="btn btn-success" id="saveButton" value="Save"> *@
+                                <input type="button" class="btn btn-success" @@click="updateViewLevelXhrWay()" value="update Api">
+                                <input type="button" @@click="uploadFilesXhrWay()" class="btn btn-success" id="saveLevel" value="Save Api">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Modal -->
+                <div class="modal fade" id="addChildLevel" tabindex="-1" aria-labelledby="addChildLevelLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="addChildLevelLabel">Add Child level</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <input type="hidden" id="childLevelId" name="childLevelId" value="">
+                                <input type="hidden" id="parentLevelId" name="parentLevelId" value="">
+                                <input type="hidden" id="mainLayerId" name="mainLayerId" value="">
+
+                                <div class="mb-3">
+                                    <label for="childLevelName" class="form-label">level name</label>
+                                    <input type="text" class="form-control" id="childLevelName" placeholder="Please enter level name">
+                                </div>
+
+                                <ul class="list-group list-group-flush">
+
+                                    <template x-for="(entity, index) in selectedEntities" :key="index">
+                                        <li class="d-flex align-items-center mb-2">
+                                            <input type="checkbox" @@change="showHideLevel($event, entity.layer)" class="form-check-input me-2" :name="entity.layer" />
+                                            <span x-text="entity.layer" class="me-auto" :name="entity.layer"></span>
+                                        </li>
+                                    </template>
+                                </ul>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" id="closeChildLevelModalButton"
+                                        data-bs-dismiss="modal">
+                                    Close
+                                </button>
+                                <input type="button" class="btn btn-success" id="saveChildLevelButton" value="Save">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             firstContent = false;
         }
-
-        <!-- Modal -->
-        <div class="modal fade" id="uploadLevelModal" x-ref="uploadLevelModal" tabindex="-1" aria-labelledby="uploadLevelModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="uploadLevelModalLabel">Modal title</h1>
-                        <button type="button" id="btn-close" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <form enctype="multipart/form-data" x-init="console.log('Component state:', $data)">
-                        <div class="modal-body">
-
-                            <input type="hidden" id="viewId" name="viewId" x-model="levelData.viewId" value="">
-                            <div class="mb-3">
-                                <label for="levelName" class="form-label">Level name</label>
-                                <input type="text" class="form-control"
-                                       id="levelName"
-                                       name="levelName"
-                                       x-model="levelData.levelName"
-                                       required
-                                       :disabled="isUploading">
-                            </div>
-                            <div class="mb-3">
-                                <label for="upload-dxf-file" class="form-label">Dxf file</label>
-                                <input type="file" class="form-control"
-                                       id="upload-dxf-file"
-                                       name="dxfFile"
-                                       @@change="addDxfFile($event)"
-                                       :disabled="isUploading"
-                                       accept=".dxf">
-                            </div>
-                            <div class="mb-3">
-                                <label for="upload-excel-file" class="form-label">Progress excel file</label>
-                                <input type="file" class="form-control"
-                                       id="upload-excel-file"
-                                       name="excelFile"
-                                       @@change="addExcelFile($event)"
-                                       :disabled="isUploading"
-                                       accept=".xls,.xlsx,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
-                            </div>
-                            <div class="mb-3">
-                                <label for="levelScale" class="form-label">Level Scale</label>
-                                <input type="number" class="form-control" id="levelScale"
-                                       name="levelScale"
-                                       :disabled="isUploading"
-                                       x-model="levelData.levelScale"
-                                       placeholder="Enter scale (default is 1)"
-                                       step="0.1" value="1">
-                            </div>
-                            <div class="mb-3">
-                                <label for="levelScale" class="form-label">Progress</label>
-                                <div class="progress-bar" x-show="!isUploading">
-                                    <div class="progress" :style="'width: ' + progress + '%'"></div>
-                                </div>
-                            </div>
-                            @* 
-                        <div x-show="successMessage" x-text="successMessage" class="success"></div>
-                        <div x-show="errorMessage" x-text="errorMessage" class="error"></div> *@
-                        </div>
-                    </form>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" id="closeModalButton" data-bs-dismiss="modal">Close</button>
-                        @* <input type="button" class="btn btn-success" id="saveButton" value="Save"> *@
-                        <input type="button" class="btn btn-success" @@click="updateViewLevelXhrWay()" value="update Api">
-                        <input type="button" @@click="uploadFilesXhrWay()" class="btn btn-success" id="saveLevel" value="Save Api">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <!-- Modal -->
-        <div class="modal fade" id="addChildLevel" tabindex="-1" aria-labelledby="addChildLevelLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="addChildLevelLabel">Add Child level</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <input type="hidden" id="childLevelId" name="childLevelId" value="">
-                        <input type="hidden" id="parentLevelId" name="parentLevelId" value="">
-                        <input type="hidden" id="mainLayerId" name="mainLayerId" value="">
-
-                        <div class="mb-3">
-                            <label for="childLevelName" class="form-label">level name</label>
-                            <input type="text" class="form-control" id="childLevelName" placeholder="Please enter level name">
-                        </div>
-
-                        <ul class="list-group list-group-flush">
-
-                            <template x-for="(entity, index) in selectedEntities" :key="index">
-                                <li class="d-flex align-items-center mb-2">
-                                    <input type="checkbox" @@change="showHideLevel($event, entity.layer)" class="form-check-input me-2" :name="entity.layer" />
-                                    <span x-text="entity.layer" class="me-auto" :name="entity.layer"></span>
-                                </li>
-                            </template>
-                        </ul>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" id="closeChildLevelModalButton"
-                                data-bs-dismiss="modal">
-                            Close
-                        </button>
-                        <input type="button" class="btn btn-success" id="saveChildLevelButton" value="Save">
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 

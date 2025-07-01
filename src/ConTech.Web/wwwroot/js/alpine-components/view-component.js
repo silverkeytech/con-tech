@@ -164,7 +164,7 @@
                 closeModalButton.click();
             }
         },
-        async removeLevel(levelId) {
+        async removeLevel(levelId, viewId) {
             try {
                 if (levelId) {
                     const response = await fetch('/admin/view/disable-view-level/' + levelId, {
@@ -183,7 +183,7 @@
                 this.loading = false;
             }
 
-            d3.select("svg").selectAll("#_" + levelId).remove();  // Remove old DXF group
+            d3.select("#levels-svg-" + viewId).selectAll("#_" + levelId).remove();  // Remove old DXF group
         },
         bindLevelForEdit(levelId) {
 
@@ -199,12 +199,13 @@
                 openModalButton.click();
             }
         },
-        showHideLevel(e, levelId) {
+        showHideLevel(e, levelId, viewId) {
             const isChecked = e.target.checked;
-            const layerGroup = d3.select("svg").selectAll("#" + levelId);
+            const layerGroup = d3.select("#levels-svg-" + viewId).selectAll("#" + levelId);
             layerGroup.style('display', isChecked ? null : 'none');
         },
         async fetchViewDetails(id) {
+            
             this.viewId = id;
             canvas = document.getElementById('pdf-canvas-' + id);
             ctx = canvas.getContext('2d');
@@ -214,8 +215,9 @@
                 this.loading = true;
                 var view = this.viewList.find(item => item.id == id);
 
-                if (!view) {
+                //if (!view) {
 
+                //}
                     const response = await fetch('/admin/view/get-view-details-by-id/' + id);
                     view = await response.json();
 
@@ -238,11 +240,10 @@
                         this.currentLevels.push(newLevel);
                         this.drawUploadedDXF(newLevel);
 
-                        d3.select("svg").selectAll("#" + newLevel.id).attr("transform", `translate(${newLevel.transitionX},${newLevel.transitionY})`);
+                        d3.select("#levels-svg-" + newLevel.viewId).selectAll("#" + newLevel.id).attr("transform", `translate(${newLevel.transitionX},${newLevel.transitionY})`);
                     });
 
                     console.log(this.currentLevels);
-                }
 
                 await this.base64ToUint8Array(view.backgroundPdf);
 
@@ -555,12 +556,12 @@
             this.getViewLevels();
         },
         progressChecked: false,
-        displayLevelsProgress(e) {
+        displayLevelsProgress(e, viewId) {
             this.progressChecked = e.target.checked;
 
             this.currentLevels.forEach(level => {
                 this.drawUploadedDXF(level);
-                d3.select("svg").selectAll("#" + level.id).attr("transform", `translate(${level.transitionX},${level.transitionY})`);
+                d3.select("#levels-svg-" + viewId).selectAll("#" + level.id).attr("transform", `translate(${level.transitionX},${level.transitionY})`);
             });
         },
         drawUploadedDXF(levelData) {
@@ -578,7 +579,7 @@
             const svgWidth = 1300;
             const svgHeight = 1300;
 
-            const svg = d3.select("svg");
+            const svg = d3.select("#levels-svg-" + levelData.viewId);
             svg.selectAll(`#${levelId}`).remove();  // Remove old DXF group
             const uploadGroup = svg.append("g")
                 .attr("id", levelId)
