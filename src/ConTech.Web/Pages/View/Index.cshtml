@@ -110,7 +110,7 @@
 
 @*/////////////////////////////////////////////*@
 
-    <div x-data="viewComponent()" >
+    <div x-data="{selectedViewId:0}" >
 <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
     <div class="container-fluid">
         <img class="navbar-brand" src="~/images/projecs.png" height="40" width="170" />
@@ -127,8 +127,8 @@
                 }
                 @foreach (var view in Model.ProjectViewList)
                 {
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link d-inline-block @(firstTab ? "active" : "")" x-on:click="fetchViewDetails(@view.Id)" id="@view.Id-tab" data-bs-toggle="tab" data-bs-target="#@view.Id" role="tab" aria-controls="@view.Id">
+                    <li class="nav-item" role="presentation" x-init="selectedViewId = @(JsonSerializer.Serialize<bool>(firstTab)) ? @view.Id : selectedViewId">
+                        <a class="nav-link d-inline-block @(firstTab ? "active" : "")" x-on:click="selectedViewId = @view.Id" id="@view.Id-tab" data-bs-toggle="tab" data-bs-target="#@view.Id" role="tab" aria-controls="@view.Id">
                             @view.Name <span>
                                 <a asp-page="./Update" asp-route-id="@view.Id" class="btn btn-sm btn-outline-primary edit-tab actions">
                                     <i class="bi bi-pencil"></i>
@@ -154,9 +154,10 @@
 @{
     var firstContent = true;
 }
+<div x-data="viewComponent()" x-init="$watch('selectedViewId', value=> fetchViewDetails(value))">
 @foreach (var view in Model.ProjectViewList)
 {
-        <div class="row">
+        <div x-show="selectedViewId == viewId" class="row">
             <nav class="col-md-4 col-lg-2 d-md-block sidebar">
                 <div class="d-flex align-items-center">
                     <img src="~/images/back.png" id="backImg" class="ms-3 mt-2">
@@ -278,6 +279,9 @@
 
         </div>
 
+    firstContent = false;
+}
+
         <!-- Modal -->
         <div class="modal fade" id="uploadLevelModal" x-ref="uploadLevelModal" tabindex="-1" aria-labelledby="uploadLevelModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -288,7 +292,7 @@
                     </div>
                     <form enctype="multipart/form-data" x-init="console.log('Component state:', $data)">
                         <div class="modal-body">
-                                
+
                             <input type="hidden" id="viewId" name="viewId" x-model="levelData.viewId" value="">
                             <div class="mb-3">
                                 <label for="levelName" class="form-label">Level name</label>
@@ -367,13 +371,13 @@
                         </div>
 
                         <ul class="list-group list-group-flush">
-                            
-  <template x-for="(entity, index) in selectedEntities" :key="index">
-    <li class="d-flex align-items-center mb-2">
-        <input type="checkbox" @@change="showHideLevel($event, entity.layer)" class="form-check-input me-2" :name="entity.layer"  />
-        <span x-text="entity.layer" class="me-auto" :name="entity.layer"></span>
-    </li>
-  </template>
+
+                            <template x-for="(entity, index) in selectedEntities" :key="index">
+                                <li class="d-flex align-items-center mb-2">
+                                    <input type="checkbox" @@change="showHideLevel($event, entity.layer)" class="form-check-input me-2" :name="entity.layer" />
+                                    <span x-text="entity.layer" class="me-auto" :name="entity.layer"></span>
+                                </li>
+                            </template>
                         </ul>
 
                     </div>
@@ -387,9 +391,8 @@
                 </div>
             </div>
         </div>
-    firstContent = false;
-}
-    </div>
+</div>
+</div>
 
 @*/////////////////////////////////////////////*@
 
