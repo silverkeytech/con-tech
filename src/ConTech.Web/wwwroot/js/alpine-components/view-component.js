@@ -237,7 +237,7 @@
             const metadata = {
                 id: crypto.randomUUID(),
                 levelId: String(this.levelChild.levelId),
-                parentId: String(this.levelChild.parentId),
+                //parentId: String(this.levelChild.parentId),
                 entityList: String(this.selectedEntities),
                 name: this.levelChild.name,
             };

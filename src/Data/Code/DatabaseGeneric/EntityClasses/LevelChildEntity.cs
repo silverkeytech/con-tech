@@ -266,10 +266,10 @@ namespace ConTech.Data.EntityClasses
 		}
 
 		/// <summary>The ParentId property of the Entity LevelChild<br/><br/></summary>
-		/// <remarks>Mapped on  table field: "LevelChild"."ParentId".<br/>Table field type characteristics (type, precision, scale, length): UniqueIdentifier, 0, 0, 0.<br/>Table field behavior characteristics (is nullable, is PK, is identity): false, false, false</remarks>
-		public virtual System.Guid ParentId
+		/// <remarks>Mapped on  table field: "LevelChild"."ParentId".<br/>Table field type characteristics (type, precision, scale, length): UniqueIdentifier, 0, 0, 0.<br/>Table field behavior characteristics (is nullable, is PK, is identity): true, false, false</remarks>
+		public virtual Nullable<System.Guid> ParentId
 		{
-			get { return (System.Guid)GetValue((int)LevelChildFieldIndex.ParentId, true); }
+			get { return (Nullable<System.Guid>)GetValue((int)LevelChildFieldIndex.ParentId, false); }
 			set	{ SetValue((int)LevelChildFieldIndex.ParentId, value); }
 		}
 

@@ -405,7 +405,7 @@
       <Catalogs>
         <Catalog Name="ConTech">
           <Schemas>
-            <Schema Name="dbo" SyncSource="2" LastSyncWithDatabase="2025-07-01T14:34:33.2187178Z">
+            <Schema Name="dbo" SyncSource="2" LastSyncWithDatabase="2025-06-28T17:03:27.0492326Z">
               <Tables>
                 <Table Name="EntityType">
                   <PkConstraintName Name="PK_EntityType" />
@@ -425,7 +425,7 @@
                   <Fields>
                     <Field Name="Id" Ordinal="1" IsPrimaryKey="true" DbType="25" />
                     <Field Name="LevelId" Ordinal="2" DbType="25" />
-                    <Field Name="ParentId" Ordinal="3" IsOptional="true" DbType="25" />
+                    <Field Name="ParentId" Ordinal="3" DbType="25" />
                     <Field Name="Name" Ordinal="4" DbType="12" Length="200" />
                     <Field Name="Description" Ordinal="5" IsOptional="true" DbType="12" Length="750" />
                     <Field Name="EntityList" Ordinal="6" IsOptional="true" DbType="12" Length="2147483647" />
@@ -1090,46 +1090,6 @@
             </Field>
             <Field Name="LastModifiedUtc">
               <EntityField Name="LastModifiedUtc" />
-            </Field>
-            <Field Name="LevelChildren">
-              <Document Name="LevelChild">
-                <RootEntity Entity=":LevelChild" NavigatorPath="LevelChildren" />
-                <Fields>
-                  <Field Name="CreatedByUserId">
-                    <EntityField Name="CreatedByUserId" />
-                  </Field>
-                  <Field Name="DateCreatedUtc">
-                    <EntityField Name="DateCreatedUtc" />
-                  </Field>
-                  <Field Name="Description">
-                    <EntityField Name="Description" />
-                  </Field>
-                  <Field Name="EntityList">
-                    <EntityField Name="EntityList" />
-                  </Field>
-                  <Field Name="Id">
-                    <EntityField Name="Id" />
-                  </Field>
-                  <Field Name="LastModifiedByUserId">
-                    <EntityField Name="LastModifiedByUserId" />
-                  </Field>
-                  <Field Name="LastModifiedUtc">
-                    <EntityField Name="LastModifiedUtc" />
-                  </Field>
-                  <Field Name="LevelId">
-                    <EntityField Name="LevelId" />
-                  </Field>
-                  <Field Name="Name">
-                    <EntityField Name="Name" />
-                  </Field>
-                  <Field Name="ObjectStatus">
-                    <EntityField Name="ObjectStatus" />
-                  </Field>
-                  <Field Name="ParentId">
-                    <EntityField Name="ParentId" />
-                  </Field>
-                </Fields>
-              </Document>
             </Field>
             <Field Name="Name">
               <EntityField Name="Name" />

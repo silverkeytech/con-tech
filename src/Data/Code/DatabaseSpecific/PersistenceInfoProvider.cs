@@ -74,7 +74,7 @@ namespace ConTech.Data.DatabaseSpecific
 			this.AddElementFieldMapping("LevelChildEntity", "LevelId", "LevelId", false, "UniqueIdentifier", 0, 0, 0, false, "", null, typeof(System.Guid), 7);
 			this.AddElementFieldMapping("LevelChildEntity", "Name", "Name", false, "NVarChar", 200, 0, 0, false, "", null, typeof(System.String), 8);
 			this.AddElementFieldMapping("LevelChildEntity", "ObjectStatus", "ObjectStatus", false, "Int", 0, 10, 0, false, "", null, typeof(System.Int32), 9);
-			this.AddElementFieldMapping("LevelChildEntity", "ParentId", "ParentId", false, "UniqueIdentifier", 0, 0, 0, false, "", null, typeof(System.Guid), 10);
+			this.AddElementFieldMapping("LevelChildEntity", "ParentId", "ParentId", true, "UniqueIdentifier", 0, 0, 0, false, "", null, typeof(System.Guid), 10);
 		}
 
 		/// <summary>Inits LevelEntityEntity's mappings</summary>
