@@ -226,9 +226,9 @@
         selectLevelEntity(e, entityId) {
             const isChecked = e.target.checked;
             if (isChecked)
-                selectedEntities.push(entityId);
+                this.selectedEntities.push(entityId);
             else
-                selectedEntities = selectedEntities.filter(item => item != entityId);
+                this.selectedEntities = this.selectedEntities.filter(item => item != entityId);
         },
         async addLevelChild(levelId) {
 
@@ -238,7 +238,7 @@
                 id: crypto.randomUUID(),
                 levelId: String(this.levelChild.levelId),
                 parentId: String(this.levelChild.parentId),
-                entityList: String(selectedEntities),
+                entityList: String(this.selectedEntities),
                 name: this.levelChild.name,
             };
 
