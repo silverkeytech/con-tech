@@ -19,6 +19,25 @@ namespace ConTech.Data.Read.Persistence
 		///<summary>class to define custom where/orderby clauses to be used in the linq / query spec query projection</summary>
 		public partial class P_ViewLevelsProjectionParams_Clauses
 		{
+			///<summary>class to define custom where/orderby clauses to be used in the linq / query spec query projection</summary>
+			public partial class P_V_LevelChildrenProjectionParams_Clauses
+			{
+				/// <summary>QuerySpec specific. Appends a new OrderBy clause for the LevelChildren embedded set.</summary>
+				/// <param name="clauseToAdd">the clause to add</param>
+				public void AppendQSOrderBy(ISortClause clauseToAdd) => this.QSOrderByClauses.Add(clauseToAdd);
+				/// <summary>Linq specific. Appends a new OrderBy clause for the LevelChildren embedded set.</summary>
+				/// <param name="orderByClause">The order by clause to use</param>
+				/// <param name="descending">if true, the order by will be descending, otherwise ascending (default)</param>
+				/// <typeparam name="TField">The type of the field to sort by</typeparam>
+				public void AppendLinqOrderBy<TField>(System.Linq.Expressions.Expression<Func<ConTech.Data.EntityClasses.LevelChildEntity, TField>> orderByClause, bool descending = false) => this.LinqOrderByClauses.Add(new SD.LLBLGen.Pro.ORMSupportClasses.ValuePair<System.Linq.Expressions.Expression, bool>((System.Linq.Expressions.Expression)orderByClause, descending));
+				internal List<SD.LLBLGen.Pro.ORMSupportClasses.ValuePair<System.Linq.Expressions.Expression, bool>> LinqOrderByClauses { get; } = new List<SD.LLBLGen.Pro.ORMSupportClasses.ValuePair<System.Linq.Expressions.Expression, bool>>();
+				internal List<ISortClause> QSOrderByClauses { get; set; } = new List<ISortClause>();
+				/// <summary>Linq specific. Custom where clause to be used for when the LevelChildren embedded set is fetched</summary>
+				public System.Linq.Expressions.Expression<Func<ConTech.Data.EntityClasses.LevelChildEntity, bool>> LinqWhereClause { get; set; }
+				/// <summary>QuerySpec specific. Custom where clause to be used for when the LevelChildren embedded set is fetched</summary>
+				public IPredicate QSWhereClause { get; set; }
+			}
+
 			/// <summary>QuerySpec specific. Appends a new OrderBy clause for the ViewLevels embedded set.</summary>
 			/// <param name="clauseToAdd">the clause to add</param>
 			public void AppendQSOrderBy(ISortClause clauseToAdd) => this.QSOrderByClauses.Add(clauseToAdd);
@@ -33,6 +52,8 @@ namespace ConTech.Data.Read.Persistence
 			public System.Linq.Expressions.Expression<Func<ConTech.Data.EntityClasses.ViewLevelEntity, bool>> LinqWhereClause { get; set; }
 			/// <summary>QuerySpec specific. Custom where clause to be used for when the ViewLevels embedded set is fetched</summary>
 			public IPredicate QSWhereClause { get; set; }
+			/// <summary>Projection parameters to configure where / orderby clauses for the nested member 'LevelChildren'</summary>
+			public P_V_LevelChildrenProjectionParams_Clauses LevelChildrenProjectionParams { get; } = new P_V_LevelChildrenProjectionParams_Clauses();
 		}
 
 		/// <summary>Projection parameters to configure where / orderby clauses for the nested member 'ViewLevels'</summary>
@@ -117,6 +138,24 @@ namespace ConTech.Data.Read.Persistence
 							Id = ViewLevelFields.Id.Source("__L1_0").ToValue<System.Guid>(),
 							LastModifiedByUserId = ViewLevelFields.LastModifiedByUserId.Source("__L1_0").ToValue<Nullable<System.Int32>>(),
 							LastModifiedUtc = ViewLevelFields.LastModifiedUtc.Source("__L1_0").ToValue<Nullable<System.DateTime>>(),
+							LevelChildren = (List<ConTech.Data.Read.DtoClasses.ProjectViewLlblViewTypes.ViewLevelTypes.LevelChild>)qf.LevelChild.TargetAs("__L2_0")
+								.CorrelatedOver(ViewLevelFields.Id.Source("__L1_0").Equal(LevelChildFields.LevelId.Source("__L2_0")))
+								.Where(projectionParams==null ? null : GeneralUtils.SetAliasOnPredicate(projectionParams.ViewLevelsProjectionParams.LevelChildrenProjectionParams.QSWhereClause, "__L2_0"))
+								.OrderBy(projectionParams==null ? null : GeneralUtils.SetAliasOnSortClauses(projectionParams.ViewLevelsProjectionParams.LevelChildrenProjectionParams.QSOrderByClauses, "__L2_0"))
+								.Select(() => new ConTech.Data.Read.DtoClasses.ProjectViewLlblViewTypes.ViewLevelTypes.LevelChild()
+								{
+									CreatedByUserId = LevelChildFields.CreatedByUserId.Source("__L2_0").ToValue<Nullable<System.Int32>>(),
+									DateCreatedUtc = LevelChildFields.DateCreatedUtc.Source("__L2_0").ToValue<System.DateTime>(),
+									Description = LevelChildFields.Description.Source("__L2_0").ToValue<System.String>(),
+									EntityList = LevelChildFields.EntityList.Source("__L2_0").ToValue<System.String>(),
+									Id = LevelChildFields.Id.Source("__L2_0").ToValue<System.Guid>(),
+									LastModifiedByUserId = LevelChildFields.LastModifiedByUserId.Source("__L2_0").ToValue<Nullable<System.Int32>>(),
+									LastModifiedUtc = LevelChildFields.LastModifiedUtc.Source("__L2_0").ToValue<Nullable<System.DateTime>>(),
+									LevelId = LevelChildFields.LevelId.Source("__L2_0").ToValue<System.Guid>(),
+									Name = LevelChildFields.Name.Source("__L2_0").ToValue<System.String>(),
+									ObjectStatus = LevelChildFields.ObjectStatus.Source("__L2_0").ToValue<System.Int32>(),
+									ParentId = LevelChildFields.ParentId.Source("__L2_0").ToValue<Nullable<System.Guid>>(),
+								}).ToResultset(),
 							Name = ViewLevelFields.Name.Source("__L1_0").ToValue<System.String>(),
 							ObjectStatus = ViewLevelFields.ObjectStatus.Source("__L1_0").ToValue<System.Int32>(),
 							Scale = ViewLevelFields.Scale.Source("__L1_0").ToValue<Nullable<System.Single>>(),
@@ -163,6 +202,20 @@ namespace ConTech.Data.Read.Persistence
 					Id = p__1.Id,
 					LastModifiedByUserId = p__1.LastModifiedByUserId,
 					LastModifiedUtc = p__1.LastModifiedUtc,
+					LevelChildren = p__1.LevelChildren.AsQueryable().OptionalWhere(projectionParams.ViewLevelsProjectionParams.LevelChildrenProjectionParams.LinqWhereClause).OptionalOrderBy(projectionParams.ViewLevelsProjectionParams.LevelChildrenProjectionParams.LinqOrderByClauses).Select(p__2 => new ConTech.Data.Read.DtoClasses.ProjectViewLlblViewTypes.ViewLevelTypes.LevelChild()
+					{
+						CreatedByUserId = p__2.CreatedByUserId,
+						DateCreatedUtc = p__2.DateCreatedUtc,
+						Description = p__2.Description,
+						EntityList = p__2.EntityList,
+						Id = p__2.Id,
+						LastModifiedByUserId = p__2.LastModifiedByUserId,
+						LastModifiedUtc = p__2.LastModifiedUtc,
+						LevelId = p__2.LevelId,
+						Name = p__2.Name,
+						ObjectStatus = p__2.ObjectStatus,
+						ParentId = p__2.ParentId,
+					}).ToList(),
 					Name = p__1.Name,
 					ObjectStatus = p__1.ObjectStatus,
 					Scale = p__1.Scale,

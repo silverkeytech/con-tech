@@ -325,16 +325,29 @@
                         };
                         this.currentLevels.push(newLevel);
                         this.drawUploadedDXF(newLevel);
-
+                        /* levelChildren
+:{
+    "createdByUserId": null,
+    "dateCreatedUtc": "2025-07-01T14:36:30.21",
+    "description": null,
+    "entityList": "[MEETER GREETER HALL,FRONT OF HOUSE]",
+    "id": "9ef53236-2f66-4824-bc69-576f06d4b20d",
+    "lastModifiedByUserId": null,
+    "lastModifiedUtc": null,
+    "levelId": "7d0df8a5-602a-40f9-b0c4-a663fcbba50a",
+    "name": "LV 2.1",
+    "objectStatus": 1,
+    "parentId": "9ef53236-2f66-4824-bc69-578f06d4b20d"
+} */
                         d3.select("#levels-svg-" + newLevel.viewId).selectAll("#" + newLevel.id).attr("transform", `translate(${newLevel.transitionX},${newLevel.transitionY})`);
                     });
 
                     //debugger
                     this.canvas = document.getElementById('pdf-canvas-' + id);
                     this.ctx = this.canvas.getContext('2d');
-
                     await this.base64ToUint8Array(view.backgroundPdf);
                 }
+                console.log("view data:", view);
 
                 this.error = null;
 
