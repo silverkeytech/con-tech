@@ -15,8 +15,6 @@
         .style("opacity", 0)
         .attr("class", "tooltip");
 
-    let canvas = null;
-    let ctx = null;
 
 
     // Keyboard shortcuts
@@ -35,6 +33,9 @@
         }
     });
     const viewComponent = {
+
+        canvas: null,
+        ctx: null,
         viewList: [],
         isUploading: false,
         error: null,
@@ -237,8 +238,8 @@
                         this.currentLevels.push(newLevel);
                         this.drawUploadedDXF(newLevel);
 
-                        canvas = document.getElementById('pdf-canvas-' + id);
-                        ctx = canvas.getContext('2d');
+                        this.canvas = document.getElementById('pdf-canvas-' + id);
+                        this.ctx = this.canvas.getContext('2d');
 
                         d3.select("#levels-svg-" + newLevel.viewId).selectAll("#" + newLevel.id).attr("transform", `translate(${newLevel.transitionX},${newLevel.transitionY})`);
                     });
@@ -275,14 +276,14 @@
             pdfDoc.getPage(pageNum).then(function (page) {
                 const viewport = page.getViewport({ scale: scale });
 
-                canvas.height = viewport.height;
-                canvas.width = viewport.width;
+                viewComponent.canvas.height = viewport.height;
+                viewComponent.canvas.width = viewport.width;
 
                 container.style.width = `${viewport.width}px`;
                 container.style.height = `${viewport.height}px`;
 
                 const renderContext = {
-                    canvasContext: ctx,
+                    canvasContext: viewComponent.ctx,
                     viewport: viewport
                 };
 
