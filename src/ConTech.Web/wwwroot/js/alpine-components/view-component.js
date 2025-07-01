@@ -214,8 +214,6 @@
                 var view = this.viewList.find(item => item.id == id);
 
                 if (!view) {
-                    canvas = document.getElementById('pdf-canvas-' + id);
-                    ctx = canvas.getContext('2d');
 
                     const response = await fetch('/admin/view/get-view-details-by-id/' + id);
                     view = await response.json();
@@ -238,6 +236,9 @@
                         };
                         this.currentLevels.push(newLevel);
                         this.drawUploadedDXF(newLevel);
+
+                        canvas = document.getElementById('pdf-canvas-' + id);
+                        ctx = canvas.getContext('2d');
 
                         d3.select("#levels-svg-" + newLevel.viewId).selectAll("#" + newLevel.id).attr("transform", `translate(${newLevel.transitionX},${newLevel.transitionY})`);
                     });

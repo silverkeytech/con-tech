@@ -157,7 +157,7 @@
     <div>
         @foreach (var view in Model.ProjectViewList)
         {
-            <div class="tab-content p-0" id="myTabContent" x-data="viewComponent()" x-init="$watch('selectedViewId', value=> fetchViewDetails(value))">
+            <div class="tab-content p-0" id="myTabContent" x-data="viewComponent()" x-init="$watch('selectedViewId', async (value)=> await fetchViewDetails(value))">
 
                 <div class="tab-pane fade  @(firstContent ? "show active" : "")" id="@view.Id" role="tabpanel" aria-labelledby="@view.Id-tab">
 
@@ -184,7 +184,7 @@
                                 <!-- Button trigger modal -->
 
                                 <li class="nav-item mt-2">
-                                    <button type="button" id="openUploadLevelButton" @@click="levelData.viewId = @view.Id" class="btn btn-primary mt-2" data-bs-toggle="modal"
+                                    <button type="button" id="openUploadLevelButton" @@click="levelData.viewId = viewId" class="btn btn-primary mt-2" data-bs-toggle="modal"
                                             data-bs-target="#uploadLevelModal">
                                         Add Level
                                         <span class="ms-2"> &#43;</span>
@@ -195,7 +195,7 @@
                                         <h6>Manage Layers</h6>
                                         <ul class="list-group list-group-flush" id="layerList"></ul>
                                         <ul class="list-group list-group-flush">
-                                            <template x-for="(level, index) in currentLevels" :key="index">
+                                            <template x-for="(level, index) in currentLevels.filter(l => l.viewId == viewId)" :key="index">
                                                 <li class="d-flex align-items-center mb-2">
                                                     <i class="bi bi-plus-circle-fill text-primary ms-2" data-bs-toggle="modal" data-bs-target="#addChildLevel" @@click="bindLevelChilds(level.realLevelId)" style="cursor: pointer;" :name="level.id"></i>
                                                     <i class="bi bi-pencil-square text-primary ms-2" @@click="bindLevelForEdit(level.realLevelId)" style="cursor: pointer;" :name="level.id"></i>
@@ -210,7 +210,7 @@
                             </ul>
                         </nav>
                         <div class=" col-md-7 col-lg-9  mt-4 px-md-4">
-                            <main x-init="@(JsonSerializer.Serialize<bool>(firstContent)) && fetchViewDetails(@view.Id)">
+                            <main x-init="@(JsonSerializer.Serialize<bool>(firstContent)) && await fetchViewDetails(@view.Id)">
                                 <!-- <div class="w-75 mx-auto">
                                   <div class="d-flex justify-content-between mb-1 text-center">
                                     <div class="text-start">
