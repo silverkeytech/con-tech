@@ -1026,15 +1026,14 @@
 
 
                 // Create list item
-                const nested_ul = document.createElement('ul');
+                //const nested_ul = document.createElement('ul');
+                var nestedLevels;
                 var checkChildExist = levelList.filter(l => l.parentId == level.id);
                 if (checkChildExist) {
-                    nested_ul.classList.add('list-group', 'list-group-flush');
-                    nested_ul.setAttribute('name', childLevel_uuid);
+                    //nested_ul.classList.add('list-group', 'list-group-flush');
+                    //nested_ul.setAttribute('name', childLevel_uuid);
 
                     var nestedLevels = this.getChildLevel_2(levelList, mainLevelId, level.id);
-                    if (nestedLevels)
-                        nested_ul.appendChild(nestedLevels);
 
                 }
                 /*
@@ -1166,7 +1165,9 @@
                 li.appendChild(span);
                 li.appendChild(add);
                 li.appendChild(trash);
-                li.appendChild(nested_ul);
+                if (nestedLevels)
+                    li.appendChild(nestedLevels);
+                //li.appendChild(nested_ul);
                 ul.appendChild(li);
 
             });
