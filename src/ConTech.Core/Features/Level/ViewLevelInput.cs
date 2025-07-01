@@ -192,3 +192,76 @@ public class ViewLevelUpdateTransitionInput
     }
 
 }
+
+public class LevelChildNewInput
+{
+
+    [JsonPropertyName("id")]
+    public string? Id { get; set; }
+
+    [JsonPropertyName("levelId")]
+    public string? LevelId { get; set; }
+
+    [JsonPropertyName("parentId")]
+    public string? ParentId { get; set; }
+
+    [JsonPropertyName("entityList")]
+    public string? EntityList { get; set; }
+
+    [JsonPropertyName("name")]
+    public string? Name { get; set; }
+
+    public LevelChildEntity ToEntity()
+    {
+        var e = new LevelChildEntity
+        {
+            Id = new Guid(Id),
+            LevelId = new Guid(LevelId),
+            ParentId = new Guid(ParentId),
+            Name = Name,
+            EntityList = EntityList,
+            //CreatedByUserId = by.UserId,
+            DateCreatedUtc = DateTime.UtcNow,
+            IsNew = true
+        };
+
+        return e;
+    }
+
+}
+
+public class LevelChildUpdateInput
+{
+
+    [JsonPropertyName("id")]
+    public string? Id { get; set; }
+
+    [JsonPropertyName("levelId")]
+    public string? LevelId { get; set; }
+
+    [JsonPropertyName("parentId")]
+    public string? ParentId { get; set; }
+
+    [JsonPropertyName("entityList")]
+    public string? EntityList { get; set; }
+
+    [JsonPropertyName("name")]
+    public string? Name { get; set; }
+    public LevelChildEntity ToEntity()
+    {
+        var e = new LevelChildEntity
+        {
+            Id = new Guid(Id),
+            LevelId = new Guid(LevelId),
+            ParentId = new Guid(ParentId),
+            Name = Name,
+            EntityList = EntityList,
+            //LastModifiedByUserId = by.UserId,
+            LastModifiedUtc = Stamp.DateTimeUtc(),
+            IsNew = false
+        };
+
+        return e;
+    }
+
+}

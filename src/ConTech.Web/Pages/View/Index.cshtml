@@ -272,8 +272,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <script src="~/js/import_js_files.js" type="module"></script>
                                     </div>
                                 </div>
                             </main>
@@ -343,9 +341,8 @@
                             </form>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" id="closeModalButton" data-bs-dismiss="modal">Close</button>
-                                @* <input type="button" class="btn btn-success" id="saveButton" value="Save"> *@
-                                <input type="button" class="btn btn-success" @@click="updateViewLevelXhrWay()" value="update Api">
-                                <input type="button" @@click="uploadFilesXhrWay()" class="btn btn-success" id="saveLevel" value="Save Api">
+                                <input type="button" x-show="isEditMode" class="btn btn-success" @@click="updateViewLevelXhrWay()" value="Update">
+                                <input type="button" x-show="!isEditMode" @@click="uploadFilesXhrWay()" class="btn btn-success" id="saveLevel" value="Save">
                             </div>
                         </div>
                     </div>
@@ -374,7 +371,7 @@
 
                                     <template x-for="(entity, index) in selectedEntities" :key="index">
                                         <li class="d-flex align-items-center mb-2">
-                                            <input type="checkbox" @@change="showHideLevel($event, entity.layer)" class="form-check-input me-2" :name="entity.layer" />
+                                            <input type="checkbox" @@change="selectLevelEntity($event, entity.layer)" class="form-check-input me-2" :name="entity.layer" />
                                             <span x-text="entity.layer" class="me-auto" :name="entity.layer"></span>
                                         </li>
                                     </template>
@@ -386,7 +383,8 @@
                                         data-bs-dismiss="modal">
                                     Close
                                 </button>
-                                <input type="button" class="btn btn-success" id="saveChildLevelButton" value="Save">
+                                <input type="button" x-show="isEditMode" class="btn btn-success" @@click="updateLevelChild()" value="Update">
+                                <input type="button" x-show="!isEditMode" @@click="addLevelChild()" class="btn btn-success" id="saveLevel" value="Save">
                             </div>
                         </div>
                     </div>
@@ -398,6 +396,8 @@
     </div>
 </div>
 
+
+<script src="~/js/import_js_files.js" type="module"></script>
 @*/////////////////////////////////////////////*@
 
 @section JsInline {

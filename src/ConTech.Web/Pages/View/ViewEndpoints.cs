@@ -16,6 +16,8 @@ public class ViewEndpoints
         view.MapPost("/add-view-level", AddViewLevelAsync);
         view.MapPost("/update-view-level", UpdateViewLevelAsync);
         view.MapPost("/update-view-level-transition", UpdateViewLevelTransitionAsync);
+        view.MapPost("/add-level-child", AddLevelChildAsync);
+        view.MapPost("/update-level-child", UpdateLevelChildAsync);
         view.MapPost("/disable-view-level/{id}", DisableViewLevelAsync);
     }
 
@@ -122,6 +124,40 @@ public class ViewEndpoints
         {
 
             var result = await repo.UpdateViewLevelTransitionAsync(input);
+
+            return Results.Ok(new { success = "cool" });
+
+        }
+        catch (Exception ex)
+        {
+            return Results.Problem();
+        }
+    }
+    
+
+    public static async Task<IResult> AddLevelChildAsync(LevelChildNewInput input, HttpRequest request, IViewLevelRepository repo)
+    {
+        try
+        {
+
+            //var result = await repo.UpdateViewLevelTransitionAsync(input);
+
+            return Results.Ok(new { success = "cool" });
+
+        }
+        catch (Exception ex)
+        {
+            return Results.Problem();
+        }
+    }
+    
+
+    public static async Task<IResult> UpdateLevelChildAsync(LevelChildUpdateInput input, HttpRequest request, IViewLevelRepository repo)
+    {
+        try
+        {
+
+            //var result = await repo.UpdateViewLevelTransitionAsync(input);
 
             return Results.Ok(new { success = "cool" });
 

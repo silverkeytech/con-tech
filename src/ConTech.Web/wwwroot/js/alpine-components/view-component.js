@@ -204,6 +204,88 @@
             const layerGroup = d3.select("#levels-svg-" + viewId).selectAll("#" + levelId);
             layerGroup.style('display', isChecked ? null : 'none');
         },
+        levelChild: {
+            id:'',
+            levelId:'',
+            parentId:'',
+            entityList:[],
+            name:'',
+        },
+        selectedEntities: [],
+        bindLevelChilds(levelId) {
+
+            var targetLevel = this.currentLevels.find(item => item.realLevelId == levelId);
+
+            if (targetLevel) {
+                this.selectedEntities = targetLevel.dxfData.entities;
+            }
+        },
+        selectLevelEntity(e, entityId) {
+            const isChecked = e.target.checked;
+            if (isChecked) { } else { }
+        },
+        async addLevelChild(levelId) {
+
+            var targetLevel = this.currentLevels.find(item => item.realLevelId == levelId);
+
+            const metadata = {
+                id: '',
+                levelId: '',
+                parentId: '',
+                entityList: [],
+                name: '',
+            };
+
+            await fetch('/admin/view/add-level-child', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(metadata),
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Success:', data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        },
+        async updateLevelChild(levelId) {
+
+            var targetLevel = this.currentLevels.find(item => item.realLevelId == levelId);
+
+            const metadata = {
+                id: targetLevel.realLevelId,
+                transitionX: String(targetLevel.transitionX),
+                transitionY: String(targetLevel.transitionY),
+            };
+
+            await fetch('/admin/view/update-view-level-transition', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(metadata),
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Success:', data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        },
         async fetchViewDetails(id, location) {
             //debugger
             console.log(location);
@@ -896,42 +978,6 @@
             if (percentage <= 0.29) return "#DB4E41";      // Red
             if (percentage <= 0.70) return "#ECCB28";      // Yellow
             return "#97CA58";                            // Green
-        },
-        selectedEntities: [],
-        bindLevelChilds(levelId) {
-
-            var targetLevel = this.currentLevels.find(item => item.realLevelId == levelId);
-
-            if (targetLevel) {
-                this.selectedEntities = targetLevel.dxfData.entities;
-                //Object.entries(targetLevel.dxfData.entities).forEach(([index, entity]) => {
-
-                //    const li = document.createElement('li');
-                //    li.classList.add('d-flex', 'align-items-center', 'mb-2');
-                //    li.setAttribute('name', childLevel_uuid);
-
-                //    // Create checkbox
-                //    const checkbox = document.createElement('input');
-                //    checkbox.type = 'checkbox';
-                //    checkbox.classList.add('form-check-input', 'me-2');
-                //    checkbox.checked = false;
-                //    checkbox.setAttribute('name', childLevel_uuid);
-                //    checkbox.setAttribute('data-areaId', entity.layer);
-
-
-                //    // Create layer name text
-                //    const span = document.createElement('span');
-                //    span.textContent = entity.layer;
-                //    span.classList.add('me-auto');
-                //    span.setAttribute('name', childLevel_uuid);
-
-
-                //    li.appendChild(checkbox);
-                //    li.appendChild(span);
-                //    //modalList.append(li);
-
-                //});
-            }
         },
     };
     return viewComponent;
