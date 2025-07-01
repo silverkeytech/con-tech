@@ -206,6 +206,54 @@ public class ViewLevelRepository(DataAccessAdapter adapter, IStringLocalizer<Glo
             return Result<ViewLevelEntity?>.False(ex);
         }
     }
+    
+
+    public async Task<Result<LevelChildEntity?>> AddLevelChildAsync(LevelChildNewInput input)
+    {
+        try
+        {
+            ArgumentNullException.ThrowIfNull(input);
+            //ArgumentNullException.ThrowIfNull(by);
+
+            var e = input.ToEntity();
+
+            bool isOK = await _adapter.SaveEntityAsync(e, refetchAfterSave: true);
+
+            if (isOK is false)
+                throw new SaveOperationException(_local["exception-update-view-level-cannot-be-saved"], e.SaveOperationType());
+
+            return Result<LevelChildEntity?>.True(e);
+        }
+        catch (Exception ex)
+        {
+            CodeTemplate.HandleException(ex);
+            return Result<LevelChildEntity?>.False(ex);
+        }
+    }
+    
+
+    public async Task<Result<LevelChildEntity?>> UpdateLevelChildAsync(LevelChildUpdateInput input)
+    {
+        try
+        {
+            ArgumentNullException.ThrowIfNull(input);
+            //ArgumentNullException.ThrowIfNull(by);
+
+            var e = input.ToEntity();
+
+            bool isOK = await _adapter.SaveEntityAsync(e, refetchAfterSave: true);
+
+            if (isOK is false)
+                throw new SaveOperationException(_local["exception-update-view-level-cannot-be-saved"], e.SaveOperationType());
+
+            return Result<LevelChildEntity?>.True(e);
+        }
+        catch (Exception ex)
+        {
+            CodeTemplate.HandleException(ex);
+            return Result<LevelChildEntity?>.False(ex);
+        }
+    }
 
     public async Task<Result<ViewLevelEntity?>> DisableViewLevelByIdAsync(Guid id)
     {

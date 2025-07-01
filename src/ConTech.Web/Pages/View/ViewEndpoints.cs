@@ -140,7 +140,7 @@ public class ViewEndpoints
         try
         {
 
-            //var result = await repo.UpdateViewLevelTransitionAsync(input);
+            var result = await repo.AddLevelChildAsync(input);
 
             return Results.Ok(new { success = "cool" });
 
@@ -157,7 +157,7 @@ public class ViewEndpoints
         try
         {
 
-            //var result = await repo.UpdateViewLevelTransitionAsync(input);
+            var result = await repo.UpdateLevelChildAsync(input);
 
             return Results.Ok(new { success = "cool" });
 
