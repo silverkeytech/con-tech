@@ -18,16 +18,16 @@
 
 
     // Keyboard shortcuts
-    document.addEventListener('keydown', function (e) {
+    document.addEventListener('keydown', async function (e) {
         if (e.ctrlKey) {
             if (e.key === '+' || e.key === '=') {
-                zoomIn();
+                await zoomIn();
                 e.preventDefault();
             } else if (e.key === '-') {
-                zoomOut();
+                await zoomOut();
                 e.preventDefault();
             } else if (e.key === '0') {
-                zoomToFit();
+                await zoomToFit_2();
                 e.preventDefault();
             }
         }
@@ -153,14 +153,13 @@
                     xhr.open('POST', '/admin/view/update-view-level', true);
                     xhr.send(formData);
                 });
-                //await this.fetchViewDetails(this.viewId);
+
                 console.log('Upload successful:', response);
             } catch (error) {
                 console.error('Upload error:', error);
             } finally {
                 this.uploading = false;
 
-                await this.fetchViewDetails(this.viewId);
                 this.isEditMode = false;
                 closeModalButton.click();
             }
@@ -205,8 +204,9 @@
             const layerGroup = d3.select("#levels-svg-" + viewId).selectAll("#" + levelId);
             layerGroup.style('display', isChecked ? null : 'none');
         },
-        async fetchViewDetails(id) {
-
+        async fetchViewDetails(id, location) {
+            //debugger
+            console.log(location);
             this.viewId = id;
 
             try {
@@ -238,12 +238,12 @@
                         this.currentLevels.push(newLevel);
                         this.drawUploadedDXF(newLevel);
 
-                        this.canvas = document.getElementById('pdf-canvas-' + id);
-                        this.ctx = this.canvas.getContext('2d');
-
                         d3.select("#levels-svg-" + newLevel.viewId).selectAll("#" + newLevel.id).attr("transform", `translate(${newLevel.transitionX},${newLevel.transitionY})`);
                     });
 
+                    //debugger
+                    this.canvas = document.getElementById('pdf-canvas-' + id);
+                    this.ctx = this.canvas.getContext('2d');
 
                     await this.base64ToUint8Array(view.backgroundPdf);
                 }
@@ -268,8 +268,42 @@
             const loadingTask = pdfjsLib.getDocument({ data: pdfData });
             pdfDoc = await loadingTask.promise;
 
-            this.renderPage(currentPage, currentScale);
+            await this.renderPage_2(currentPage, currentScale);
 
+        },
+        async renderPage_2(pageNum, scale) {
+            console.log("renderPage_2 called");
+            try {
+                // Get the page and wait for it to load
+                const page = await pdfDoc.getPage(pageNum);
+
+                // Calculate viewport dimensions
+                const viewport = page.getViewport({ scale });
+
+                // Update canvas dimensions
+                viewComponent.canvas.height = viewport.height;
+                viewComponent.canvas.width = viewport.width;
+
+                // Update container dimensions
+                container.style.width = `${viewport.width}px`;
+                container.style.height = `${viewport.height}px`;
+
+                // Set up render context
+                const renderContext = {
+                    canvasContext: viewComponent.ctx,
+                    viewport: viewport
+                };
+
+                // Render the page and wait for completion
+                await page.render(renderContext).promise;
+
+            } catch (error) {
+                console.error('Error rendering PDF page:', error);
+                // You might want to add error handling UI here
+            } finally {
+                // Always update zoom display, whether successful or not
+                this.updateZoomDisplay();
+            }
         },
 
         renderPage(pageNum, scale) {
@@ -291,14 +325,33 @@
             });
             this.updateZoomDisplay();
         },
-        zoomIn() {
+        async zoomIn() {
             currentScale += scaleIncrement;
-            this.renderPage(currentPage, currentScale);
+            await this.renderPage_2(currentPage, currentScale);
         },
-        zoomOut() {
+        async zoomOut() {
             if (currentScale > scaleIncrement) {
                 currentScale -= scaleIncrement;
-                this.renderPage(currentPage, currentScale);
+                await this.renderPage_2(currentPage, currentScale);
+            }
+        },
+        async zoomToFit_2() {
+            console.log("zoomToFit_2 called");
+            try {
+                const containerWidth = container.clientWidth - 40; // Account for padding
+
+                // Get the page and calculate scale
+                const page = await pdfDoc.getPage(currentPage);
+                const pageWidth = page.getViewport({ scale: 1.0 }).width;
+                currentScale = containerWidth / pageWidth;
+
+                // Render with the new scale
+                await this.renderPage_2(currentPage, currentScale);
+
+            } catch (error) {
+                console.error('Error in zoomToFit:', error);
+                // Add your error handling logic here
+                // Example: this.showErrorMessage("Failed to adjust zoom");
             }
         },
         zoomToFit() {
@@ -307,7 +360,7 @@
                 const pageWidth = page.getViewport({ scale: 1.0 }).width;
                 currentScale = containerWidth / pageWidth;
             });
-            this.renderPage(currentPage, currentScale);
+            this.renderPage_2(currentPage, currentScale);
         },
         updateZoomDisplay() {
             document.getElementById('zoom-level').textContent = `${Math.round(currentScale * 100)}%`;
@@ -435,7 +488,6 @@
                 console.error('Upload error:', error);
             } finally {
                 this.uploading = false;
-                await this.fetchViewDetails(this.viewId);
 
                 closeModalButton.click();
             }
