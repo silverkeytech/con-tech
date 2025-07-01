@@ -200,7 +200,7 @@
                                         <ul class="list-group list-group-flush">
                                             <template x-for="(level, index) in currentLevels.filter(l => l.viewId == viewId)" :key="index">
                                                 <li class="d-flex align-items-center mb-2">
-                                                    <i class="bi bi-plus-circle-fill text-primary ms-2" data-bs-toggle="modal" data-bs-target="#addChildLevel" @@click="bindLevelChilds(level.realLevelId)" style="cursor: pointer;" :name="level.id"></i>
+                                                    <i class="bi bi-plus-circle-fill text-primary ms-2" data-bs-toggle="modal" data-bs-target="#addChildLevel" @@click="bindLevelChilds(level.realLevelId, level.realLevelId)" style="cursor: pointer;" :name="level.id"></i>
                                                     <i class="bi bi-pencil-square text-primary ms-2" @@click="bindLevelForEdit(level.realLevelId)" style="cursor: pointer;" :name="level.id"></i>
                                                     <i class="bi bi-trash text-danger ms-2" @@click="await removeLevel(level.realLevelId, level.viewId)" style="cursor: pointer;" :name="level.id"></i>
                                                     <input type="checkbox" @@change="showHideLevel($event, level.id, level.viewId)" class="form-check-input me-2" checked :name="level.id" />
@@ -363,13 +363,17 @@
                                 <input type="hidden" id="mainLayerId" name="mainLayerId" value="">
 
                                 <div class="mb-3">
-                                    <label for="childLevelName" class="form-label">level name</label>
-                                    <input type="text" class="form-control" id="childLevelName" placeholder="Please enter level name">
+                                    <label for="name" class="form-label">level name</label>
+                                    <input type="text" class="form-control"
+                                           id="name"
+                                           name="name"
+                                           x-model="levelChild.name"
+                                           required>
                                 </div>
 
                                 <ul class="list-group list-group-flush">
 
-                                    <template x-for="(entity, index) in selectedEntities" :key="index">
+                                    <template x-for="(entity, index) in levelEntities" :key="index">
                                         <li class="d-flex align-items-center mb-2">
                                             <input type="checkbox" @@change="selectLevelEntity($event, entity.layer)" class="form-check-input me-2" :name="entity.layer" />
                                             <span x-text="entity.layer" class="me-auto" :name="entity.layer"></span>

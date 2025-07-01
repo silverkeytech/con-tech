@@ -205,35 +205,41 @@
             layerGroup.style('display', isChecked ? null : 'none');
         },
         levelChild: {
-            id:'',
-            levelId:'',
-            parentId:'',
-            entityList:[],
-            name:'',
+            id: '',
+            levelId: '',
+            parentId: '',
+            entityList: [],
+            name: '',
         },
-        selectedEntities: [],
-        bindLevelChilds(levelId) {
+        levelEntities: [],
+        bindLevelChilds(levelId, parentId) {
 
             var targetLevel = this.currentLevels.find(item => item.realLevelId == levelId);
 
             if (targetLevel) {
-                this.selectedEntities = targetLevel.dxfData.entities;
+                this.levelEntities = targetLevel.dxfData.entities;
+                this.levelChild.levelId = levelId;
+                this.levelChild.parentId = parentId;
             }
         },
+        selectedEntities: [],
         selectLevelEntity(e, entityId) {
             const isChecked = e.target.checked;
-            if (isChecked) { } else { }
+            if (isChecked)
+                selectedEntities.push(entityId);
+            else
+                selectedEntities = selectedEntities.filter(item => item != entityId);
         },
         async addLevelChild(levelId) {
 
             var targetLevel = this.currentLevels.find(item => item.realLevelId == levelId);
 
             const metadata = {
-                id: '',
-                levelId: '',
-                parentId: '',
-                entityList: [],
-                name: '',
+                id: crypto.randomUUID(),
+                levelId: String(this.levelChild.levelId),
+                parentId: String(this.levelChild.parentId),
+                entityList: String(selectedEntities),
+                name: this.levelChild.name,
             };
 
             await fetch('/admin/view/add-level-child', {
