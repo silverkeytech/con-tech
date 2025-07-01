@@ -205,19 +205,18 @@
             layerGroup.style('display', isChecked ? null : 'none');
         },
         async fetchViewDetails(id) {
-            
+
             this.viewId = id;
-            canvas = document.getElementById('pdf-canvas-' + id);
-            ctx = canvas.getContext('2d');
 
             try {
 
                 this.loading = true;
                 var view = this.viewList.find(item => item.id == id);
 
-                //if (!view) {
+                if (!view) {
+                    canvas = document.getElementById('pdf-canvas-' + id);
+                    ctx = canvas.getContext('2d');
 
-                //}
                     const response = await fetch('/admin/view/get-view-details-by-id/' + id);
                     view = await response.json();
 
@@ -243,9 +242,9 @@
                         d3.select("#levels-svg-" + newLevel.viewId).selectAll("#" + newLevel.id).attr("transform", `translate(${newLevel.transitionX},${newLevel.transitionY})`);
                     });
 
-                    console.log(this.currentLevels);
 
-                await this.base64ToUint8Array(view.backgroundPdf);
+                    await this.base64ToUint8Array(view.backgroundPdf);
+                }
 
                 this.error = null;
 
