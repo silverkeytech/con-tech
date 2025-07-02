@@ -356,10 +356,10 @@
                                 <h1 class="modal-title fs-5" id="addChildLevelLabel">Add Child level</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <div class="modal-body">
+                            <div class="modal-body">@* 
                                 <input type="hidden" id="childLevelId" name="childLevelId" value="">
                                 <input type="hidden" id="parentLevelId" name="parentLevelId" value="">
-                                <input type="hidden" id="mainLayerId" name="mainLayerId" value="">
+                                <input type="hidden" id="mainLayerId" name="mainLayerId" value=""> *@
 
                                 <div class="mb-3">
                                     <label for="name" class="form-label">level name</label>
@@ -373,9 +373,10 @@
                                 <ul class="list-group list-group-flush">
 
                                     <template x-for="(entity, index) in levelEntities" :key="index">
+
                                         <li class="d-flex align-items-center mb-2">
-                                            <input type="checkbox" @@change="selectLevelEntity($event, entity.layer)" class="form-check-input me-2" :name="entity.layer" />
-                                            <span x-text="entity.layer" class="me-auto" :name="entity.layer"></span>
+                                            <input type="checkbox" @@change="typeof entity === 'object' ? selectLevelEntity($event, entity.layer) : selectLevelEntity($event, entity) " class="form-check-input me-2" :name="typeof entity === 'object' ? entity.layer : entity" />
+                                            <span x-text="typeof entity === 'object' ? entity.layer : entity" class="me-auto" :name="typeof entity === 'object' ? entity.layer : entity"></span>
                                         </li>
                                     </template>
                                 </ul>

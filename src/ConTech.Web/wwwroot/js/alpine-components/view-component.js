@@ -1032,6 +1032,7 @@
 
                 }
 
+                const entityList = JSON.parse(level.entityList)
                 // Create checkbox
                 const checkbox = document.createElement('input');
                 checkbox.type = 'checkbox';
@@ -1041,7 +1042,6 @@
 
                 checkbox.addEventListener('change', (e) => {
                     const isChecked = e.target.checked;
-                    const entityList = JSON.parse(level.entityList)
                     entityList.forEach(entity => {
 
                         document.getElementById(entity).style.display = isChecked ? null : 'none';
@@ -1100,22 +1100,26 @@
                 // add click removes the layer
                 add.addEventListener('click', () => {
 
-                    const modalList = document.getElementById("addChildLevelList");
-                    const childLevel_uuid = "_" + crypto.randomUUID();
-                    document.getElementById("childLevelId").value = childLevel_uuid;
-                    document.getElementById("mainLayerId").value = level.mainLayerId;
-                    document.getElementById("parentLevelId").value = level.levelId;
+
+                    this.levelEntities = entityList;
+                    this.levelChild.levelId = mainLevelId;
+                    this.levelChild.parentId = level.id;
+                    //const modalList = document.getElementById("addChildLevelList");
+                    //const childLevel_uuid = "_" + crypto.randomUUID();
+                    //document.getElementById("childLevelId").value = childLevel_uuid;
+                    //document.getElementById("mainLayerId").value = level.mainLayerId;
+                    //document.getElementById("parentLevelId").value = level.levelId;
 
 
-                    var mainLevel = getStoredLevels(level.mainLayerId);
+                    //var mainLevel = getStoredLevels(level.mainLayerId);
 
-                    var selectedEntities = [];
-                    var filteredLevels = mainLevel.levelList.filter(l => l.parentId == level.parentId);
-                    if (filteredLevels) {
-                        filteredLevels.forEach(item => {
-                            selectedEntities.push.apply(selectedEntities, item.entityList);
-                        });
-                    }
+                    //var selectedEntities = [];
+                    //var filteredLevels = mainLevel.levelList.filter(l => l.parentId == level.parentId);
+                    //if (filteredLevels) {
+                    //    filteredLevels.forEach(item => {
+                    //        selectedEntities.push.apply(selectedEntities, item.entityList);
+                    //    });
+                    //}
 
                     //modalList.innerHTML = ''
 
