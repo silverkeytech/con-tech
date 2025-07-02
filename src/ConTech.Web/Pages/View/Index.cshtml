@@ -158,9 +158,9 @@
         @foreach (var view in Model.ProjectViewList)
         {
             <div class="tab-content p-0" id="myTabContent_@view.Id" x-data="viewComponent()" x-init="$watch('selectedViewId', async (value, oldValue) => {
-                if (value == @view.Id)
-            await fetchViewDetails(value, 'call from watch');
-        })">
+                    if (value == @view.Id)
+                await fetchViewDetails(value, 'call from watch');
+            })">
 
                 <div class="tab-pane fade  @(firstContent ? "show active" : "")" id="@view.Id" role="tabpanel" aria-labelledby="@view.Id-tab">
 
@@ -198,7 +198,7 @@
                                         <h6>Manage Layers</h6>
                                         <ul class="list-group list-group-flush">
                                             <template x-for="(level, index) in currentLevels.filter(l => l.viewId == viewId)" :key="index">
-                                                <li class="d-flex align-items-center mb-2" x-init="getChildLevel(level.levelChildren,level.realLevelId,level.realLevelId,level.id)" :id="'levelChildren'+level.id">
+                                                <li class="list-group-item mb-2" x-init="getChildLevel(level.levelChildren,level.realLevelId,level.realLevelId,level.id)" :id="'levelChildren'+level.id">
                                                     <i class="bi bi-plus-circle-fill text-primary ms-2" data-bs-toggle="modal" data-bs-target="#addChildLevel" @@click="bindLevelChilds(level.realLevelId, level.realLevelId)" style="cursor: pointer;" :name="level.id"></i>
                                                     <i class="bi bi-pencil-square text-primary ms-2" @@click="bindLevelForEdit(level.realLevelId)" style="cursor: pointer;" :name="level.id"></i>
                                                     <i class="bi bi-trash text-danger ms-2" @@click="await removeLevel(level.realLevelId, level.viewId)" style="cursor: pointer;" :name="level.id"></i>
