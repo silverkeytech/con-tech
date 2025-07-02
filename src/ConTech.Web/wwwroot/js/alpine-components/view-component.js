@@ -190,13 +190,13 @@
             var targetLevel = this.currentLevels.find(item => item.realLevelId == levelId);
             if (targetLevel) {
 
+                openModalButton.click();
                 this.levelData.levelName = targetLevel.levelName;
                 this.levelData.realLevelId = targetLevel.realLevelId;
                 this.levelData.levelScale = targetLevel.levelScale;
                 this.levelData.transitionX = targetLevel.transitionX;
                 this.levelData.transitionY = targetLevel.transitionY;
                 this.isEditMode = true;
-                openModalButton.click();
             }
         },
         showHideLevel(e, levelId, viewId) {
@@ -524,7 +524,13 @@
         //    return JSON.parse(result);
         //},
 
-
+        clearLevelBinding(viewId) {
+            this.levelData.viewId = viewId;
+            this.excelFile = null;
+            this.dxfFile = null;
+            this.levelData.levelName = '';
+            this.levelData.levelScale = '1';
+        },
         async uploadFilesXhrWay() {
             this.uploading = true;
             this.progress = 0;
