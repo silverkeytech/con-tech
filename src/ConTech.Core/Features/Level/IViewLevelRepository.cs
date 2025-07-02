@@ -18,4 +18,5 @@ public interface IViewLevelRepository
     Task<Result<LevelChildEntity?>> UpdateLevelChildAsync(LevelChildUpdateInput input);
 
     Task<Result<ViewLevelEntity?>> DisableViewLevelByIdAsync(Guid id);
+    Task<Result<LevelChildEntity?>> DisableLevelChildByIdAsync(Guid id);
 }

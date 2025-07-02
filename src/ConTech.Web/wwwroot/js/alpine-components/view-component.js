@@ -1007,6 +1007,27 @@
                 element.append(result);
             }
         },
+        async removeLevelChild(levelId) {
+            try {
+                if (levelId) {
+                    const response = await fetch('/admin/view/disable-level-child/' + levelId, {
+                        method: 'POST', // <-- Explicitly set to POST
+                        headers: {
+                            'Content-Type': 'application/json', // (Optional but recommended)
+                        }
+                    });
+                    view = await response.json();
+                    this.error = null;
+                }
+            } catch (err) {
+                this.error = 'Failed to load view';
+                console.error(err);
+            } finally {
+                this.loading = false;
+            }
+
+            d3.select("#levels-svg-" + this.viewId).selectAll("#_" + levelId).remove();  // Remove old DXF group
+        },
         getChildLevel_2(levelList, mainLevelId, parentLevelId) {
 
             // Create list item
@@ -1085,6 +1106,7 @@
                     //}
 
                     //d3.select("svg").selectAll("#" + level.levelId).remove();  // Remove old DXF group
+                    this.removeLevelChild(level.id);
                     li.remove();
 
                 });

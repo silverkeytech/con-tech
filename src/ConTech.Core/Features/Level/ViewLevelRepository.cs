@@ -283,5 +283,35 @@ public class ViewLevelRepository(DataAccessAdapter adapter, IStringLocalizer<Glo
             return Result<ViewLevelEntity?>.False(ex);
         }
     }
+    
+
+    public async Task<Result<LevelChildEntity?>> DisableLevelChildByIdAsync(Guid id)
+    {
+        try
+        {
+           // ArgumentNullException.ThrowIfNull(by);
+
+            var e = new LevelChildEntity
+            {
+                Id = id,
+                ObjectStatus = ObjectStatus.Disabled,
+                LastModifiedUtc = DateTime.UtcNow,
+                //LastModifiedByUserId = by.UserId,
+                IsNew = false
+            };
+
+            var result = await _adapter.SaveEntityAsync(e, refetchAfterSave: true);
+
+            if (result is false)
+                return Result<LevelChildEntity?>.False(_local["msg-project-not-disabled"]);
+
+            return Result<LevelChildEntity?>.True(e);
+        }
+        catch (Exception ex)
+        {
+            CodeTemplate.HandleException(ex);
+            return Result<LevelChildEntity?>.False(ex);
+        }
+    }
 
 }

@@ -19,6 +19,7 @@ public class ViewEndpoints
         view.MapPost("/add-level-child", AddLevelChildAsync);
         view.MapPost("/update-level-child", UpdateLevelChildAsync);
         view.MapPost("/disable-view-level/{id}", DisableViewLevelAsync);
+        view.MapPost("/disable-level-child/{id}", DisableLevelChildByIdAsync);
     }
 
     public static async Task<IResult> GetViewDetailsByIdAsync(string id, IProjectViewRepository repo)
@@ -175,6 +176,25 @@ public class ViewEndpoints
         {
             var realId = new Guid(id);
             var result = await repo.DisableViewLevelByIdAsync(realId);
+
+            if (result.IsFalse)
+                return Results.Problem();
+
+            return Results.Ok(result.Value);
+        }
+        catch (Exception ex)
+        {
+            return Results.Problem();
+        }
+    }
+
+
+    public static async Task<IResult> DisableLevelChildByIdAsync(string id, IViewLevelRepository repo)
+    {
+        try
+        {
+            var realId = new Guid(id);
+            var result = await repo.DisableLevelChildByIdAsync(realId);
 
             if (result.IsFalse)
                 return Results.Problem();
