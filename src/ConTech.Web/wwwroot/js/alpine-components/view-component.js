@@ -238,7 +238,7 @@
                 id: crypto.randomUUID(),
                 levelId: String(this.levelChild.levelId),
                 parentId: String(this.levelChild.parentId),
-                entityList: `[${String(this.selectedEntities)}]`,
+                entityList: JSON.stringify(this.selectedEntities),
                 name: this.levelChild.name,
             };
 
@@ -1041,8 +1041,8 @@
 
                 checkbox.addEventListener('change', (e) => {
                     const isChecked = e.target.checked;
-
-                    level.entityList.forEach(entity => {
+                    const entityList = JSON.parse(level.entityList)
+                    entityList.forEach(entity => {
 
                         document.getElementById(entity).style.display = isChecked ? null : 'none';
 
