@@ -302,21 +302,56 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="upload-dxf-file" class="form-label">Dxf file</label>
-                                        <input type="file" class="form-control"
+                                        <input type="file" class="form-control d-none"
                                                id="upload-dxf-file"
                                                name="dxfFile"
                                                @@change="addDxfFile($event)"
                                                :disabled="isUploading"
                                                accept=".dxf">
+
+                                        <div class="input-group" x-show="!isEditMode">
+                                            <label for="upload-dxf-file"
+                                                   class="btn btn-dark rounded-start">
+                                                <i class="bi bi-upload"></i>
+
+                                            </label>
+                                            <span class="form-control" x-text="'No file chosen'" style="background-color: #F8F9FA;"></span>
+                                        </div>
+                                        <div class="input-group" x-show="isEditMode">
+                                            <label for="upload-dxf-file"
+                                                   class="btn btn-dark rounded-start">
+                                                <i class="bi bi-upload"></i>
+                                                Select new file
+                                            </label>
+                                            <span class="form-control" x-text="levelData.levelName + ' Dxf File'" style="background-color: #F8F9FA;"></span>
+                                        </div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="upload-excel-file" class="form-label">Progress excel file</label>
-                                        <input type="file" class="form-control"
+
+                                        <input type="file" class="form-control d-none"
                                                id="upload-excel-file"
                                                name="excelFile"
                                                @@change="addExcelFile($event)"
                                                :disabled="isUploading"
                                                accept=".xls,.xlsx,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+
+                                        <div class="input-group" x-show="!isEditMode">
+                                            <label for="upload-excel-file"
+                                                   class="btn btn-dark rounded-start">
+                                                <i class="bi bi-upload"></i>
+                                                
+                                            </label>
+                                            <span class="form-control" x-text="'No file chosen'" style="background-color: #F8F9FA;"></span>
+                                        </div>
+                                        <div class="input-group" x-show="isEditMode">
+                                            <label for="upload-excel-file"
+                                                   class="btn btn-dark rounded-start">
+                                                <i class="bi bi-upload"></i>
+                                                Select new file
+                                            </label>
+                                            <span class="form-control" x-text="levelData.levelName + ' Excel File'" style="background-color: #F8F9FA;"></span>
+                                        </div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="levelScale" class="form-label">Level Scale</label>
@@ -339,7 +374,7 @@
                                 </div>
                             </form>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" id="closeModalButton" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-secondary" @@click="isEditMode = false" id="closeModalButton" data-bs-dismiss="modal">Close</button>
                                 <input type="button" x-show="isEditMode" class="btn btn-success" @@click="updateViewLevelXhrWay()" value="Update">
                                 <input type="button" x-show="!isEditMode" @@click="uploadFilesXhrWay()" class="btn btn-success" value="Save">
                             </div>
@@ -413,7 +448,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dxf-parser@1.1.5/dist/dxf-parser.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
-    <script type="module">
+  @*   <script type="module">
             const layerList = document.getElementById('layerList');
             const saveButton = document.getElementById('saveButton');
             const closeModalButton = document.getElementById('closeModalButton');
@@ -1203,5 +1238,5 @@
             //   return currentLevels;
             // }
     </script>
-
+ *@
 }
