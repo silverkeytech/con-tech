@@ -99,8 +99,11 @@ public class ViewEndpoints
             var dxfFile = form.Files.GetFiles("dxfFile");
             var excelFile = form.Files.GetFiles("excelFile");
 
-            metadata.DxfFile = dxfFile[0];
-            metadata.ExcelFile = excelFile[0];
+            if (dxfFile.Any())
+                metadata.DxfFile = dxfFile[0];
+
+            if (excelFile.Any())
+                metadata.ExcelFile = excelFile[0];
 
             var result = await repo.UpdateViewLevelAsync(metadata);
 
@@ -117,7 +120,7 @@ public class ViewEndpoints
             return Results.Problem();
         }
     }
-    
+
 
     public static async Task<IResult> UpdateViewLevelTransitionAsync(ViewLevelUpdateTransitionInput input, HttpRequest request, IViewLevelRepository repo)
     {
@@ -134,7 +137,7 @@ public class ViewEndpoints
             return Results.Problem();
         }
     }
-    
+
 
     public static async Task<IResult> AddLevelChildAsync(LevelChildNewInput input, HttpRequest request, IViewLevelRepository repo)
     {
@@ -151,7 +154,7 @@ public class ViewEndpoints
             return Results.Problem();
         }
     }
-    
+
 
     public static async Task<IResult> UpdateLevelChildAsync(LevelChildUpdateInput input, HttpRequest request, IViewLevelRepository repo)
     {

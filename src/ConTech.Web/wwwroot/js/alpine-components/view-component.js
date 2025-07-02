@@ -113,21 +113,25 @@
             //    formData.append('files', file, file.name);
             //});
 
-            formData.append('dxfFile', this.dxfFile);
-            let dxfFileInfo = {
-                originalName: this.dxfFile.name,
-                size: this.dxfFile.size,
-                type: this.dxfFile.type
+            if (this.dxfFile) {
+                formData.append('dxfFile', this.dxfFile);
+                let dxfFileInfo = {
+                    originalName: this.dxfFile.name,
+                    size: this.dxfFile.size,
+                    type: this.dxfFile.type
+                }
+                metadata.fileInfo.push(dxfFileInfo);
             }
-            metadata.fileInfo.push(dxfFileInfo);
 
-            formData.append('excelFile', this.excelFile);
-            let excelFileInfo = {
-                originalName: this.excelFile.name,
-                size: this.excelFile.size,
-                type: this.excelFile.type
+            if (this.excelFile) {
+                formData.append('excelFile', this.excelFile);
+                let excelFileInfo = {
+                    originalName: this.excelFile.name,
+                    size: this.excelFile.size,
+                    type: this.excelFile.type
+                }
+                metadata.fileInfo.push(excelFileInfo);
             }
-            metadata.fileInfo.push(excelFileInfo);
 
 
             try {
@@ -1040,7 +1044,7 @@
             const ul = document.createElement('ul');
             ul.classList.add('list-group', 'list-group-flush');
             ul.setAttribute('name', parentLevelId);
-            
+
             levelList.filter(l => l.parentId == parentLevelId).forEach(level => {
 
                 const childLevel_uuid = "_" + level.id;

@@ -137,36 +137,42 @@ public class ViewLevelRepository(DataAccessAdapter adapter, IStringLocalizer<Glo
 
             var e = input.ToEntity();
 
-            using (var memoryStream = new MemoryStream())
+            if (input.DxfFile != null && input.DxfFile.Length > 0)
             {
-                await input.DxfFile.CopyToAsync(memoryStream);
+                using (var memoryStream = new MemoryStream())
+                {
+                    await input.DxfFile.CopyToAsync(memoryStream);
 
-                e.DxfFile = memoryStream.ToArray();
+                    e.DxfFile = memoryStream.ToArray();
 
 
-                //var document = new PdfDocument
-                //{
-                //    FileContent = memoryStream.ToArray(),
-                //    FileName = PdfDocument.PdfFile.FileName,
-                //    ContentType = PdfDocument.PdfFile.ContentType,
-                //    FileSize = PdfDocument.PdfFile.Length,
-                //};
+                    //var document = new PdfDocument
+                    //{
+                    //    FileContent = memoryStream.ToArray(),
+                    //    FileName = PdfDocument.PdfFile.FileName,
+                    //    ContentType = PdfDocument.PdfFile.ContentType,
+                    //    FileSize = PdfDocument.PdfFile.Length,
+                    //};
+                }
             }
 
-            using (var memoryStream = new MemoryStream())
+            if (input.ExcelFile != null && input.ExcelFile.Length > 0)
             {
-                await input.ExcelFile.CopyToAsync(memoryStream);
+                using (var memoryStream = new MemoryStream())
+                {
+                    await input.ExcelFile.CopyToAsync(memoryStream);
 
-                e.ExcelFile = memoryStream.ToArray();
+                    e.ExcelFile = memoryStream.ToArray();
 
 
-                //var document = new PdfDocument
-                //{
-                //    FileContent = memoryStream.ToArray(),
-                //    FileName = PdfDocument.PdfFile.FileName,
-                //    ContentType = PdfDocument.PdfFile.ContentType,
-                //    FileSize = PdfDocument.PdfFile.Length,
-                //};
+                    //var document = new PdfDocument
+                    //{
+                    //    FileContent = memoryStream.ToArray(),
+                    //    FileName = PdfDocument.PdfFile.FileName,
+                    //    ContentType = PdfDocument.PdfFile.ContentType,
+                    //    FileSize = PdfDocument.PdfFile.Length,
+                    //};
+                }
             }
 
 
