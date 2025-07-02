@@ -37,9 +37,28 @@ namespace ConTech.Data.Read.DtoClasses
 		/// <summary>Gets or sets the ObjectStatus field. Derived from Entity Model Field 'ProjectView.ObjectStatus'</summary>
 		[DataMember]
 		public System.Int32 ObjectStatus { get; set; }
+		/// <summary>Gets or sets the Project field. </summary>
+		[DataMember]
+		public ProjectViewListLlblViewTypes.Project Project { get; set; }
 		/// <summary>Gets or sets the ProjectId field. Derived from Entity Model Field 'ProjectView.ProjectId (FK)'</summary>
 		[DataMember]
 		public System.Int32 ProjectId { get; set; }
+	}
+
+	namespace ProjectViewListLlblViewTypes
+	{
+		/// <summary> DTO class which is derived from the entity 'Project (Project)'.</summary>
+		[Serializable]
+		[DataContract]
+		public partial class Project
+		{
+			/// <summary>Gets or sets the Description field. Derived from Entity Model Field 'Project.Description'</summary>
+			[DataMember]
+			public System.String Description { get; set; }
+			/// <summary>Gets or sets the Name field. Derived from Entity Model Field 'Project.Name'</summary>
+			[DataMember]
+			public System.String Name { get; set; }
+		}
 	}
 
 }

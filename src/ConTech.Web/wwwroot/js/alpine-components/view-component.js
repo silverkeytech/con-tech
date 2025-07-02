@@ -236,8 +236,6 @@
         },
         async addLevelChild(levelId) {
 
-            var targetLevel = this.currentLevels.find(item => item.realLevelId == levelId);
-
             const metadata = {
                 id: crypto.randomUUID(),
                 levelId: String(this.levelChild.levelId),
@@ -528,8 +526,8 @@
         //    return JSON.parse(result);
         //},
 
-        clearLevelBinding(viewId) {
-            this.levelData.viewId = viewId;
+        clearLevelBinding() {
+            this.levelData.viewId = this.selectedViewId;
             this.excelFile = null;
             this.dxfFile = null;
             this.levelData.levelName = '';
@@ -543,7 +541,7 @@
 
             // Add JSON metadata as a part
             const metadata = {
-                viewId: this.levelData.viewId,
+                viewId: this.selectedViewId,
                 levelName: this.levelData.levelName,
                 levelScale: this.levelData.levelScale,
                 fileInfo: [],
@@ -618,7 +616,8 @@
                 console.error("Error parsing DXF:", error);
                 throw error; // Re-throw if you want calling code to handle it
             }
-        }, parseDxfFromBase64_2(base64String) {
+        },
+        parseDxfFromBase64_2(base64String) {
             // More robust Base64 to text conversion for UTF-8
             const binaryString = atob(base64String);
             const bytes = new Uint8Array(binaryString.length);
@@ -677,7 +676,7 @@
                 const sheet = workbook.Sheets[sheetName];
                 excelData = XLSX.utils.sheet_to_json(sheet);
                 console.log("Excel Parsed Data:", excelData);
-                window.lastExcelData = excelData;
+                //window.lastExcelData = excelData;
             };
             reader.readAsArrayBuffer(this.excelFile);
         },

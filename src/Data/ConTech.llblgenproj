@@ -906,6 +906,19 @@
             <Field Name="ObjectStatus">
               <EntityField Name="ObjectStatus" />
             </Field>
+            <Field Name="Project">
+              <Document Name="Project">
+                <RootEntity Entity=":Project" NavigatorPath="Project" />
+                <Fields>
+                  <Field Name="Description">
+                    <EntityField Name="Description" />
+                  </Field>
+                  <Field Name="Name">
+                    <EntityField Name="Name" />
+                  </Field>
+                </Fields>
+              </Document>
+            </Field>
             <Field Name="ProjectId">
               <EntityField Name="ProjectId" />
             </Field>

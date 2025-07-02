@@ -11,15 +11,7 @@
 @section CssInline
 {
     <style>
-        .actions {
-            margin-left: 10px;
-            opacity: 0;
-            transition: opacity 0.2s;
-        }
-
-        .nav-item:hover .actions {
-            opacity: 1;
-        }
+        
 
         .tab-content {
             padding: 20px;
@@ -105,6 +97,31 @@
             opacity: 0.5;
             cursor: not-allowed;
         }
+
+        .tab-popup {
+            display: none;
+            position: absolute;
+            z-index: 1000;
+            min-width: 280px;
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            padding: 1rem;
+            transform: translateY(10px);
+            opacity: 0;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .nav-item:hover .tab-popup {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .popup-btn {
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
     </style>
 }
 
@@ -120,22 +137,33 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-4 mt-3 nav nav-tabs" id="myTab" role="tablist">
-                    <li class="nav-item me-4"><a class="nav-link" href="#">Project 01</a></li>
+                    <li class="nav-item me-4"><a class="nav-link" href="#">@Model.ProjectViewList.FirstOrDefault()?.Project.Name</a></li>
 
                     @{
                         var firstTab = true;
                     }
                     @foreach (var view in Model.ProjectViewList)
                     {
-                        <li class="nav-item" role="presentation" x-init="selectedViewId = @(JsonSerializer.Serialize<bool>(firstTab)) ? @view.Id : selectedViewId">
+                        <li class="nav-item mx-4" role="presentation" x-init="selectedViewId = @(JsonSerializer.Serialize<bool>(firstTab)) ? @view.Id : selectedViewId">
                             <a class="nav-link d-inline-block @(firstTab ? "active" : "")" x-on:click="selectedViewId = @view.Id" id="@view.Id-tab" data-bs-toggle="tab" data-bs-target="#@view.Id" role="tab" aria-controls="@view.Id">
-                                @view.Name <span>
-                                    <a asp-page="./Update" asp-route-id="@view.Id" class="btn btn-sm btn-outline-primary edit-tab actions">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
-                                    <a asp-page="./Delete" asp-route-id="@view.Id" class="btn btn-sm btn-outline-danger delete-tab actions">
-                                        <i class="bi bi-trash"></i>
-                                    </a>
+                                @view.Name
+                                <div class="tab-popup">
+                                    <p class="mb-3">@view.Description</p>
+                                    <div class="d-flex flex-wrap">
+                                        <a asp-page="./Update" asp-route-id="@view.Id" class="btn btn-sm btn-outline-primary popup-btn">
+                                            <i class="bi bi-pencil"></i> Edit
+                                        </a>
+                                        <a asp-page="./Delete" asp-route-id="@view.Id" class="btn btn-sm btn-outline-danger popup-btn">
+                                            <i class="bi bi-trash"></i> Delete
+                                        </a>
+                                        <button class="btn btn-sm btn-outline-success popup-btn">
+                                            <i class="bi bi-lock-fill">Open</i>
+                                            <i class="bi bi-unlock">Close</i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <span>
+                                   
                                 </span>
                             </a>
                         </li>
@@ -187,7 +215,7 @@
                                 <!-- Button trigger modal -->
 
                                 <li class="nav-item mt-2">
-                                    <button type="button" id="openUploadLevelButton" @@click="clearLevelBinding(viewId)" class="btn btn-primary mt-2" data-bs-toggle="modal"
+                                    <button type="button" id="openUploadLevelButton" @@click="clearLevelBinding()" class="btn btn-primary mt-2" data-bs-toggle="modal"
                                             data-bs-target="#uploadLevelModal">
                                         Add Level
                                         <span class="ms-2"> &#43;</span>
@@ -289,8 +317,7 @@
                             </div>
                             <form enctype="multipart/form-data" x-init="console.log('Component state:', $data)">
                                 <div class="modal-body">
-
-                                    <input type="hidden" id="viewId" name="viewId" x-model="levelData.viewId" value="">
+                                    <input type="hidden" id="viewId" name="viewId" x-model="levelData.viewId">
                                     <div class="mb-3">
                                         <label for="levelName" class="form-label">Level name</label>
                                         <input type="text" class="form-control"

@@ -48,7 +48,8 @@ namespace ConTech.Data.Read.Persistence
 			System.Linq.Expressions.Expression<Func<ConTech.Data.Read.DtoClasses.ProjectViewListLlblView>> projectionAdjustments = null;
 			GetAdjustmentsForProjectToProjectViewListLlblViewQs(ref projectionAdjustments);
 			return qf.Create()
-				.From(baseQuery.Select(Projection.Full).As("__BQ"))
+				.From(baseQuery.Select(Projection.Full).As("__BQ")
+					.InnerJoin(qf.Project.As("__L0_0")).On(ProjectViewFields.ProjectId.Source("__BQ").Equal(ProjectFields.Id.Source("__L0_0"))))
 				.Select(LinqUtils.MergeProjectionAdjustmentsIntoProjection(() => new ConTech.Data.Read.DtoClasses.ProjectViewListLlblView()
 				{
 					CreatedByUserId = ProjectViewFields.CreatedByUserId.Source("__BQ").ToValue<Nullable<System.Int32>>(),
@@ -59,6 +60,11 @@ namespace ConTech.Data.Read.Persistence
 					LastModifiedUtc = ProjectViewFields.LastModifiedUtc.Source("__BQ").ToValue<Nullable<System.DateTime>>(),
 					Name = ProjectViewFields.Name.Source("__BQ").ToValue<System.String>(),
 					ObjectStatus = ProjectViewFields.ObjectStatus.Source("__BQ").ToValue<System.Int32>(),
+					Project = new ConTech.Data.Read.DtoClasses.ProjectViewListLlblViewTypes.Project()
+						{
+							Description = ProjectFields.Description.As("Description1").Source("__L0_0").ToValue<System.String>(),
+							Name = ProjectFields.Name.As("Name1").Source("__L0_0").ToValue<System.String>(),
+						},
 					ProjectId = ProjectViewFields.ProjectId.Source("__BQ").ToValue<System.Int32>(),
 	// __LLBLGENPRO_USER_CODE_REGION_START ProjectionRegionQS_ProjectViewListLlblView 
 	// __LLBLGENPRO_USER_CODE_REGION_END 
@@ -85,6 +91,11 @@ namespace ConTech.Data.Read.Persistence
 				LastModifiedUtc = p__0.LastModifiedUtc,
 				Name = p__0.Name,
 				ObjectStatus = p__0.ObjectStatus,
+				Project = new ConTech.Data.Read.DtoClasses.ProjectViewListLlblViewTypes.Project()
+				{
+					Description = p__0.Project.Description,
+					Name = p__0.Project.Name,
+				},
 				ProjectId = p__0.ProjectId,
 	// __LLBLGENPRO_USER_CODE_REGION_START ProjectionRegion_ProjectViewListLlblView 
 	// __LLBLGENPRO_USER_CODE_REGION_END 
