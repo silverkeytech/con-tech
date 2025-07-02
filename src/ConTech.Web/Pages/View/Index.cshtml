@@ -196,7 +196,6 @@
                                 <li class="nav-item mt-2">
                                     <div id="layer-controls" class="mt-3">
                                         <h6>Manage Layers</h6>
-                                        <ul class="list-group list-group-flush" id="layerList"></ul>
                                         <ul class="list-group list-group-flush">
                                             <template x-for="(level, index) in currentLevels.filter(l => l.viewId == viewId)" :key="index">
                                                 <li class="d-flex align-items-center mb-2" x-init="getChildLevel(level.levelChildren,level.realLevelId,level.realLevelId,level.id)" :id="'levelChildren'+level.id">
