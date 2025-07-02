@@ -1025,22 +1025,13 @@
                 li.setAttribute('data-parentLevelId', parentLevelId);
 
 
-                // Create list item
-                //const nested_ul = document.createElement('ul');
                 var nestedLevels;
                 var checkChildExist = levelList.filter(l => l.parentId == level.id);
                 if (checkChildExist) {
-                    //nested_ul.classList.add('list-group', 'list-group-flush');
-                    //nested_ul.setAttribute('name', childLevel_uuid);
-
                     var nestedLevels = this.getChildLevel_2(levelList, mainLevelId, level.id);
 
                 }
-                /*
-                    var childLevel = {
-                      levelName: levelName,
-                      entityList: []
-                    };*/
+
                 // Create checkbox
                 const checkbox = document.createElement('input');
                 checkbox.type = 'checkbox';
